@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Assessor Testa</string>
+    <string name="attendanceareyouattraninglocation">Are you at Training Centre Location?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="Next">Next</string>
+    <string name="assessorattendance">Attendance</string>
 </resources>
