@@ -8,8 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme1">
+        <activity android:name=".Initials.AssessorTask"
+            android:theme="@style/AppTheme4"></activity>
+        <activity android:name=".Initials.ForgotPassword" />
+        <activity android:name=".Initials.SignIn" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Initials.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
