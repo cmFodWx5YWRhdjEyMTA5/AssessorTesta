@@ -13,7 +13,7 @@
         <activity
             android:name=".Attendance.Assessor_Atten"
             android:label="@string/assessorattendance"
-            android:theme="@style/AppTheme1">
+            android:theme="@style/Apptheme5">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

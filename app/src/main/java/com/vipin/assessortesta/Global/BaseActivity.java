@@ -1,5 +1,7 @@
 package com.vipin.assessortesta.Global;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toolbar;
@@ -18,6 +20,42 @@ public abstract class BaseActivity extends AppCompatActivity {
         //setupToolbar();
         //bindViews();
         initView();
+    }
+
+    public void attendancealert(){
+        AlertDialog.Builder builder
+                = new AlertDialog
+                .Builder(BaseActivity.this);
+
+        // Set the message show for the Alert time
+        builder.setMessage("You Can mark the Attendance only after You reach the Training Centre");
+
+
+        // Set Cancelable false
+        // for when the user clicks on the outside
+        // the Dialog Box then it will remain show
+        builder.setCancelable(false);
+
+        // Set the positive button with yes name
+        // OnClickListener method is use of
+        // DialogInterface interface.
+
+        builder
+                .setPositiveButton(
+                        "Ok",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which)
+                            {
+
+                                // When the user click yes button
+                                // then app will close
+                                dialog.cancel();
+                            }
+                        });
     }
 
     public void show_progressbar(){
