@@ -11,41 +11,40 @@
     <string name="mail">Mail</string>
 
 
-    <string name="anx1">Is the center located at the same address as mentioned on SDMS ?</string>
-    <string name="anx2">Is Infrastructure (No. of classrooms, State of Laboratories, etc)present at the
-Training Center adequate and satisfactory to conduct the training ?
+    <string name="anx1">Is the center located at the same address as mentioned on SDMS?\n</string>
+    <string name="anx2">Is Infrastructure(No. of classrooms, State of Laboratories, etc)present at the
+Training Center adequate and satisfactory to conduct the training?\n
 </string>
-    <string name="anx3">Is the assessment being conducted at same center, where trainees got trained ?</string>
-    <string name="anx4">Assessment is conducted on the Scheduled Date ?
+    <string name="anx3">Is the assessment being conducted at same center, where trainees got trained ?\n</string>
+    <string name="anx4">Assessment is conducted on the Scheduled Date ?\n
 </string>
-    <string name="anx5">If No , Reasons for change of Date ?
+    <string name="anx5">If No , Reasons for change of Date ?\n
 </string>
-    <string name="anx6">Are the Trainees being assessed for same job role, for which they were trained ?</string>
-    <string name="anx7">Each Trainee’s identity checked before conducting assessment ?</string>
-    <string name="anx8">Are the trainees confirming that they paid the Assessment Fee ?</string>
-    <string name="anx9">Are the trainees aware they are enrolled under PMKVY Scheme ?</string>
-    <string name="anx10">Are the trainees aware of the Certification Process ?
+    <string name="anx6">Are the Trainees being assessed for same job role, for which they were trained ?\n</string>
+    <string name="anx7">Each Trainee’s identity checked before conducting assessment ?\n</string>
+    <string name="anx8">Are the trainees confirming that they paid the Assessment Fee ?\n</string>
+    <string name="anx9">Are the trainees aware they are enrolled under PMKVY Scheme ?\n</string>
+    <string name="anx10">Are the trainees aware of the Certification Process ?\n
 </string>
-    <string name="anx11">Are the trainees aware of Reward Disbursement?</string>
-    <string name="anx12">Are the trainees aware of the Course fee ?
+    <string name="anx11">Are the trainees aware of Reward Disbursement?\n</string>
+    <string name="anx12">Are the trainees aware of the Course fee ?\n
 </string>
-    <string name="anx13">Are the trainees aware of Auto Debit Facility ?</string>
-    <string name="anx14">Are the trainees aware of the Placement opportunities ?</string>
-    <string name="anx15">Trainee Feedback form available, and signed by the trainee ?</string>
-    <string name="anx16">Trainee Attendance Record Available, and signed by the trainees ?
+    <string name="anx13">Are the trainees aware of Auto Debit Facility ?\n</string>
+    <string name="anx14">Are the trainees aware of the Placement opportunities ?\n</string>
+    <string name="anx15">Trainee Feedback form available, and signed by the trainee ?\n</string>
+    <string name="anx16">Trainee Attendance Record Available, and signed by the trainees ?\n
 </string>
     <string name="anx17">Trainees Enrolment Forms available , with PMKVY logo and PMKVY Disclaimer ?
-Are the forms signed by trainees?
+Are the forms signed by trainees?\n
 </string>
     <string name="anx18">Are the names on Enrolment forms tallying with the Attendance records of the
-batch (check any 5 forms)
+batch (check any 5 forms)\n
 </string>
-    <string name="anx19">Are the trainees given a PMKVY booklet/ Pamphlet for information?
+    <string name="anx19">Are the trainees given a PMKVY booklet/ Pamphlet for information?\n
 </string>
-    <string name="anx20">Posters of PMKVY displayed in Counseling room ?</string>
-    <string name="anx21">Posters of PMKVY displayed in Classroom ?</string>
-    <string name="anx22">PMKVY signage displayed outside the Center ?
-</string>
+    <string name="anx20">Posters of PMKVY displayed in Counseling room ?\n</string>
+    <string name="anx21">Posters of PMKVY displayed in Classroom ?\n</string>
+    <string name="anx22">PMKVY signage displayed outside the Center ?\n</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

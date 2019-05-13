@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
+
     //constructor of recyclerview for upcoming Batch
 
     public RecyclerViewAdapter(Context mContext, List<Upcoming1> mData) {
@@ -42,8 +44,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
         MyViewHolder vholder = new MyViewHolder(v);
+
+
         return vholder;
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
@@ -54,6 +71,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
+//
+//        MyViewHolder.holder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent ii=new Intent(mContext,Annexure.class);
+//                mContext.startActivity(ii);
+//            }
+//        });
+
+
+
+
 
 
     }
@@ -65,7 +94,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-
+        public static View holder;
 
 
         //Declare the variable
@@ -85,6 +114,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             totalstudent=itemView.findViewById(R.id.totalstudentid);
             assessmentda = itemView.findViewById(R.id.assessmentid);
             tcname=itemView.findViewById(R.id.tcnameid);
+
+
+//
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Intent ii=new Intent(getA,Annexure.class);
+//                    mContext.startActivity(ii);
+
+                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
+
+                }
+            });
+
+
+
+
 
 
 

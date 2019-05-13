@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,9 +48,21 @@ public class Upcoming extends Fragment {
          myrecyclerview.setAdapter(recyclerViewAdapter);
 
 
+
          return v;
 
+
+
+
+
     }
+
+
+
+
+
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +73,9 @@ public class Upcoming extends Fragment {
 
 
         }
+
+
+
 
 
 
