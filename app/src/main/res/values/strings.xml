@@ -1,11 +1,58 @@
 <resources>
     <string name="app_name">Assessor Testa</string>
-    <string name="forgotpassword"><u>Forgot Password</u></string>
     <string name="assessorattendance">Attendance</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="attendanceareyouattraninglocation">Are you at Training Centre Location?</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <string name="Next">Next</string>
+    <string name="forgotpassword">Forgot Password?</string>
 
+
+    <string name="anx1">Is the center located at the same address as mentioned on SDMS ?</string>
+    <string name="anx2">Is Infrastructure (No. of classrooms, State of Laboratories, etc)present at the
+Training Center adequate and satisfactory to conduct the training ?
+</string>
+    <string name="anx3">Is the assessment being conducted at same center, where trainees got trained ?</string>
+    <string name="anx4">Assessment is conducted on the Scheduled Date ?
+</string>
+    <string name="anx5">If No , Reasons for change of Date ?
+</string>
+    <string name="anx6">Are the Trainees being assessed for same job role, for which they were trained ?</string>
+    <string name="anx7">Each Trainee’s identity checked before conducting assessment ?</string>
+    <string name="anx8">Are the trainees confirming that they paid the Assessment Fee ?</string>
+    <string name="anx9">Are the trainees aware they are enrolled under PMKVY Scheme ?</string>
+    <string name="anx10">Are the trainees aware of the Certification Process ?
+</string>
+    <string name="anx11">Are the trainees aware of Reward Disbursement?</string>
+    <string name="anx12">Are the trainees aware of the Course fee ?
+</string>
+    <string name="anx13">Are the trainees aware of Auto Debit Facility ?</string>
+    <string name="anx14">Are the trainees aware of the Placement opportunities ?</string>
+    <string name="anx15">Trainee Feedback form available, and signed by the trainee ?</string>
+    <string name="anx16">Trainee Attendance Record Available, and signed by the trainees ?
+</string>
+    <string name="anx17">Trainees Enrolment Forms available , with PMKVY logo and PMKVY Disclaimer ?
+Are the forms signed by trainees?
+</string>
+    <string name="anx18">Are the names on Enrolment forms tallying with the Attendance records of the
+batch (check any 5 forms)
+</string>
+    <string name="anx19">Are the trainees given a PMKVY booklet/ Pamphlet for information?
+</string>
+    <string name="anx20">Posters of PMKVY displayed in Counseling room ?</string>
+    <string name="anx21">Posters of PMKVY displayed in Classroom ?</string>
+    <string name="anx22">PMKVY signage displayed outside the Center ?
+</string>
+
+
+
+
+
+
+
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
