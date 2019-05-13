@@ -20,9 +20,6 @@
         <activity android:name=".Photos.Attendancepic" />
         <activity android:name=".Photos.Feedbackformpic" />
         <activity android:name=".Initials.SplashScreen" />
-        <activity android:name=".Initials.Annexure4" />
-        <activity android:name=".Initials.Annexure3" />
-        <activity android:name=".Initials.Annexure2" />
         <activity android:name=".Initials.Annexure" />
         <activity
             android:name=".Initials.AssessorTask"
