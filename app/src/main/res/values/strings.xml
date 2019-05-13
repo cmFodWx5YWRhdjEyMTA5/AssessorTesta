@@ -6,6 +6,9 @@
     <string name="No">No</string>
     <string name="Next">Next</string>
     <string name="forgotpassword">Forgot Password?</string>
+    <string name="upload">Upload</string>
+    <string name="share">Share</string>
+    <string name="mail">Mail</string>
 
 
     <string name="anx1">Is the center located at the same address as mentioned on SDMS ?</string>
@@ -43,14 +46,6 @@ batch (check any 5 forms)
     <string name="anx21">Posters of PMKVY displayed in Classroom ?</string>
     <string name="anx22">PMKVY signage displayed outside the Center ?
 </string>
-
-
-
-
-
-
-
-
 
 
     <!-- TODO: Remove or change this placeholder text -->

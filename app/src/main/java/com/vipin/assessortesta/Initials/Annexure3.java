@@ -3,6 +3,8 @@ package com.vipin.assessortesta.Initials;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.vipin.assessortesta.R;
+
 public class Annexure3 extends AppCompatActivity {
 
     @Override

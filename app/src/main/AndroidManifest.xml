@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".Initials.Annexure4"></activity>
+        <activity android:name=".Photos.Infrapic"></activity>
+        <activity android:name=".Initials.Annexure4" />
         <activity android:name=".Initials.Annexure3" />
         <activity android:name=".Initials.Annexure2" />
-        <activity android:name=".Initials.SplashScreen" />
+        <activity android:name=".Initials.Annexure" />
         <activity
             android:name=".Initials.AssessorTask"
             android:theme="@style/AppTheme4" />
@@ -24,9 +25,8 @@
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Initials.Annexure"
-            android:theme="@style/AppTheme5">
-
+            android:name=".Initials.SplashScreen"
+            android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
