@@ -20,6 +20,8 @@ public class Assessor_Atten extends BaseActivity {
 LinearLayout uploadphotoo,uploadid,currentlocation,tclocation;
         Button loginbutton;
         TextView centrelocation,currentlocationn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,9 @@ LinearLayout uploadphotoo,uploadid,currentlocation,tclocation;
 
             }
         });
+
+
+
 
     }
 

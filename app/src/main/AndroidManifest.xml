@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vipin.assessortesta">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".Photos.Infrapic"></activity>
+        <activity android:name=".Photos.Pmkvy_lab"></activity>
+        <activity android:name=".Photos.Labpics" />
+        <activity android:name=".Photos.Pmkvysignane" />
+        <activity android:name=".Photos.Pmkvy_classroom" />
+        <activity android:name=".Photos.Pmkvycounselling" />
+        <activity android:name=".Photos.Enrolmentform_Pic" />
+        <activity android:name=".Photos.Attendancepic" />
+        <activity android:name=".Photos.Feedbackformpic" />
+        <activity android:name=".Initials.SplashScreen" />
         <activity android:name=".Initials.Annexure4" />
         <activity android:name=".Initials.Annexure3" />
         <activity android:name=".Initials.Annexure2" />
@@ -25,8 +35,9 @@
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Initials.SplashScreen"
-            android:theme="@style/AppTheme1">
+            android:name=".Photos.Infrapic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

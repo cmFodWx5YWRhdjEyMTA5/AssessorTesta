@@ -9,7 +9,16 @@
     <string name="upload">Upload</string>
     <string name="share">Share</string>
     <string name="mail">Mail</string>
-
+    <string name="feedbackpic">Click a picture of the feedback form.</string>
+    <string name="classroompic">Click a picture of the classroom.</string>
+    <string name="attendancepic">Click a picture of Trainee Attendance Record.</string>
+    <string name="enrolmentformpic">Click a picture of Enrolment form with PMKVY logo and PMKVY Disclaimer.</string>
+    <string name="pmkvyposter">Click a picture of poster of PMKVY displayed in counseling room.</string>
+    <string name="pmkvyclass">Click a picture of poster of PMKVY displayed in the Classroom.</string>
+    <string name="pmkvysignane">Click a picture of PMKVY signage displayed outside the centre.</string>
+    <string name="labpic">Click a picture of the laboratory.</string>
+    <string name="pmkvylab">Click a picture of poster of PMKVY displayed in the Laboratory.</string>
+    <string name="groupphoto">Click a group photo of all the students.</string>
 
     <string name="anx1">Is the center located at the same address as mentioned on SDMS?\n</string>
     <string name="anx2">Is Infrastructure(No. of classrooms, State of Laboratories, etc)present at the
