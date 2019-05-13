@@ -1,24 +1,378 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="9"
+    android:layout_margin="16dp"
     tools:context=".Initials.Annexure">
 
 
-    <Button
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li1"
+        android:layout_weight="1.1"
+        android:weightSum="2"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="14sp"
+            android:text="@string/anx1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="32dp"
+        android:orientation="horizontal"
+        android:id="@+id/rgroup"
+        >
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Yes"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/No"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="19dp" />
+    </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li2"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/anx2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup2"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li3"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/anx3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup3"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li4"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/attendanceareyouattraninglocation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup4"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li5"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/attendanceareyouattraninglocation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup5"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton55"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li6"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/attendanceareyouattraninglocation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup6"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton66"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/li7"
+        android:layout_weight="1.4"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/attendanceareyouattraninglocation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            tools:layout_editor_absoluteY="16dp" />
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="32dp"
+            android:orientation="horizontal"
+            android:id="@+id/rgroup7"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Yes"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioButton
+                android:id="@+id/radioButton77"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/No"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="19dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+
+
+
+
+
+    <Button
+        android:layout_weight=".7"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:text="Next"
+        android:layout_gravity="right"
         android:textAllCaps="false"
         android:textSize="14sp"
         android:textColor="@color/white"
         android:background="@color/Blue"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:drawableRight="@drawable/ic_arrow_forward_black_24dp"/>
 
-</RelativeLayout>
+</LinearLayout>
