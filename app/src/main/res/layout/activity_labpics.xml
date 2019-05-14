@@ -4,6 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Photos.Labpics">
+    tools:context=".Photos.Infrapic">
+
+    <TextView
+        android:id="@+id/clickmessagelab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_photoc"
+        android:text="@string/labpic"
+        android:textSize="24sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/classroompic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.026" />
+
+    <ImageView
+        android:id="@+id/lab_pic"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/clickmessagelab"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <Button
+        android:id="@+id/nextbutton_lab"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Next"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/lab_pic"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold|normal"
+        android:textColor="@color/white"
+        android:elevation="10dp"
+        android:background="@drawable/button_shadow"
+        />
 
 </android.support.constraint.ConstraintLayout>

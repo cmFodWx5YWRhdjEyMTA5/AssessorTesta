@@ -23,24 +23,26 @@ import com.vipin.assessortesta.R;
 
 import java.io.ByteArrayOutputStream;
 
-public class Attendancepic extends BaseActivity {
+public class Booklet_pic extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-    ImageView attendancepic;
-    TextView clickattendance;
-    Button nextbutton_attendance;
+    ImageView pmkvybooklet;
+    TextView clickmessage_pmkvybooklet;
+    Button nextbutton_pmkvybooklet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        attendancepic=findViewById(R.id.attendance_pic);
-        clickattendance=findViewById(R.id.clickattendancepic);
-        nextbutton_attendance=findViewById(R.id.nextbutton_attendancepic);
+        pmkvybooklet=findViewById(R.id.pmkvybooklet);
+        clickmessage_pmkvybooklet=findViewById(R.id.clickpmkvybooklet);
+        nextbutton_pmkvybooklet=findViewById(R.id.nextbutton_pmkvybooklet);
         //click drawble right of textview
-        clickattendance.setOnTouchListener(new View.OnTouchListener() {
+        clickmessage_pmkvybooklet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_LEFT = 0;
@@ -49,7 +51,7 @@ public class Attendancepic extends BaseActivity {
                 final int DRAWABLE_BOTTOM = 3;
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(event.getX() >= (clickattendance.getRight() - clickattendance.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    if(event.getX() >= (clickmessage_pmkvybooklet.getRight() - clickmessage_pmkvybooklet.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // your action here
                         captureevent();
                         Toast.makeText(getApplicationContext(),"drawable clicked",Toast.LENGTH_LONG).show();
@@ -60,10 +62,11 @@ public class Attendancepic extends BaseActivity {
             }
         });
 
-        nextbutton_attendance.setOnClickListener(new View.OnClickListener() {
+
+        nextbutton_pmkvybooklet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Attendancepic.this,Feedbackformpic.class);
+                Intent in=new Intent(Booklet_pic.this,Enrolmentform_Pic.class);
                 startActivity(in);
             }
         });
@@ -73,18 +76,7 @@ public class Attendancepic extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_attendancepic;
-    }
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(getMenuId(),menu);
-        return true;
-    }*/
-
-    @Override
-    protected int getMenuId() {
-        return R.menu.main;
+        return R.layout.activity_booklet_pic;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -96,12 +88,12 @@ public class Attendancepic extends BaseActivity {
                     return;
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                attendancepic.setImageBitmap(photo);
-                nextbutton_attendance.setVisibility(View.VISIBLE);
+                pmkvybooklet.setImageBitmap(photo);
+                nextbutton_pmkvybooklet.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
-                int ivWidth = attendancepic.getWidth();
-                int ivHeight = attendancepic.getHeight();
+                int ivWidth = pmkvybooklet.getWidth();
+                int ivHeight = pmkvybooklet.getHeight();
                 int newWidth = ivWidth;
                 int newHeight = (int) Math.floor((double) currentBitmapHeight *( (double) ivWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
@@ -113,5 +105,16 @@ public class Attendancepic extends BaseActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(getMenuId(),menu);
+        return true;
+    }*/
+
+    @Override
+    protected int getMenuId() {
+        return R.menu.main;
     }
 }

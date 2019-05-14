@@ -11,15 +11,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".Photos.Pmkvy_lab"></activity>
-        <activity android:name=".Photos.Labpics" />
-        <activity android:name=".Photos.Pmkvysignane" />
-        <activity android:name=".Photos.Pmkvy_classroom" />
-        <activity android:name=".Photos.Pmkvycounselling" />
-        <activity android:name=".Photos.Enrolmentform_Pic" />
-        <activity android:name=".Photos.Attendancepic" />
-        <activity android:name=".Photos.Feedbackformpic" />
-        <activity android:name=".Initials.SplashScreen" />
+        <activity android:name=".Photos.Booklet_pic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            ></activity>
+        <activity android:name=".Photos.Pmkvy_lab"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"/>
+
+        <activity android:name=".Photos.Labpics"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"/>
+        <activity android:name=".Photos.Pmkvysignane"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            />
+        <activity android:name=".Photos.Pmkvy_classroom"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            />
+        <activity android:name=".Photos.Pmkvycounselling"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            />
+        <activity
+            android:name=".Photos.Enrolmentform_Pic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5" />
+        <activity
+            android:name=".Photos.Attendancepic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5" />
+        <activity android:name=".Photos.Feedbackformpic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            />
+        <activity
+            android:name=".Photos.Infrapic"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5" />
         <activity android:name=".Initials.Annexure" />
         <activity
             android:name=".Initials.AssessorTask"
@@ -32,9 +62,8 @@
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Photos.Infrapic"
-            android:label="Annexure(M)"
-            android:theme="@style/AppTheme5">
+            android:name=".Initials.SplashScreen"
+            android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

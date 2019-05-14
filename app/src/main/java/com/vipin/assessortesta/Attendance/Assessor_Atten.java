@@ -1,5 +1,6 @@
 package com.vipin.assessortesta.Attendance;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vipin.assessortesta.Global.BaseActivity;
+import com.vipin.assessortesta.Photos.Infrapic;
+import com.vipin.assessortesta.Photos.Pmkvysignane;
 import com.vipin.assessortesta.R;
 
 public class Assessor_Atten extends BaseActivity {
@@ -66,9 +69,21 @@ LinearLayout uploadphotoo,uploadid,currentlocation,tclocation;
             }
         });
 
+        loginbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ii=new Intent(Assessor_Atten.this, Pmkvysignane.class);
+                startActivity(ii);
+            }
+        });
 
 
 
+    }
+
+    @Override
+    protected int getMenuId() {
+        return R.menu.main;
     }
 
     @Override

@@ -1,26 +1,51 @@
 package com.vipin.assessortesta.Global;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.vipin.assessortesta.R;
+
+import java.io.ByteArrayOutputStream;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private android.app.AlertDialog progressDialog;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        // progressDialog = new SpotsDialog(BaseActivity.this, R.style.Custom);
         //setupToolbar();
         //bindViews();
         initView();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(getMenuId(),menu);
+        return true;
+    }
+
+    protected abstract int getMenuId();
 
     public void attendancealert(){
         AlertDialog.Builder builder
@@ -102,5 +127,52 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return The layout id that's gonna be the activity view.
      */
     protected abstract int getLayoutId();
+
+    public void captureevent(){
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            MY_CAMERA_PERMISSION_CODE);
+                } else {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+                    cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                }
+
+            }
+            else {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+                cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new
+                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
+
 }
 

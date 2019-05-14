@@ -21,12 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.R;
 
 import java.io.ByteArrayOutputStream;
 
 
-public class Infrapic extends AppCompatActivity {
+public class Infrapic extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
@@ -36,7 +37,7 @@ public class Infrapic extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_infrapic);
+        setContentView(getLayoutId());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         classroompic=findViewById(R.id.classroompic);
         clickmessage=findViewById(R.id.clickmessage);
@@ -63,60 +64,32 @@ public class Infrapic extends AppCompatActivity {
         });
 
 
-
-
-    }
-    //click photo
-    private void captureevent(){
-        try{
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (checkSelfPermission(Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    MY_CAMERA_PERMISSION_CODE);
-                        } else {
-                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
-                            cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-                            cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                        }
-
-                    }
-                    else {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
-                        cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-                        cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                    }
-                }
-                catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        return true;
-    }
-
-    //get photo from bitmap
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new
-                        Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+        nextbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(Infrapic.this,Pmkvy_classroom.class);
+                startActivity(in);
             }
+        });
 
-        }
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_infrapic;
+    }
+
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(getMenuId(),menu);
+        return true;
+    }*/
+
+    @Override
+    protected int getMenuId() {
+        return R.menu.main;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

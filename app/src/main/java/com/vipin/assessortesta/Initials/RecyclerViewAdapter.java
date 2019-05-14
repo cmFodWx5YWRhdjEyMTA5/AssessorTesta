@@ -3,12 +3,15 @@ package com.vipin.assessortesta.Initials;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.R;
 
 import java.util.List;
@@ -21,7 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
     //list of data
     List<Upcoming1>mData;
-
+CardView cardviewupcoming;
 
 
 
@@ -41,8 +44,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View v;
 
         //adding the layout
-
         v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
+        cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
         MyViewHolder vholder = new MyViewHolder(v);
 
 
@@ -63,7 +66,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         //bind the data add in holder
 
@@ -71,14 +74,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
-//
-//        MyViewHolder.holder.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent ii=new Intent(mContext,Annexure.class);
-//                mContext.startActivity(ii);
-//            }
-//        });
+
+        cardviewupcoming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "data is"+position, Toast.LENGTH_SHORT).show();
+                Intent ii=new Intent(mContext, Assessor_Atten.class);
+                mContext.startActivity(ii);
+            }
+        });
 
 
 
