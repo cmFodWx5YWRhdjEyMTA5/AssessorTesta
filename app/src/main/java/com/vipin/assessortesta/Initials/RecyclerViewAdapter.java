@@ -98,7 +98,6 @@ CardView cardviewupcoming;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public static View holder;
 
 
         //Declare the variable
@@ -120,17 +119,17 @@ CardView cardviewupcoming;
             tcname=itemView.findViewById(R.id.tcnameid);
 
 
+////
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    Intent ii=new Intent(getA,Annexure.class);
+////                    mContext.startActivity(ii);
 //
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Intent ii=new Intent(getA,Annexure.class);
-//                    mContext.startActivity(ii);
-
-                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
-
-                }
-            });
+//                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
+//
+//                }
+//            });
 
 
 

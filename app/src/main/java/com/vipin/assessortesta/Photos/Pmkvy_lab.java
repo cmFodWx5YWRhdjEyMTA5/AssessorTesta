@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Batch_Student.Batch_detail;
 import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.R;
 
@@ -57,7 +58,7 @@ public class Pmkvy_lab extends BaseActivity {
         nextbutton_pmkvylab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Pmkvy_lab.this,Attendancepic.class);
+                Intent in=new Intent(Pmkvy_lab.this, Batch_detail.class);
                 startActivity(in);
             }
         });

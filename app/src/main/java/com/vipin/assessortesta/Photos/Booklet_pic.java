@@ -41,6 +41,8 @@ public class Booklet_pic extends BaseActivity {
         pmkvybooklet=findViewById(R.id.pmkvybooklet);
         clickmessage_pmkvybooklet=findViewById(R.id.clickpmkvybooklet);
         nextbutton_pmkvybooklet=findViewById(R.id.nextbutton_pmkvybooklet);
+
+
         //click drawble right of textview
         clickmessage_pmkvybooklet.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -106,12 +108,6 @@ public class Booklet_pic extends BaseActivity {
             e.printStackTrace();
         }
     }
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(getMenuId(),menu);
-        return true;
-    }*/
 
     @Override
     protected int getMenuId() {
