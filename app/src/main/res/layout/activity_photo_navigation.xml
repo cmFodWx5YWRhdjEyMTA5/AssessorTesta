@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Photos.Photo_navigation">
+    tools:context="com.vipin.assessortesta.Photos.photo_navigator">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,394 +14,286 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:weightSum="2"
+            android:orientation="horizontal"
             >
 
-    <LinearLayout
-        android:id="@+id/li_photo1"
+
+<LinearLayout
+    android:layout_marginLeft="5dp"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="1.5"
+    >
+
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst1"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
+    <TextView
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo2"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo1"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst2"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="2. Pmkvy Poster(Counseling room)"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo3"
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo2"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst3"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="2.1 Pmkvy Booklet"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo4"
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo3"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst4"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="2.2 Enrollment form"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
+    <TextView
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo5"
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo4"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst5"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="2.3 Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo6"
+    <TextView
+        android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo5"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst6"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo7"
+    <TextView
+        android:id="@+id/textView7"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo6"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst7"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo8"
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo7"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView7"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/inst8"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo9"
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo8"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView8"
+        android:singleLine="true"
+        android:text="@string/inst9"
+        android:textSize="16sp"
+        android:textStyle="normal|bold"
+        android:layout_marginTop="20dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/li_photo10"
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_below="@+id/li_photo9"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView9"
+        android:singleLine="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/inst10"
+        android:textSize="16sp"
+        android:textStyle="normal|bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:text="1. Pmkvy Signane"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:src="@drawable/ic_photo_camera"
-            android:background="@drawable/camera_background"
-            />
 
-    </LinearLayout>
 
-            <Button
-                android:layout_margin="10dp"
-                android:layout_below="@+id/passwordEditText1"
-                android:id="@+id/loginbutton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Proceed"
-                android:enabled="false"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textStyle="bold|normal"
-                android:textColor="@color/white"
-                android:elevation="10dp"
-                android:background="@drawable/button_shadow"
-                />
+
+
+
+</LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:orientation="vertical"
+                android:layout_weight=".5">
+
+
+                <ImageView
+
+                    android:id="@+id/imageview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview1"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview3"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview2"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview3"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview5"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview4"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview6"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview5"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+                <ImageView
+                    android:id="@+id/imageview7"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview6"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview8"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview7"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview9"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview8"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview10"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview9"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/camera_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
