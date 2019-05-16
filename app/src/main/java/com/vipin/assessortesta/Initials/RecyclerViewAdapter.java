@@ -52,18 +52,7 @@ CardView cardviewupcoming;
         return vholder;
 
 
-
-
-
-
-
-
     }
-
-
-
-
-
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
