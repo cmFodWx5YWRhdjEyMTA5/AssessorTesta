@@ -65,6 +65,7 @@ public class Attendancepic extends BaseActivity {
             public void onClick(View v) {
                 Intent in=new Intent(Attendancepic.this,Feedbackformpic.class);
                 startActivity(in);
+
             }
         });
 

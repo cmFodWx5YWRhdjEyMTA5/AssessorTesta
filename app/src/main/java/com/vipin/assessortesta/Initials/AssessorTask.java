@@ -1,5 +1,6 @@
 package com.vipin.assessortesta.Initials;
 
+import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -65,4 +66,15 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
+
+
 }

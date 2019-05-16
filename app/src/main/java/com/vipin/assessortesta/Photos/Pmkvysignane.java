@@ -29,7 +29,9 @@ public class Pmkvysignane extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView pmkvysignane;
     TextView clickmessage_pmkvysignane;
-    Button nextbutton_pmkvysignane;
+    Button submit_pmkvysignane;
+    String encoded,j;
+    final int pmsign = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,22 @@ public class Pmkvysignane extends BaseActivity {
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pmkvysignane=findViewById(R.id.pmkvysignane_pic);
         clickmessage_pmkvysignane=findViewById(R.id.clickpmkvysignane);
-        nextbutton_pmkvysignane=findViewById(R.id.nextbutton_pmkvysignane);
+        submit_pmkvysignane=findViewById(R.id.nextbutton_pmkvysignane);
+
+//        if(encoded==null){
+//            Toast.makeText(getApplicationContext(),"photo lo",Toast.LENGTH_LONG).show();
+//
+//        }
+//        else {
+//
+//            Intent intent = new Intent();
+//            intent.putExtra("encode",encoded);
+//            setResult(RESULT_OK,intent);
+//
+//        }
+
+
+
         //click drawble right of textview
         clickmessage_pmkvysignane.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -60,12 +77,34 @@ public class Pmkvysignane extends BaseActivity {
         });
 
 
-        nextbutton_pmkvysignane.setOnClickListener(new View.OnClickListener() {
+        submit_pmkvysignane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Pmkvysignane.this,Pmkvycounselling.class);
-                startActivity(in);
-            }
+                if(pmkvysignane==null){
+                    System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Pmkvysignane.this.finish();
+
+
+
+        }
+    }
         });
 
 
@@ -100,8 +139,10 @@ public class Pmkvysignane extends BaseActivity {
                     return;
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+
                 pmkvysignane.setImageBitmap(photo);
-                nextbutton_pmkvysignane.setVisibility(View.VISIBLE);
+
+                submit_pmkvysignane.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = pmkvysignane.getWidth();
@@ -112,10 +153,13 @@ public class Pmkvysignane extends BaseActivity {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream .toByteArray();
-                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+
+
 }

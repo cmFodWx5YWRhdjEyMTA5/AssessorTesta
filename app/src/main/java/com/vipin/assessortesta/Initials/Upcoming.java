@@ -30,6 +30,7 @@ public class Upcoming extends Fragment {
 
 
     View v;
+
     private RecyclerView myrecyclerview;
     private List<Upcoming1>lstBatch;
 

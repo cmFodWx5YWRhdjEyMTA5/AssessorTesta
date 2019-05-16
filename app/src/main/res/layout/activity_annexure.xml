@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    tools:context=".Initials.Annexure">
+    tools:context="com.vipin.assessortesta.Initials.Annexure">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,7 +31,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv1"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -67,7 +66,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv2"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -103,7 +101,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv3"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -139,7 +136,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv4"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -175,7 +171,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv5"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -211,7 +206,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv6"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -247,7 +241,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv7"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -284,7 +277,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv8"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -322,7 +314,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv9"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -359,7 +350,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv10"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -396,7 +386,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv11"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -433,7 +422,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv12"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -470,7 +458,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv13"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -507,7 +494,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv14"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -544,7 +530,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv15"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -581,7 +566,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv16"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -618,7 +602,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv17"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -655,7 +638,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv18"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -692,7 +674,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv19"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -729,7 +710,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv20"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -766,7 +746,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv21"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
@@ -802,7 +781,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv22"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 tools:layout_editor_absoluteX="42dp"
                 tools:layout_editor_absoluteY="32dp">
