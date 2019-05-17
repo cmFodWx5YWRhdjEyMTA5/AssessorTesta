@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.Photos.Infrapic;
+import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.Photos.Pmkvysignane;
 import com.vipin.assessortesta.Photos.photo_navigator;
 import com.vipin.assessortesta.R;
@@ -73,7 +74,7 @@ LinearLayout uploadphotoo,uploadid,currentlocation,tclocation;
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ii=new Intent(Assessor_Atten.this,photo_navigator.class);
+                Intent ii=new Intent(Assessor_Atten.this, Photo_navigation.class);
                 startActivity(ii);
             }
         });

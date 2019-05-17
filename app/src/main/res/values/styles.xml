@@ -38,6 +38,8 @@
         <item name="colorAccent">@color/Blue</item>
     </style>
 
+    <style name="myDialog" parent="Theme.AppCompat.Dialog">
+    </style>
 
         <style name="AppTheme4" parent="Theme.AppCompat.Light.NoActionBar">
             <!-- Customize your theme here. -->

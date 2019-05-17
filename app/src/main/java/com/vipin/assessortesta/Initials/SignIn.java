@@ -89,17 +89,17 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if (username.getText().toString().equals("")|password.getText().toString().equals("")) {
+              /*  if (username.getText().toString().equals("")|password.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(),"The required fields Username and password can't be empty", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
                     sendDataServer();
-                }
+                }*/
 
 //
-//                    Intent k = new Intent(SignIn.this,AssessorTask.class);
-//                startActivity(k);
+                    Intent k = new Intent(SignIn.this,AssessorTask.class);
+                startActivity(k);
             }
         });
 
