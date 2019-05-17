@@ -12,6 +12,7 @@ public class Upcoming1 {
         Totalstudent = totalstudent;
         Assessmentdate = assessmentdate;
         TcName = tcName;
+        System.out.println("batchname is"+Batchname);
     }
 
     public String getBatchname() {

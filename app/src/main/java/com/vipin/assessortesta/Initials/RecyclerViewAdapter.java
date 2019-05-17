@@ -48,7 +48,7 @@ CardView cardviewupcoming;
         cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
         MyViewHolder vholder = new MyViewHolder(v);
 
-
+        System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
 
 
@@ -58,7 +58,10 @@ CardView cardviewupcoming;
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         //bind the data add in holder
-
+        holder.batchname_header.setText("Batch Name");
+        holder.totalstudent_header.setText("Total Students");
+        holder.assessmentda_header.setText("Assessment Data");
+        holder.tcname_header.setText("Tc Name");
         holder.batchname.setText(mData.get(position).getBatchname());
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
@@ -91,10 +94,10 @@ CardView cardviewupcoming;
 
         //Declare the variable
 
-        private TextView batchname;
-        private TextView  totalstudent ;
-        private TextView assessmentda;
-        private TextView tcname;
+        private TextView batchname,batchname_header;
+        private TextView  totalstudent,totalstudent_header ;
+        private TextView assessmentda,assessmentda_header;
+        private TextView tcname,tcname_header;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +109,11 @@ CardView cardviewupcoming;
             totalstudent=itemView.findViewById(R.id.totalstudentid);
             assessmentda = itemView.findViewById(R.id.assessmentid);
             tcname=itemView.findViewById(R.id.tcnameid);
+
+            batchname_header=itemView.findViewById(R.id.batchname);
+            totalstudent_header=itemView.findViewById(R.id.totalstudent);
+            assessmentda_header=itemView.findViewById(R.id.assessment);
+            tcname_header=itemView.findViewById(R.id.tcname);
 
 
 ////
