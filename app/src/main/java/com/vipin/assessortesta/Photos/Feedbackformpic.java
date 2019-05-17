@@ -1,16 +1,10 @@
 package com.vipin.assessortesta.Photos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +23,7 @@ public class Feedbackformpic extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView feedbackformpic;
     TextView clickfeedbackform;
-    Button nextbutton_feedback;
+    Button submit_feedback;
 
 
     @Override
@@ -39,7 +33,7 @@ public class Feedbackformpic extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         feedbackformpic=findViewById(R.id.feedbackformpic);
         clickfeedbackform=findViewById(R.id.clickmessagefeedback);
-        nextbutton_feedback=findViewById(R.id.nextbutton_feedbackpage);
+        submit_feedback =findViewById(R.id.nextbutton_feedbackpage);
         //click drawble right of textview
         clickfeedbackform.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -61,13 +55,36 @@ public class Feedbackformpic extends BaseActivity {
             }
         });
 
-        nextbutton_feedback.setOnClickListener(new View.OnClickListener() {
+        submit_feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Feedbackformpic.this,Infrapic.class);
-                startActivity(in);
+                if(feedbackformpic==null){
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Feedbackformpic.this.finish();
+
+
+
+                }
             }
         });
+
 
 
     }
@@ -98,7 +115,7 @@ public class Feedbackformpic extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 feedbackformpic.setImageBitmap(photo);
-                nextbutton_feedback.setVisibility(View.VISIBLE);
+                submit_feedback.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = feedbackformpic.getWidth();

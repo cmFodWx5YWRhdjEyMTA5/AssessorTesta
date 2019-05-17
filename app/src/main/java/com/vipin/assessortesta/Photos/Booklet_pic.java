@@ -1,16 +1,10 @@
 package com.vipin.assessortesta.Photos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +23,7 @@ public class Booklet_pic extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView pmkvybooklet;
     TextView clickmessage_pmkvybooklet;
-    Button nextbutton_pmkvybooklet;
+    Button submit_pmkvybooklet;
 
 
     @Override
@@ -40,7 +34,7 @@ public class Booklet_pic extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pmkvybooklet=findViewById(R.id.pmkvybooklet);
         clickmessage_pmkvybooklet=findViewById(R.id.clickpmkvybooklet);
-        nextbutton_pmkvybooklet=findViewById(R.id.nextbutton_pmkvybooklet);
+        submit_pmkvybooklet =findViewById(R.id.nextbutton_pmkvybooklet);
 
 
         //click drawble right of textview
@@ -65,11 +59,33 @@ public class Booklet_pic extends BaseActivity {
         });
 
 
-        nextbutton_pmkvybooklet.setOnClickListener(new View.OnClickListener() {
+        submit_pmkvybooklet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Booklet_pic.this,Enrolmentform_Pic.class);
-                startActivity(in);
+                if(pmkvybooklet==null){
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                   // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Booklet_pic.this.finish();
+
+
+
+                }
             }
         });
 
@@ -91,7 +107,7 @@ public class Booklet_pic extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 pmkvybooklet.setImageBitmap(photo);
-                nextbutton_pmkvybooklet.setVisibility(View.VISIBLE);
+                submit_pmkvybooklet.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = pmkvybooklet.getWidth();

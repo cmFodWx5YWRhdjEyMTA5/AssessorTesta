@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 public class Pmkvy_lab extends BaseActivity {
     ImageView pmkvy_labpic;
     TextView clickmessage_pmkvylab;
-    Button nextbutton_pmkvylab;
+    Button submittbutton_pmkvylab;
     private static final int CAMERA_REQUEST = 1888;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
@@ -33,7 +33,7 @@ public class Pmkvy_lab extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pmkvy_labpic=findViewById(R.id.labpmkvy_pic);
         clickmessage_pmkvylab=findViewById(R.id.clickmessagelabpmkvy);
-        nextbutton_pmkvylab=findViewById(R.id.nextbutton_labpmkvy);
+        submittbutton_pmkvylab=findViewById(R.id.nextbutton_labpmkvy);
         //click drawble right of textview
         clickmessage_pmkvylab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -55,13 +55,36 @@ public class Pmkvy_lab extends BaseActivity {
         });
 
 
-        nextbutton_pmkvylab.setOnClickListener(new View.OnClickListener() {
+        submittbutton_pmkvylab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Pmkvy_lab.this, Batch_detail.class);
-                startActivity(in);
+                if(pmkvy_labpic==null){
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Pmkvy_lab.this.finish();
+
+
+
+                }
             }
         });
+
 
 
     }
@@ -76,7 +99,7 @@ public class Pmkvy_lab extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                  pmkvy_labpic.setImageBitmap(photo);
-                  nextbutton_pmkvylab.setVisibility(View.VISIBLE);
+                  submittbutton_pmkvylab.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                  int ivWidth = pmkvy_labpic.getWidth();

@@ -4,14 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.vipin.assessortesta.Photos.photo_navigator">
 
     <ScrollView
+        android:id="@+id/scroll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
         android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <LinearLayout
+            android:id="@+id/lene"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="2"
@@ -152,7 +156,6 @@
 
 
 </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -298,10 +301,37 @@
 
 
 
+
+
+
+
+
+
+
         </LinearLayout>
 
 
 
-    </ScrollView>
+
+
+</ScrollView>
+
+    <Button
+        android:id="@+id/button_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_shadow"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold|normal" />
+
+
 
 </RelativeLayout>

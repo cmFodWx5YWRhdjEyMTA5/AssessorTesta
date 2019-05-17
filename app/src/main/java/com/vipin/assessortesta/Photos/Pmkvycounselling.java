@@ -29,7 +29,7 @@ public class Pmkvycounselling extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView pmkvycounseling;
     TextView clickmessage_pmkvycounseling;
-    Button nextbutton_pmkvycounseling;
+    Button   submit__pmkvycounseling;
 
 
     @Override
@@ -40,7 +40,7 @@ public class Pmkvycounselling extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pmkvycounseling=findViewById(R.id.pmkvycounselling);
         clickmessage_pmkvycounseling=findViewById(R.id.clickpmkvycounselling);
-        nextbutton_pmkvycounseling=findViewById(R.id.nextbutton_pmkvycounselling);
+        submit__pmkvycounseling=findViewById(R.id.nextbutton_pmkvycounselling);
         //click drawble right of textview
         clickmessage_pmkvycounseling.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,14 +63,35 @@ public class Pmkvycounselling extends BaseActivity {
         });
 
 
-        nextbutton_pmkvycounseling.setOnClickListener(new View.OnClickListener() {
+        submit__pmkvycounseling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Pmkvycounselling.this,Booklet_pic.class);
-                startActivity(in);
+                if(pmkvycounseling==null){
+                   // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Pmkvycounselling.this.finish();
+
+
+
+                }
             }
         });
-
 
     }
 
@@ -101,7 +122,7 @@ public class Pmkvycounselling extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 pmkvycounseling.setImageBitmap(photo);
-                nextbutton_pmkvycounseling.setVisibility(View.VISIBLE);
+                submit__pmkvycounseling.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = pmkvycounseling.getWidth();

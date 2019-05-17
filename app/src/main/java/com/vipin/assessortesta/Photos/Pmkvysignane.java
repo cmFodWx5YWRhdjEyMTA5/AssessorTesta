@@ -88,9 +88,6 @@ public class Pmkvysignane extends BaseActivity {
 //                    intent.putExtra("encode",j);
 //                    setResult(RESULT_OK,intent);
 //                    Pmkvysignane.this.finish();
-
-
-
                 }
                 else {
 
@@ -104,7 +101,7 @@ public class Pmkvysignane extends BaseActivity {
 
 
         }
-    }
+        }
         });
 
 

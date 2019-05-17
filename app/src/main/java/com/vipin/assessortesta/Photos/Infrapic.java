@@ -33,7 +33,7 @@ public class Infrapic extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView classroompic;
     TextView clickmessage;
-    Button nextbutton;
+    Button submitbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class Infrapic extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         classroompic=findViewById(R.id.classroompic);
         clickmessage=findViewById(R.id.clickmessage);
-        nextbutton=findViewById(R.id.nextbutton);
+        submitbutton=findViewById(R.id.nextbutton);
         //click drawble right of textview
         clickmessage.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -64,13 +64,37 @@ public class Infrapic extends BaseActivity {
         });
 
 
-        nextbutton.setOnClickListener(new View.OnClickListener() {
+        submitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Infrapic.this,Pmkvy_classroom.class);
-                startActivity(in);
+                if(classroompic==null){
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Infrapic.this.finish();
+
+
+
+                }
             }
         });
+
+
 
 
     }
@@ -102,7 +126,7 @@ public class Infrapic extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 classroompic.setImageBitmap(photo);
-                nextbutton.setVisibility(View.VISIBLE);
+                submitbutton.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = classroompic.getWidth();
