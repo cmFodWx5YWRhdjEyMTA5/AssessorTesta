@@ -72,10 +72,10 @@ public class Attendancepic extends BaseActivity {
                 else {
 
                     //System.out.print("enn" +encoded);
-                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     //intent.putExtra("encode",encoded);
-                    setResult(RESULT_OK,intent);
+                    setResult(5,intent);
                     Attendancepic.this.finish();
 
 

@@ -6,4 +6,13 @@
     <color name="Blue">#2E78B5</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+
+
+    <color name="button1">#2E78B5</color>
+    <color name="button2">#8AA920</color>
+    <color name="button3">#CD3123</color>
+    <color name="button4">#373C3B</color>
+
+
+
 </resources>

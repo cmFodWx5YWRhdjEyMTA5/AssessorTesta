@@ -68,7 +68,7 @@ public class Pmkvycounselling extends BaseActivity {
             public void onClick(View v) {
                 if(pmkvycounseling==null){
                    // System.out.print("enn" +encoded);
-                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
 //
 //                    Intent intent = new Intent();
 //                    intent.putExtra("encode",j);
@@ -81,10 +81,10 @@ public class Pmkvycounselling extends BaseActivity {
                 else {
 
                     //System.out.print("enn" +encoded);
-                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     //intent.putExtra("encode",encoded);
-                    setResult(RESULT_OK,intent);
+                    setResult(2,intent);
                     Pmkvycounselling.this.finish();
 
 

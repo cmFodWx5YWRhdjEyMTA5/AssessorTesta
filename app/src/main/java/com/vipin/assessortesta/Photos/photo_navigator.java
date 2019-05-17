@@ -27,51 +27,51 @@ public class photo_navigator extends AppCompatActivity {
         setContentView(R.layout.activity_photo_navigator);
 
 
-        tvsignane = findViewById(R.id.txt1);
-        counsilling = findViewById(R.id.txt1);
-        bookletpic = findViewById(R.id.txt1);
-        enrolment = findViewById(R.id.txt1);
-        attendence = findViewById(R.id.tv5);
-        feedbackform = findViewById(R.id.tv6);
-        infrapic = findViewById(R.id.tv7);
-        classroom = findViewById(R.id.tv8);
-        labpic = findViewById(R.id.tv9);
-        pmkvylab = findViewById(R.id.tv10);
-
-
-        tvsignane.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(photo_navigator.this,Pmkvysignane.class);
-                startActivityForResult(intent,pmsign);
-            }
-        });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == pmsign)
-        {
+//        tvsignane = findViewById(R.id.txt1);
+//        counsilling = findViewById(R.id.txt1);
+//        bookletpic = findViewById(R.id.txt1);
+//        enrolment = findViewById(R.id.txt1);
+//        attendence = findViewById(R.id.tv5);
+//        feedbackform = findViewById(R.id.tv6);
+//        infrapic = findViewById(R.id.tv7);
+//        classroom = findViewById(R.id.tv8);
+//        labpic = findViewById(R.id.tv9);
+//        pmkvylab = findViewById(R.id.tv10);
 //
-            if (requestCode == RESULT_OK)
-            {
-                //tvsignane.setText(data.getStringExtra("encoded"));
-                tvsignane.setText("done");
+//
+//        tvsignane.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(photo_navigator.this,Pmkvysignane.class);
+//                startActivityForResult(intent,pmsign);
+//            }
+//        });
+//
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
 
-        }
-            if (requestCode == RESULT_CANCELED);
-            {
-                tvsignane.setText("nndone");
+//        if (requestCode == pmsign)
+//        {
+////
+//            if (requestCode == RESULT_OK)
+//            {
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//                tvsignane.setText("done");
+//
+//        }
+//            if (requestCode == RESULT_CANCELED);
+//            {
+//                tvsignane.setText("nndone");
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
 
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-
-
-
-        }
-    }
+//
+//
+//        }
+   }
 }

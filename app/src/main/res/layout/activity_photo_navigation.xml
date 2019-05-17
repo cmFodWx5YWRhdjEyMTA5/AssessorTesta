@@ -172,7 +172,7 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background2"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -185,7 +185,7 @@
                     android:layout_below="@+id/imageview1"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background3"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -194,12 +194,11 @@
                 <ImageView
                     android:id="@+id/imageview3"
                     android:layout_width="match_parent"
-
                     android:layout_height="30dp"
                     android:layout_below="@+id/imageview2"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background4"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -212,7 +211,7 @@
                     android:layout_below="@+id/imageview3"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background5"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -225,7 +224,7 @@
                     android:layout_below="@+id/imageview4"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background2"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -238,7 +237,7 @@
                     android:layout_below="@+id/imageview5"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background3"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -251,7 +250,7 @@
                     android:layout_below="@+id/imageview6"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background4"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -264,7 +263,7 @@
                     android:layout_below="@+id/imageview7"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background5"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -277,7 +276,7 @@
                     android:layout_below="@+id/imageview8"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background2"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -291,7 +290,7 @@
                     android:layout_below="@+id/imageview9"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/textView1"
-                    android:background="@drawable/camera_background"
+                    android:background="@drawable/camera_background3"
                     android:padding="5dp"
                     android:paddingLeft="100dp"
                     android:src="@drawable/ic_photo_camera" />
@@ -327,7 +326,8 @@
         android:background="@drawable/button_shadow"
         android:elevation="10dp"
         android:gravity="center"
-        android:text="Login"
+        android:text="Submit"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold|normal" />

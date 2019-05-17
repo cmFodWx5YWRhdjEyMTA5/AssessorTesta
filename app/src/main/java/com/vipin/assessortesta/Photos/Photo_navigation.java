@@ -8,21 +8,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vipin.assessortesta.R;
 
 public class Photo_navigation extends AppCompatActivity {
 
-    private static final int pmsign = 1;
-    private static final int counsiii = 2;
-    private static final int booklet = 3;
-    private static final int enrolmentt = 4;
-    private static final int attendencee = 5;
-    private static final int feedback = 6;
-    private static final int infra = 7;
-    private static final int classs = 8;
-    private static final int labpicc = 9;
-    private static final int pmkvlab = 10;
+    private static final int pmsign = 100;
+    private static final int counsiii = 52;
+    private static final int booklet = 53;
+    private static final int enrolmentt = 2254;
+    private static final int attendencee = 5555;
+    private static final int feedback =556;
+    private static final int infra = 257;
+    private static final int classs = 5658;
+    private static final int labpicc = 559;
+    private static final int pmkvlab = 410;
 
 
 
@@ -156,218 +157,493 @@ public class Photo_navigation extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        switch (requestCode)
-
-        {
-            case pmsign:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    tvsignane.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                //tvsignane.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-            case counsiii:
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    counsilling.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-                {
-                    counsilling.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-                }
-
-
-            case booklet:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    bookletpic.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                bookletpic.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-
-
-            case enrolmentt:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    enrolment.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                enrolment.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-
-
-
-            case attendencee:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    attendence.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                attendence.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-
-            case feedback:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    feedbackform.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                feedbackform.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-
-            case infra:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    infrapic.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                infrapic.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-            case classs :
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    classroom.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                classroom.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-
-            case labpicc:
-
-
-                if (requestCode == RESULT_OK)
-                {
-                    //tvsignane.setText(data.getStringExtra("encoded"));
-                    labpic.setImageResource(R.drawable.checked);
-
-                }
-                if (requestCode == RESULT_CANCELED);
-            {
-                labpic.setImageResource(R.drawable.checked);
-
-                //tvsignane.setText(data.getStringExtra("encoded"));
-
-            }
-            break;
-
-
-            case pmkvlab:
+        if(requestCode==pmsign) {
 
 
 //
-                    if (requestCode == RESULT_OK)
-                    {
-                        //tvsignane.setText(data.getStringExtra("encoded"));
-                        pmkvylab.setImageResource(R.drawable.checked);
+            if (resultCode == 1) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
 
-                    }
-                    if (requestCode == RESULT_CANCELED);
-                    {
-                        pmkvylab.setImageResource(R.drawable.checked);
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
 
-                        //tvsignane.setText(data.getStringExtra("encoded"));
+                tvsignane.setImageResource(R.drawable.checked);
 
-                    }
+//
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
 
+            }
 
-            default:
-
-
-
-
-
+        }
 
 
 
+        if(requestCode==counsiii) {
+
+
+//
+            if (resultCode == 2) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                counsilling.setImageResource(R.drawable.checked);
+
+
+                //Bundle dd = data.getExtras();
+
+                //String MMessage = dd.getString("encode");
+               // System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
 
 
 
 
+
+        if(requestCode==booklet) {
+
+
+//
+            if (resultCode == 3) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                bookletpic.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+
+
+
+        if(requestCode==enrolmentt) {
+
+
+//
+            if (resultCode == 4) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                enrolment.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+
+        if(requestCode==attendencee) {
+
+
+//
+            if (resultCode == 5) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                attendence.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+
+        if(requestCode==feedback) {
+
+
+//
+            if (resultCode == 6) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                feedbackform.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+
+        if(requestCode==infra) {
+
+
+//
+            if (resultCode == 7) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                infrapic.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+        if(requestCode==classs) {
+
+
+//
+            if (resultCode == 8) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                classroom.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+        if(requestCode==labpicc) {
+
+
+//
+            if (resultCode == 9) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                labpic.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+        if(requestCode==pmkvlab) {
+
+
+//
+            if (resultCode == 10) {
+                //tvsignane.setText(data.getStringExtra("encoded"));
+                //  tvsignane.setText("done");
+
+                //tvsignane.setImageResource(R.drawable.ic_photo_camera);
+
+                pmkvylab.setImageResource(R.drawable.checked);
+
+
+//                Bundle dd = data.getExtras();
+//
+//
+//                String MMessage = dd.getString("encode");
+//
+//                System.out.print("rrrr" + resultCode);
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+//        switch (requestCode)
+//
+//        {
+//            case pmsign:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                   tvsignane.setImageResource(R.drawable.ic_photo_camera);
+//                   String k =data.getStringExtra("encode");
+//                   System.out.print("enncodeeeee" +k);
+//
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                tvsignane.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//            case counsiii:
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    counsilling.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//                {
+//                    counsilling.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//                }
+//
+//
+//            case booklet:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    bookletpic.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                bookletpic.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//
+//
+//            case enrolmentt:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    enrolment.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                enrolment.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//
+//
+//
+//            case attendencee:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    attendence.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                attendence.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//
+//            case feedback:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    feedbackform.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                feedbackform.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//
+//            case infra:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    infrapic.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                infrapic.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//            case classs :
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    classroom.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                classroom.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//
+//            case labpicc:
+//
+//
+//                if (requestCode == RESULT_OK)
+//                {
+//                    //tvsignane.setText(data.getStringExtra("encoded"));
+//                    labpic.setImageResource(R.drawable.checked);
+//
+//                }
+//                if (requestCode == RESULT_CANCELED);
+//            {
+//                labpic.setImageResource(R.drawable.checked);
+//
+//                //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//            }
+//            break;
+//
+//
+//            case pmkvlab:
+//
+//
+////
+//                    if (requestCode == RESULT_OK)
+//                    {
+//                        //tvsignane.setText(data.getStringExtra("encoded"));
+//                        pmkvylab.setImageResource(R.drawable.checked);
+//
+//                    }
+//                    if (requestCode == RESULT_CANCELED);
+//                    {
+//                        pmkvylab.setImageResource(R.drawable.checked);
+//
+//                        //tvsignane.setText(data.getStringExtra("encoded"));
+//
+//                    }
+//
+//
+//            default:
+//                tvsignane.setImageResource(R.drawable.ic_photo_camera);
+//                counsilling.setImageResource(R.drawable.ic_photo_camera);
+//                infrapic.setImageResource(R.drawable.ic_photo_camera);
+//                pmkvylab.setImageResource(R.drawable.ic_photo_camera);
+//                labpic.setImageResource(R.drawable.ic_photo_camera);
+//                classroom.setImageResource(R.drawable.ic_photo_camera);
+//                bookletpic.setImageResource(R.drawable.ic_photo_camera);
+//                enrolment.setImageResource(R.drawable.ic_photo_camera);
+//                feedbackform.setImageResource(R.drawable.ic_photo_camera);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
         }
@@ -375,4 +651,4 @@ public class Photo_navigation extends AppCompatActivity {
 
 
 
-}
+

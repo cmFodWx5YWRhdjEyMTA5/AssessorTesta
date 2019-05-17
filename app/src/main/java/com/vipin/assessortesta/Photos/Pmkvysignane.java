@@ -31,7 +31,7 @@ public class Pmkvysignane extends BaseActivity {
     TextView clickmessage_pmkvysignane;
     Button submit_pmkvysignane;
     String encoded,j;
-    final int pmsign = 1;
+    public static final  int pmsign = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,26 +81,28 @@ public class Pmkvysignane extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(pmkvysignane==null){
-                    System.out.print("enn" +encoded);
-                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
-//
+//                    System.out.print("enn" +encoded);
+//                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
 //                    Intent intent = new Intent();
 //                    intent.putExtra("encode",j);
 //                    setResult(RESULT_OK,intent);
+//
+//                    System.out.print("resuleif" +RESULT_OK);
 //                    Pmkvysignane.this.finish();
                 }
                 else {
 
                     System.out.print("enn" +encoded);
-                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.putExtra("encode",encoded);
-                    setResult(RESULT_OK,intent);
+                    setResult(1,intent);
+                    System.out.print("resule" +RESULT_OK);
                     Pmkvysignane.this.finish();
 
+                }
 
 
-        }
         }
         });
 
@@ -156,7 +158,11 @@ public class Pmkvysignane extends BaseActivity {
             e.printStackTrace();
         }
     }
-
-
-
+//
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent();
+//        setResult(RESULT_OK,intent);
+//    }
 }
