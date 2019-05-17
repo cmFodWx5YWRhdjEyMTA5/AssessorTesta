@@ -29,7 +29,7 @@ public class Labpics extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView classroomlabpic;
     TextView clickmessagelab;
-    Button nextbutton_lab;
+    Button submitbutton_lab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Labpics extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         classroomlabpic=findViewById(R.id.lab_pic);
         clickmessagelab=findViewById(R.id.clickmessagelab);
-        nextbutton_lab=findViewById(R.id.nextbutton_lab);
+        submitbutton_lab=findViewById(R.id.nextbutton_lab);
         //click drawble right of textview
         clickmessagelab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -60,14 +60,36 @@ public class Labpics extends BaseActivity {
             }
         });
 
-
-        nextbutton_lab.setOnClickListener(new View.OnClickListener() {
+        submitbutton_lab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Labpics.this,Pmkvy_lab.class);
-                startActivity(in);
+                if(classroomlabpic==null){
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
+
+
+
+                }
+                else {
+
+                    // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Labpics.this.finish();
+
+
+
+                }
             }
         });
+
 
 
     }
@@ -99,7 +121,7 @@ public class Labpics extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 classroomlabpic.setImageBitmap(photo);
-                nextbutton_lab.setVisibility(View.VISIBLE);
+                submitbutton_lab.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = classroomlabpic.getWidth();

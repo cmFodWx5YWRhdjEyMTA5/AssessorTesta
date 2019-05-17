@@ -1,16 +1,10 @@
 package com.vipin.assessortesta.Photos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +23,7 @@ public class Attendancepic extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView attendancepic;
     TextView clickattendance;
-    Button nextbutton_attendance;
+    Button submit_attendance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +32,7 @@ public class Attendancepic extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         attendancepic=findViewById(R.id.attendance_pic);
         clickattendance=findViewById(R.id.clickattendancepic);
-        nextbutton_attendance=findViewById(R.id.nextbutton_attendancepic);
+        submit_attendance =findViewById(R.id.nextbutton_attendancepic);
         //click drawble right of textview
         clickattendance.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -60,15 +54,35 @@ public class Attendancepic extends BaseActivity {
             }
         });
 
-        nextbutton_attendance.setOnClickListener(new View.OnClickListener() {
+        submit_attendance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(Attendancepic.this,Feedbackformpic.class);
-                startActivity(in);
+                if(attendancepic==null){
+                    // System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+//
+//                    Intent intent = new Intent();
+//                    intent.putExtra("encode",j);
+//                    setResult(RESULT_OK,intent);
+//                    Pmkvysignane.this.finish();
 
+
+
+                }
+                else {
+
+                    //System.out.print("enn" +encoded);
+                    Toast.makeText(getApplicationContext(),"photo mat lo",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    //intent.putExtra("encode",encoded);
+                    setResult(RESULT_OK,intent);
+                    Attendancepic.this.finish();
+
+
+
+                }
             }
         });
-
 
     }
 
@@ -98,7 +112,7 @@ public class Attendancepic extends BaseActivity {
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 attendancepic.setImageBitmap(photo);
-                nextbutton_attendance.setVisibility(View.VISIBLE);
+                submit_attendance.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 int ivWidth = attendancepic.getWidth();
