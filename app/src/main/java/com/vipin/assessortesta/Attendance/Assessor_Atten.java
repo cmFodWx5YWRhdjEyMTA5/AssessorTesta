@@ -103,12 +103,14 @@ public class Assessor_Atten extends BaseActivity {
                 // checkedId is the RadioButton selected
                 RadioButton rb=(RadioButton)findViewById(checkedId);
                 if (rb.getText().equals("Yes")){
+                    System.out.println("yes clicked");
                     uploadphotoo.setVisibility(View.VISIBLE);
                     uploadid.setVisibility(View.VISIBLE);
                     currentlocation.setVisibility(View.VISIBLE);
                     tclocation.setVisibility(View.VISIBLE);
                     loginbutton.setVisibility(View.VISIBLE);
                 }else {
+                    System.out.println("No clicked");
                     attendancealert();
                     uploadphotoo.setVisibility(View.GONE);
                     uploadid.setVisibility(View.GONE);
