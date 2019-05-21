@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private android.app.AlertDialog progressDialog;
     private static final int CAMERA_REQUEST = 1888;
+    private static final int CAMERA_AADHAR_REQUEST = 1889;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
@@ -172,6 +173,40 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         }
     }
+
+
+    //Id card photo
+
+    public void captureevent1(){
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            MY_CAMERA_PERMISSION_CODE);
+                } else {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+                    cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+                    startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
+                }
+
+            }
+            else {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+                cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
+                startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

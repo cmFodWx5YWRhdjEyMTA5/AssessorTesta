@@ -318,11 +318,12 @@
     <Button
         android:id="@+id/button_proceed"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/button_shadow"
         android:elevation="10dp"
         android:gravity="center"

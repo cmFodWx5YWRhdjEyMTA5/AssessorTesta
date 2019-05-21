@@ -157,6 +157,7 @@
         android:weightSum="2"
         >
 <TextView
+    android:id="@+id/current_location1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Your Current location"
@@ -252,7 +253,7 @@
     <Button
         android:layout_weight=".6"
         android:layout_below="@+id/passwordEditText1"
-        android:id="@+id/loginbutton"
+        android:id="@+id/markattendance"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"

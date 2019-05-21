@@ -43,7 +43,7 @@ public class SignIn extends AppCompatActivity {
     String uname,pass;
     String status;
     SessionManager sessionManager;
-    String id,name;
+    String id,name,user_name;
     SharedPreferences sharedpreferences;
     String encode,decode;
     final String mypreference = "mypref";
@@ -135,11 +135,13 @@ public class SignIn extends AppCompatActivity {
 
                                 name = jsonObject.getString("name");
                                 id =jsonObject.getString("id");
+                                user_name=jsonObject.getString("username");
                                 System.out.print("name-" +name);
 
                                 sessionManager.setPreferences(getApplicationContext(), "status", "1");
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString("Name", name);
+                                editor.putString("user_name",user_name);
                                 editor.apply();
 
                                 Intent z = new Intent(SignIn.this,AssessorTask.class);

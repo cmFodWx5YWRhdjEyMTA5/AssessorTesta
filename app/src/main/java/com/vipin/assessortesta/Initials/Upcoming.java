@@ -47,6 +47,7 @@ public class Upcoming extends Fragment {
     ArrayList<String> batchname=new ArrayList<>();
     ArrayList<String> totalstudents=new ArrayList<>();
     ArrayList<String> centername=new ArrayList<>();
+    ArrayList<String> centerid=new ArrayList<>();
     ArrayList<String> startdate=new ArrayList<>();
 
     View v;
@@ -121,13 +122,16 @@ public class Upcoming extends Fragment {
                             if (totalstudents.size()<=jsonArray.length()-1){ totalstudents.add(c.getString("number_of_students"));}
                             if (centername.size()<=jsonArray.length()-1){centername.add(c.getString("exam_center_name"));}
                             if (startdate.size()<=jsonArray.length()-1){startdate.add(c.getString("startdate"));}
+                            if (centerid.size()<=jsonArray.length()-1){centerid.add(c.getString("exam_center_id")); }
+
+
                         }
                         RecyclerViewAdapter recyclerViewAdapter = new
                                 RecyclerViewAdapter(getContext(),lstBatch);
                         myrecyclerview.setAdapter(recyclerViewAdapter);
 
                         for (int i =0;i<=batchname.size()-1; i++ ){
-                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i)));
+                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i)));
                         }
 //c.stopShimmer();
                     }
