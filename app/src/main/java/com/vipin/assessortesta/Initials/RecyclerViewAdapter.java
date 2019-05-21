@@ -19,7 +19,7 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
-    //may be we have declare this page seprately
+
 
     Context mContext;
     //list of data
