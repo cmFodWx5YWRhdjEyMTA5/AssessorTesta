@@ -31,13 +31,6 @@
         android:background="@color/Blue"
         android:minHeight="?attr/actionBarSize"
         app:tabIndicator="@color/white"
-
-
-
-
-
-
-
         app:tabIndicatorHeight="3dp"
         android:scrollIndicators="right|left"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

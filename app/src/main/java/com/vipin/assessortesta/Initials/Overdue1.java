@@ -8,12 +8,15 @@ public class Overdue1 {
     private String Totalstudent;
     private String Assessmentdate;
     private String TcName;
+    private String Centeridd;
 
-    public Overdue1(String batchname, String totalstudent, String assessmentdate, String tcName) {
+
+    public Overdue1(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd) {
         Batchname = batchname;
         Totalstudent = totalstudent;
         Assessmentdate = assessmentdate;
         TcName = tcName;
+        Centeridd=centeridd;
     }
 
     public String getBatchname() {
@@ -32,6 +35,11 @@ public class Overdue1 {
         return TcName;
     }
 
+    public String getcenterid(){
+        return Centeridd;
+    }
+
+
     public void setBatchname(String batchname) {
         Batchname = batchname;
     }
@@ -47,4 +55,11 @@ public class Overdue1 {
     public void setTcName(String tcName) {
         TcName = tcName;
     }
+
+
+    public void setcenterid(String centeridd){
+        centeridd=centeridd;
+
+
+    };
 }

@@ -45,6 +45,14 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+
+        holder.batchname_header.setText("Batch Name");
+        holder.totalstudent_header.setText("Total Students");
+        holder.assessmentda_header.setText("Assessment Data");
+        holder.tcname_header.setText("Tc Name");
+
+
+
         holder.batchname.setText(mData.get(position).getBatchname());
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
@@ -61,10 +69,12 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        private TextView batchname;
-        private TextView  totalstudent ;
-        private TextView assessmentda;
-        private TextView tcname;
+
+        private TextView batchname,batchname_header;
+        private TextView  totalstudent,totalstudent_header ;
+        private TextView assessmentda,assessmentda_header;
+        private TextView tcname,tcname_header;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +86,13 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
             totalstudent=itemView.findViewById(R.id.totalstudentid_due);
             assessmentda = itemView.findViewById(R.id.assessmentid_due);
             tcname=itemView.findViewById(R.id.tcnameid_due);
+
+
+            batchname_header=itemView.findViewById(R.id.batchname2);
+            totalstudent_header=itemView.findViewById(R.id.totalstudent2);
+            assessmentda_header=itemView.findViewById(R.id.assessment2);
+            tcname_header=itemView.findViewById(R.id.tcname2);
+
 
 
 

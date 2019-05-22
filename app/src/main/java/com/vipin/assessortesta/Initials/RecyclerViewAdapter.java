@@ -2,6 +2,7 @@ package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +25,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
     //list of data
     List<Upcoming1>mData;
-CardView cardviewupcoming;
+   CardView cardviewupcoming;
+    String batchidd;
+    SharedPreferences sharedpreferences;
+    final String mybatch = "myybatch";
+    final String mypreference = "mypref";
 
 
 
@@ -64,11 +69,7 @@ CardView cardviewupcoming;
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
-
-     /* if (mData.get(position).getBatchname()!=null) {
-          int heightt = holder.batchname_header.getHeight();
-          holder.batchname.getLayoutParams().width = heightt;
-      }*/
+        sharedpreferences=mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         cardviewupcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,9 +79,19 @@ CardView cardviewupcoming;
                 mContext.startActivity(ii);
             }
         });
+
+
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("ccc", mData.get(position).getBatchid());
+        editor.apply();
+
+
+
+
+
+
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -89,6 +100,9 @@ CardView cardviewupcoming;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
+
+
+        //Declare the variable
 
         private TextView batchname,batchname_header;
         private TextView  totalstudent,totalstudent_header ;
@@ -111,10 +125,14 @@ CardView cardviewupcoming;
             assessmentda_header=itemView.findViewById(R.id.assessment_upcoming);
             tcname_header=itemView.findViewById(R.id.tcname_upcoming);
 
+
+
+
+
+
+
         }
     }
-
-
 
 
 }

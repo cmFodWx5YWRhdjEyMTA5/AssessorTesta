@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 //
 ///**
 // * A simple {@link Fragment} subclass.
@@ -55,10 +57,13 @@ public class Upcoming extends Fragment {
     ArrayList<String> startdate=new ArrayList<>();
     LinearLayout upcomingfragment;
 
+    Context ctx;
+
     View v;
     ShimmerFrameLayout c;
     private RecyclerView myrecyclerview;
     private List<Upcoming1>lstBatch;
+    private android.app.AlertDialog progressDialog;
 
     public Upcoming(){
 
@@ -69,9 +74,11 @@ public class Upcoming extends Fragment {
          v = inflater.inflate(R.layout.fragment_upcoming,container,false);
          myrecyclerview = v.findViewById(R.id.Upcoming_recyclerview);
          upcomingfragment=v.findViewById(R.id.upcomingfragment);
+        ctx=container.getContext();
 
 
-         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         /*c =
                 (ShimmerFrameLayout) v.findViewById(R.id.shimmer_view_container);*/
 
@@ -94,6 +101,8 @@ public class Upcoming extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstBatch = new ArrayList<>();
+        progressDialog = new SpotsDialog(getActivity(),R.style.Custom);
+
         getBatches();
 
 
@@ -104,6 +113,9 @@ public class Upcoming extends Fragment {
     }
 
     private void getBatches() {
+
+        progressDialog.show();
+
 
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
 
@@ -133,7 +145,6 @@ public class Upcoming extends Fragment {
                             if (startdate.size()<=jsonArray.length()-1){startdate.add(c.getString("startdate"));}
                             if (centerid.size()<=jsonArray.length()-1){centerid.add(c.getString("exam_center_id")); }
 
-
                         }
 
                         if(batchid.size()==0){
@@ -145,7 +156,7 @@ public class Upcoming extends Fragment {
                         myrecyclerview.setAdapter(recyclerViewAdapter);
 
                         for (int i =0;i<=batchname.size()-1; i++ ){
-                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i)));
+                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i),batchid.get(i)));
                         }
 //c.stopShimmer();
                     }
@@ -158,17 +169,19 @@ public class Upcoming extends Fragment {
                     e.printStackTrace();
                 }
 
-
-             /*   if (progressDialog.isShowing()) {
+                if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
-                }*/
+                }
+
+
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               /* if (progressDialog.isShowing()) {
+                if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
-                }*/
+                }
                 Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
             }
         }) {

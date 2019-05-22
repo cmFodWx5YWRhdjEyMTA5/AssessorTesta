@@ -63,12 +63,9 @@ public class SignIn extends AppCompatActivity {
         sessionManager = new SessionManager();
         sharedpreferences=getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-
         forgotpassword = findViewById(R.id.forgotpassword);
         login = findViewById(R.id.loginbutton);
         progressDialog = new SpotsDialog(SignIn.this, R.style.Custom);
-
-
 
 
 
@@ -89,20 +86,51 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
 
 
-              /*  if (username.getText().toString().equals("")|password.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(),"The required fields Username and password can't be empty", Toast.LENGTH_LONG).show();
-                }
+                if (username.getText().toString().equals("")|password.getText().toString().equals("")) {
+
+                   showDialog();
+
+                   // Toast.makeText(getApplicationContext(),"The required fields Username and password can't be empty", Toast.LENGTH_LONG).show();
+           }
                 else
                 {
                     sendDataServer();
-                }*/
+                }
 
-//
-                    Intent k = new Intent(SignIn.this,AssessorTask.class);
-                startActivity(k);
+
+//                 Intent k = new Intent(SignIn.this,AssessorTask.class);
+//                   startActivity(k);
             }
         });
 
+
+
+
+    }
+
+
+
+
+    public void showDialog(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("You are not Registered as Assessor with us. Please Register Yourself first before Sign In.")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                }
+
+                ).create();
+
+        alertDialog.show();
 
 
 
@@ -118,7 +146,7 @@ public class SignIn extends AppCompatActivity {
         System.out.println("geturll"+" "+serverURL);
         uname=username.getText().toString();
         pass= password.getText().toString();
-
+        System.out.println("uname"+" "+uname+"  "+pass);
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -135,14 +163,16 @@ public class SignIn extends AppCompatActivity {
 
                                 name = jsonObject.getString("name");
                                 id =jsonObject.getString("id");
-                                user_name=jsonObject.getString("username");
-                                System.out.print("name-" +name);
+                                user_name=jsonObject.getString("user_name");
+                                //System.out.print("name-" +user_name);
 
                                 sessionManager.setPreferences(getApplicationContext(), "status", "1");
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString("Name", name);
                                 editor.putString("user_name",user_name);
                                 editor.apply();
+
+
 
                                 Intent z = new Intent(SignIn.this,AssessorTask.class);
                                 startActivity(z);
@@ -154,6 +184,7 @@ public class SignIn extends AppCompatActivity {
 
                     else if (status.equals("0")){
                         Toast.makeText(getApplicationContext(),"Wrong Credentials.",Toast.LENGTH_LONG).show();
+
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Unable to Login",Toast.LENGTH_LONG).show();
@@ -163,6 +194,8 @@ public class SignIn extends AppCompatActivity {
                 catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
+                    System.out.println("reeeeee"+response);
+
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
@@ -192,7 +225,7 @@ public class SignIn extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
-                map.put("key_salt",encode);
+                map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("user_name", uname);
                 map.put("password", pass);
                 return map;

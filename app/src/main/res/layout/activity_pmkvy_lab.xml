@@ -39,7 +39,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Next"
+        android:text="@string/submit"
         android:gravity="center"
         android:textSize="20sp"
         android:visibility="gone"
@@ -50,7 +50,7 @@
         android:textStyle="bold|normal"
         android:textColor="@color/white"
         android:elevation="10dp"
-        android:background="@drawable/button_shadow"
+        android:background="@color/button2"
         />
 
 </android.support.constraint.ConstraintLayout>
