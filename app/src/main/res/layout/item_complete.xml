@@ -86,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="Batch Name"
                     android:textSize="14sp"
+                    android:theme="@style/accountnameStylecompleted"
                     android:textStyle="normal"
 
 
@@ -101,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:text="Total Student"
                     android:textSize="14sp"
+                    android:theme="@style/accountnameStylecompleted"
                     android:textStyle="normal"
 
                     />
@@ -112,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:text="Assessment Date"
                     android:textSize="14sp"
+                    android:theme="@style/accountnameStylecompleted"
                     android:textStyle="normal"
 
                     />
@@ -123,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tc Name"
                     android:textSize="14sp"
+                    android:theme="@style/accountnameStylecompleted"
                     android:textStyle="normal"
 
                     />

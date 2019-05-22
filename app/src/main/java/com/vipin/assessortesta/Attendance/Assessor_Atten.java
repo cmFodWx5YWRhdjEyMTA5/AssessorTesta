@@ -96,6 +96,8 @@ package com.vipin.assessortesta.Attendance;
         private static final long UPDATE_INTERVAL = 5000, FASTEST_INTERVAL = 5000; // = 5 seconds
         String currloc;
         String traningcentreloc,photoself,photoidproof;
+            double lat2=28.5953926,lat1;
+            double lng2=77.1757398,lng1;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -177,13 +179,21 @@ package com.vipin.assessortesta.Attendance;
         atten.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
+                //do what you want to do...
+                System.out.println("distance between these points is"+distance(lat1, lng1, lat2, lng2));
+            }
+            else{
+                    System.out.println("distance between these points is"+distance(lat1, lng1, lat2, lng2));
+            }
                 if (photoself==null ){
                         Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
 
                 }else if (photoidproof==null){
                         Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
                 }
+
+
                 else{
                         save_Assessoratten();
                 }
@@ -365,7 +375,8 @@ package com.vipin.assessortesta.Attendance;
         try {
 
         addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-
+           lat1=location.getLatitude();
+           lng1=location.getLongitude();
         if (addresses != null && addresses.size() > 0) {
         String address = addresses.get(0).getAddressLine(0);
         String city = addresses.get(0).getLocality();
@@ -584,6 +595,26 @@ package com.vipin.assessortesta.Attendance;
                         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
                 }
 
+            /** calculates the distance between two locations in MILES */
+            private double distance(double lat1, double lng1, double lat2, double lng2) {
+
+                double earthRadius = 3958.75; // in miles, change to 6371 for kilometer output
+
+                double dLat = Math.toRadians(lat2-lat1);
+                double dLng = Math.toRadians(lng2-lng1);
+
+                double sindLat = Math.sin(dLat / 2);
+                double sindLng = Math.sin(dLng / 2);
+
+                double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                        * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+
+                double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+                double dist = earthRadius * c;
+
+                return dist; // output distance, in MILES
+            }
 
         }
 

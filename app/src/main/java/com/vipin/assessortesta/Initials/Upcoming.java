@@ -3,15 +3,19 @@ package com.vipin.assessortesta.Initials;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -49,6 +53,7 @@ public class Upcoming extends Fragment {
     ArrayList<String> centername=new ArrayList<>();
     ArrayList<String> centerid=new ArrayList<>();
     ArrayList<String> startdate=new ArrayList<>();
+    LinearLayout upcomingfragment;
 
     View v;
     ShimmerFrameLayout c;
@@ -63,6 +68,7 @@ public class Upcoming extends Fragment {
 
          v = inflater.inflate(R.layout.fragment_upcoming,container,false);
          myrecyclerview = v.findViewById(R.id.Upcoming_recyclerview);
+         upcomingfragment=v.findViewById(R.id.upcomingfragment);
 
 
          myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -102,6 +108,7 @@ public class Upcoming extends Fragment {
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onResponse(String response) {
                 System.out.println("response is"+response);
@@ -113,6 +120,8 @@ public class Upcoming extends Fragment {
 
                         JSONObject jobb=jobj.getJSONObject("batch_details");
                         JSONArray jsonArray=jobb.getJSONArray("upcoming_batch");
+
+
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject c = jsonArray.getJSONObject(i);
@@ -126,6 +135,11 @@ public class Upcoming extends Fragment {
 
 
                         }
+
+                        if(batchid.size()==0){
+                            upcomingfragment.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.no_assess));
+                        }
+
                         RecyclerViewAdapter recyclerViewAdapter = new
                                 RecyclerViewAdapter(getContext(),lstBatch);
                         myrecyclerview.setAdapter(recyclerViewAdapter);

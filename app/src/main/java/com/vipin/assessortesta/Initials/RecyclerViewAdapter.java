@@ -51,13 +51,11 @@ CardView cardviewupcoming;
         System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
 
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        //bind the data add in holder
         holder.batchname_header.setText("Batch Name");
         holder.totalstudent_header.setText("Total Students");
         holder.assessmentda_header.setText("Assessment Data");
@@ -67,6 +65,10 @@ CardView cardviewupcoming;
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
 
+     /* if (mData.get(position).getBatchname()!=null) {
+          int heightt = holder.batchname_header.getHeight();
+          holder.batchname.getLayoutParams().width = heightt;
+      }*/
         cardviewupcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,13 +78,9 @@ CardView cardviewupcoming;
                 mContext.startActivity(ii);
             }
         });
-
-
-
-
-
-
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -91,9 +89,6 @@ CardView cardviewupcoming;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-
-
-        //Declare the variable
 
         private TextView batchname,batchname_header;
         private TextView  totalstudent,totalstudent_header ;
@@ -106,38 +101,20 @@ CardView cardviewupcoming;
 
               //add the id
 
-            batchname = itemView.findViewById(R.id.batchnameid);
-            totalstudent=itemView.findViewById(R.id.totalstudentid);
-            assessmentda = itemView.findViewById(R.id.assessmentid);
-            tcname=itemView.findViewById(R.id.tcnameid);
+            batchname = itemView.findViewById(R.id.batchnameid_upcoming);
+            totalstudent=itemView.findViewById(R.id.totalstudentid_upcoming);
+            assessmentda = itemView.findViewById(R.id.assessmentid_upcoming);
+            tcname=itemView.findViewById(R.id.tcnameid_upcoming);
 
-            batchname_header=itemView.findViewById(R.id.batchname);
-            totalstudent_header=itemView.findViewById(R.id.totalstudent);
-            assessmentda_header=itemView.findViewById(R.id.assessment);
-            tcname_header=itemView.findViewById(R.id.tcname);
-
-
-////
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent ii=new Intent(getA,Annexure.class);
-////                    mContext.startActivity(ii);
-//
-//                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
-//
-//                }
-//            });
-
-
-
-
-
-
-
+            batchname_header=itemView.findViewById(R.id.batchname_upcoming);
+            totalstudent_header=itemView.findViewById(R.id.totalstudent_upcoming);
+            assessmentda_header=itemView.findViewById(R.id.assessment_upcoming);
+            tcname_header=itemView.findViewById(R.id.tcname_upcoming);
 
         }
     }
+
+
 
 
 }

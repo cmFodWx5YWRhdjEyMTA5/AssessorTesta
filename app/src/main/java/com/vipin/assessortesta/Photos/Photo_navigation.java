@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Batch_Student.Batch_detail;
 import com.vipin.assessortesta.R;
 
 public class Photo_navigation extends AppCompatActivity {
@@ -29,7 +31,7 @@ public class Photo_navigation extends AppCompatActivity {
 
 
     ImageView tvsignane,counsilling,bookletpic,enrolment,attendence,feedbackform,infrapic,classroom,labpic,pmkvylab;
-
+    Button submitb;
 
 
     @Override
@@ -49,7 +51,15 @@ public class Photo_navigation extends AppCompatActivity {
         classroom = findViewById(R.id.imageview8);
         labpic = findViewById(R.id.imageview9);
         pmkvylab = findViewById(R.id.imageview10);
+        submitb=findViewById(R.id.button_proceed);
 
+        submitb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ii=new Intent(Photo_navigation.this, Batch_detail.class);
+                startActivity(ii);
+            }
+        });
 
 
         tvsignane.setOnClickListener(new View.OnClickListener() {

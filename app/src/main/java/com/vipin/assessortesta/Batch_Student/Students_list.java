@@ -97,7 +97,5 @@ public class Students_list  extends AppCompatActivity {
             }
 
         }
-
-
     }
 }

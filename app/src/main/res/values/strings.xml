@@ -58,8 +58,6 @@ batch (check any 5 forms)\n
     <string name="anx22">PMKVY signage displayed outside the Center ?\n</string>
 
 
-
-
     <string name="inst1">Pmkvy Signane</string>
     <string name="inst2">PMKVY poster(Counseling room)</string>
     <string name="inst3">PMKVY booklet/pamphlet</string>
@@ -70,7 +68,6 @@ batch (check any 5 forms)\n
     <string name="inst8">Pmkvy poster(Classroom)</string>
     <string name="inst9">Lab photo</string>
     <string name="inst10">Pmkvy poster (Lab</string>
-
 
 
     <!-- TODO: Remove or change this placeholder text -->
