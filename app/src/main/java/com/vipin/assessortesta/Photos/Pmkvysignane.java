@@ -2,7 +2,9 @@ package com.vipin.assessortesta.Photos;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -18,10 +20,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.vipin.assessortesta.Global.BaseActivity;
+import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pmkvysignane extends BaseActivity {
     private static final int CAMERA_REQUEST = 1888;
@@ -30,30 +44,28 @@ public class Pmkvysignane extends BaseActivity {
     ImageView pmkvysignane;
     TextView clickmessage_pmkvysignane;
     Button submit_pmkvysignane;
-    String encoded,j;
-    public static final  int pmsign = 100;
+    String encoded;
+    public static final int pmsign = 100;
+
+    String status;
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batch_id;
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pmkvysignane=findViewById(R.id.pmkvysignane_pic);
-        clickmessage_pmkvysignane=findViewById(R.id.clickpmkvysignane);
-        submit_pmkvysignane=findViewById(R.id.nextbutton_pmkvysignane);
-
-//        if(encoded==null){
-//            Toast.makeText(getApplicationContext(),"photo lo",Toast.LENGTH_LONG).show();
-//
-//        }
-//        else {
-//
-//            Intent intent = new Intent();
-//            intent.putExtra("encode",encoded);
-//            setResult(RESULT_OK,intent);
-//
-//        }
-
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        pmkvysignane = findViewById(R.id.pmkvysignane_pic);
+        clickmessage_pmkvysignane = findViewById(R.id.clickpmkvysignane);
+        submit_pmkvysignane = findViewById(R.id.nextbutton_pmkvysignane);
 
 
         //click drawble right of textview
@@ -65,8 +77,8 @@ public class Pmkvysignane extends BaseActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(event.getX() >= (clickmessage_pmkvysignane.getRight() - clickmessage_pmkvysignane.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.getX() >= (clickmessage_pmkvysignane.getRight() - clickmessage_pmkvysignane.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // your action here
                         captureevent();
                         return true;
@@ -80,7 +92,7 @@ public class Pmkvysignane extends BaseActivity {
         submit_pmkvysignane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pmkvysignane==null){
+                if (pmkvysignane == null) {
 //                    System.out.print("enn" +encoded);
 //                    Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
 //                    Intent intent = new Intent();
@@ -89,22 +101,54 @@ public class Pmkvysignane extends BaseActivity {
 //
 //                    System.out.print("resuleif" +RESULT_OK);
 //                    Pmkvysignane.this.finish();
-                }
-                else {
+                } else {
 
-                    System.out.print("enn" +encoded);
+
+                    Sendphoto();
+
+                    System.out.print("enn" + encoded);
                     //Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.putExtra("encode",encoded);
-                    setResult(1,intent);
-                    System.out.print("resule" +RESULT_OK);
+                    intent.putExtra("encode", encoded);
+                    setResult(1, intent);
+                    System.out.print("resule" + RESULT_OK);
                     Pmkvysignane.this.finish();
 
                 }
 
 
-        }
+            }
         });
+
+
+
+
+
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+
+
+        assessor_id=(sharedpreferences.getString("user_name", ""));
+        System.out.println("asessoriddd" +assessor_id);
+
+
+
+
+
+
+        if (sharedpreferences.contains("ccc")) {
+            batch_id=sharedpreferences.getString("ccc", "");
+
+            System.out.println("centeridddd" +batch_id);
+
+        }
+
+
+
+
+
 
 
     }
@@ -126,15 +170,12 @@ public class Pmkvysignane extends BaseActivity {
     }
 
 
-
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-                if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){
+                if (data.getExtras() == null || (data.getExtras().get("data") == null || !(data.getExtras().get("data") instanceof Bitmap))) {
                     //todo - show error
-                    Toast.makeText(getApplicationContext(),"The file picked is invalid.Please use default camera to click Photos",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "The file picked is invalid.Please use default camera to click Photos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -147,22 +188,108 @@ public class Pmkvysignane extends BaseActivity {
                 int ivWidth = pmkvysignane.getWidth();
                 int ivHeight = pmkvysignane.getHeight();
                 int newWidth = ivWidth;
-                int newHeight = (int) Math.floor((double) currentBitmapHeight *( (double) ivWidth / (double) currentBitmapWidth));
+                int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) ivWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
                 encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+
     }
-//
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent();
-//        setResult(RESULT_OK,intent);
-//    }
+
+
+
+
+    private void Sendphoto() {
+
+
+
+
+        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m.php";
+
+        System.out.println("geturll"+" "+serverURL);
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    status= jobj.getString("status");
+                    //exam_status=jobj.getString("exam_status");
+                    System.out.print("responsee" +status);
+                    if(status=="1")
+                    {
+                        Toast.makeText(getApplicationContext(),"sucesss1",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+
+                        System.out.print("responsee" +response);
+
+                        Toast.makeText(getApplicationContext()," not sucesss",Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                    System.out.print(status);
+
+                }
+
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
+                }
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getApplicationContext(), "Error: Please try again Later2"+error, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                super.getHeaders();
+                Map<String, String> map = new HashMap<>();
+                map.put("Content-Type","application/x-www-form-urlencoded");
+                return map;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                super.getParams();
+                Map<String, String> map = new HashMap<>();
+                map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
+                map.put("assessor_id",assessor_id);
+                map.put("batch_id",batch_id);
+                map.put("annexure_id","1");
+                map.put("annexure_image",encoded);
+                return map;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
+
+
 }
+
+
+
+
+
+

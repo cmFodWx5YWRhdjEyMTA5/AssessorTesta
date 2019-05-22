@@ -1,13 +1,17 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.R;
 
 import java.util.List;
@@ -17,6 +21,8 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
     Context mContext;
     //list of data
     List<Complete1>mData;
+    CardView cardviewComplete;
+
 
 
     public RecyclerViewAdpterCompleted(Context mContext, List<Complete1> mData) {
@@ -35,7 +41,8 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
         //adding the layout
 
         v= LayoutInflater.from(mContext).inflate(R.layout.item_complete,null,false);
-       MyViewHolder vholder = new MyViewHolder(v);
+        cardviewComplete = v.findViewById(R.id.cardviewComplete);
+        MyViewHolder vholder = new MyViewHolder(v);
         return vholder;
 
 
@@ -43,12 +50,22 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+
+        holder.batchname_header.setText("Batch Name");
+        holder.totalstudent_header.setText("Total Students");
+        holder.assessmentda_header.setText("Assessment Data");
+        holder.tcname_header.setText("Tc Name");
 
         holder.batchname.setText(mData.get(position).getBatchname());
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
+
+
+
+
+
 
 
 
@@ -62,10 +79,10 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        private TextView batchname;
-        private TextView  totalstudent ;
-        private TextView assessmentda;
-        private TextView tcname;
+        private TextView batchname,batchname_header;
+        private TextView  totalstudent,totalstudent_header ;
+        private TextView assessmentda,assessmentda_header;
+        private TextView tcname,tcname_header;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +94,15 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
             totalstudent=itemView.findViewById(R.id.totalstudentidcomp);
             assessmentda = itemView.findViewById(R.id.assessmentidcomp);
             tcname=itemView.findViewById(R.id.tcnameidcomp);
+
+
+
+            batchname_header=itemView.findViewById(R.id.batchname1);
+            totalstudent_header=itemView.findViewById(R.id.totalstudent1);
+            assessmentda_header=itemView.findViewById(R.id.assessment1);
+            tcname_header=itemView.findViewById(R.id.tcname1);
+
+
 
 
 

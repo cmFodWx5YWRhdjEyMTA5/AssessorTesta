@@ -1,24 +1,23 @@
 package com.vipin.assessortesta.Initials;
 
 public class Complete1
-
 {
-
-
     //declare the variable
-
-
-        private String Batchname;
+    private String Batchname;
         private String Totalstudent;
         private String Assessmentdate;
         private String TcName;
+    private String Centeridd;
 
-        public Complete1(String batchname, String totalstudent, String assessmentdate, String tcName) {
+
+    public Complete1(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd) {
             Batchname = batchname;
             Totalstudent = totalstudent;
             Assessmentdate = assessmentdate;
             TcName = tcName;
-        }
+        Centeridd=centeridd;
+
+    }
 
 
 
@@ -42,6 +41,11 @@ public class Complete1
         }
 
 
+    public String getcenterid(){
+        return Centeridd;
+    }
+
+
         //setter
 
         public void setBatchname(String batchname) {
@@ -59,4 +63,12 @@ public class Complete1
         public void setTcName(String tcName) {
             TcName = tcName;
         }
+
+    public void setcenterid(String centeridd){
+        centeridd=centeridd;
+
+
+    };
+
+
 }

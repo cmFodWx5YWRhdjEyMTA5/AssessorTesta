@@ -56,6 +56,7 @@ Button loginbutton;
                     String status= jobj.getString("status");
                     String msg= jobj.getString("msg");
                     if (status.equals("0") && msg.equals("Your are not registered user")){
+
                         Toast.makeText(getApplicationContext(),"This Email ID is not registered with Us",Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals("1") && msg.equals("Password has been sent to your email id, please check your email")){

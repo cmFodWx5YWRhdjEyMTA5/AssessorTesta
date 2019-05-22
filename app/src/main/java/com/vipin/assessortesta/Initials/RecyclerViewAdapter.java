@@ -2,6 +2,7 @@ package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +25,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
     //list of data
     List<Upcoming1>mData;
-CardView cardviewupcoming;
+   CardView cardviewupcoming;
+    String batchidd;
+    SharedPreferences sharedpreferences;
+    final String mybatch = "myybatch";
+    final String mypreference = "mypref";
 
 
 
@@ -46,7 +51,11 @@ CardView cardviewupcoming;
         //adding the layout
         v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
         cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
+
         MyViewHolder vholder = new MyViewHolder(v);
+
+
+
 
         System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
@@ -66,7 +75,7 @@ CardView cardviewupcoming;
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
-
+        sharedpreferences=mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         cardviewupcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +85,12 @@ CardView cardviewupcoming;
                 mContext.startActivity(ii);
             }
         });
+
+
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("ccc", mData.get(position).getBatchid());
+        editor.apply();
 
 
 

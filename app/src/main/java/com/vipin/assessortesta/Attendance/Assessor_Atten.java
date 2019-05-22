@@ -2,9 +2,11 @@ package com.vipin.assessortesta.Attendance;
 
         import android.Manifest;
         import android.app.Activity;
+        import android.content.Context;
         import android.content.DialogInterface;
         import android.content.Intent;
         import android.content.IntentSender;
+        import android.content.SharedPreferences;
         import android.content.pm.PackageManager;
         import android.graphics.Bitmap;
         import android.location.Address;
@@ -54,6 +56,7 @@ package com.vipin.assessortesta.Attendance;
         import com.vipin.assessortesta.Global.BaseActivity;
         import com.vipin.assessortesta.Initials.ForgotPassword;
         import com.vipin.assessortesta.Initials.MyNetwork;
+        import com.vipin.assessortesta.Initials.SignIn;
         import com.vipin.assessortesta.Photos.Infrapic;
         import com.vipin.assessortesta.Photos.Photo_navigation;
         import com.vipin.assessortesta.Photos.Pmkvysignane;
@@ -71,8 +74,9 @@ package com.vipin.assessortesta.Attendance;
         import java.util.Map;
 
         import de.hdodenhof.circleimageview.CircleImageView;
+        import dmax.dialog.SpotsDialog;
 
-        public class Assessor_Atten extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
+public class Assessor_Atten extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
         LinearLayout uploadphotoo, uploadid, currentlocation, tclocation;
         Button atten;
@@ -96,8 +100,13 @@ package com.vipin.assessortesta.Attendance;
         private static final long UPDATE_INTERVAL = 5000, FASTEST_INTERVAL = 5000; // = 5 seconds
         String currloc;
         String traningcentreloc,photoself,photoidproof;
+        private android.app.AlertDialog progressDialog;
+        SharedPreferences sharedpreferences;
+        final String mypreference = "mypref";
+        String username;
 
-        @Override
+
+                @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
@@ -112,6 +121,8 @@ package com.vipin.assessortesta.Attendance;
         centrelocation = findViewById(R.id.centrelocationn);
         currentlocationn = findViewById(R.id.locationn);
         input_photograph = findViewById(R.id.input_photograph);
+        progressDialog = new SpotsDialog(Assessor_Atten.this, R.style.Custom);
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(Assessor_Atten.this);
         centrelocation.setMovementMethod(new ScrollingMovementMethod());
         currentlocationn.setMovementMethod(new ScrollingMovementMethod());
@@ -162,6 +173,8 @@ package com.vipin.assessortesta.Attendance;
         tclocation.setVisibility(View.VISIBLE);
         atten.setVisibility(View.VISIBLE);
         } else {
+
+        showDialogAtten();
         System.out.println("No clicked");
         attendancealert();
         uploadphotoo.setVisibility(View.GONE);
@@ -174,17 +187,37 @@ package com.vipin.assessortesta.Attendance;
         }
         });
 
-        atten.setOnClickListener(new View.OnClickListener() {
+
+
+                        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+
+                        if (sharedpreferences.contains("user_name")) {
+                                username=sharedpreferences.getString("user_name", "");
+                                System.out.println("asessoriddd" +username);
+
+                        }
+
+
+
+
+
+                        atten.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
                 if (photoself==null ){
+
                         Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
 
                 }else if (photoidproof==null){
+
                         Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
                 }
                 else{
+
+
+
                         save_Assessoratten();
                 }
 
@@ -194,6 +227,40 @@ package com.vipin.assessortesta.Attendance;
 
         }
 
+
+                public void showDialogAtten(){
+
+
+
+                        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                                .setMessage("You Need to be Present At The Training Center In Order To Mark Your Attendence")
+                                .setTitle("Message")
+                                .setCancelable(true)
+                                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                                        {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+
+                                                }
+                                        }
+
+                                ).create();
+
+                        alertDialog.show();
+
+
+
+                }
+
+
+        @Override
+        public void onBackPressed() {
+                super.onBackPressed();
+                if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                }
+        }
 
         @Override
         protected int getMenuId() {
@@ -529,6 +596,8 @@ package com.vipin.assessortesta.Attendance;
 
                 public void save_Assessoratten(){
 
+                        progressDialog.show();
+
                         String serverURL ="https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_attendance.php";
 
                         StringRequest stringRequest= new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -547,15 +616,24 @@ package com.vipin.assessortesta.Attendance;
                                                         startActivity(ii);
 
 
-                                                }
+                                                 }
                                         } catch (JSONException e) {
                                                 e.printStackTrace();
+                                        }
+
+                                        if (progressDialog.isShowing()) {
+                                                progressDialog.dismiss();
                                         }
 
                                 }
                         }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+
+                                        if (progressDialog.isShowing()) {
+                                                progressDialog.dismiss();
+                                        }
+
 
                                 }
                         }){
@@ -572,7 +650,7 @@ package com.vipin.assessortesta.Attendance;
                                         super.getParams();
                                         Map<String, String> map = new HashMap<>();
                                         map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                                        map.put("assessor_id", "pbharti@radiantinfonet.com");
+                                        map.put("assessor_id",username);
                                         map.put("center_image", photoself);
                                         map.put("id_image", photoidproof);
                                         map.put("location", currentlocationn.getText().toString());

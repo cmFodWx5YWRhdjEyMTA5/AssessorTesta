@@ -21,6 +21,8 @@ import com.vipin.assessortesta.R;
 
 import java.io.ByteArrayOutputStream;
 
+import dmax.dialog.SpotsDialog;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
@@ -34,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // progressDialog = new SpotsDialog(BaseActivity.this, R.style.Custom);
+        progressDialog = new SpotsDialog(BaseActivity.this, R.style.Custom);
         //setupToolbar();
         //bindViews();
         initView();
@@ -85,14 +87,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void show_progressbar(){
-       // progressDialog.show();
+       progressDialog.show();
 
     }
 
     public void hide_progressbar(){
-      /*  if (progressDialog.isShowing()) {
+        if (progressDialog.isShowing()) {
             progressDialog.dismiss();
-        }*/
+        }
     }
 
     /* *//**

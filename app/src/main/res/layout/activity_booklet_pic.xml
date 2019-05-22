@@ -50,7 +50,7 @@
         android:textStyle="bold|normal"
         android:textColor="@color/white"
         android:elevation="10dp"
-        android:background="@drawable/button_shadow"
+        android:background="@color/button3"
         />
 
 </android.support.constraint.ConstraintLayout>
