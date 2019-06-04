@@ -6,39 +6,36 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
 
-   int mNoOfTabs;
+    int mNoOfTabs;
 
-   public PageAdapter(FragmentManager fm, int NumberOfTabs)
-   {
-       super(fm);
-       this.mNoOfTabs = NumberOfTabs;
+    public PageAdapter(FragmentManager fm, int NumberOfTabs) {
+        super(fm);
+        this.mNoOfTabs = NumberOfTabs;
 
-   }
-
+    }
 
 
     @Override
     public Fragment getItem(int Position) {
-       switch (Position)
-       {
-           case 0:
+        switch (Position) {
+            case 0:
 
-               Upcoming upcoming = new Upcoming();
-               return upcoming;
+                Upcoming upcoming = new Upcoming();
+                return upcoming;
 
-           case  1:
-               Complete complete = new Complete();
-               return complete;
+            case 1:
+                Complete complete = new Complete();
+                return complete;
 
 
-           case  2:
-               Overdue overdue = new Overdue();
-               return overdue;
+            case 2:
+                Overdue overdue = new Overdue();
+                return overdue;
 
-               default:
-                   return null;
+            default:
+                return null;
 
-       }
+        }
 
 
     }

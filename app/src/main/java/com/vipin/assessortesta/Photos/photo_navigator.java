@@ -1,25 +1,19 @@
 package com.vipin.assessortesta.Photos;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.vipin.assessortesta.R;
-
-import me.biubiubiu.justifytext.library.JustifyTextView;
 
 public class photo_navigator extends AppCompatActivity {
 
     private static final int pmsign = 1;
     private static final int couns = 2;
-           // ,booklet = 3, eroll = 4,atten = 5,feedback=6,infra = 7,classs = 8,lab = 9,pmlab= 10;
+    // ,booklet = 3, eroll = 4,atten = 5,feedback=6,infra = 7,classs = 8,lab = 9,pmlab= 10;
 
 
-
-    TextView tvsignane,counsilling,bookletpic,enrolment,attendence,feedbackform,infrapic,classroom,labpic,pmkvylab;
+    TextView tvsignane, counsilling, bookletpic, enrolment, attendence, feedbackform, infrapic, classroom, labpic, pmkvylab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +67,5 @@ public class photo_navigator extends AppCompatActivity {
 //
 //
 //        }
-   }
+    }
 }

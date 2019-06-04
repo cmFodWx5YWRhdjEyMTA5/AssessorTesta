@@ -15,4 +15,16 @@
 
 
 
+
+
+
+    <color name="BBlue">#2E78B5</color>
+    <color name="Btext">#707070</color>
+    <color name="Border">#A5A5A5</color>
+    <color name="grey">#d9d9d9</color>
+
+    <color name="lightbluee"> #4286f4</color>
+
+
+
 </resources>

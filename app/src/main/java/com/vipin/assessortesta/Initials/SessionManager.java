@@ -12,9 +12,9 @@ public class SessionManager {
         editor.commit();
     }
 
-    public  String getPreferences(Context context, String key) {
+    public String getPreferences(Context context, String key) {
 
-        SharedPreferences prefs = context.getSharedPreferences("Vipin",	Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences("Vipin", Context.MODE_PRIVATE);
         String position = prefs.getString(key, "");
         return position;
     }

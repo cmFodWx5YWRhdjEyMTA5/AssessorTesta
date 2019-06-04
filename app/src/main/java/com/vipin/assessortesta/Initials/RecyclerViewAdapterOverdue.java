@@ -16,14 +16,13 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
 
     Context mContext;
     //list of data
-    List<Overdue1>mData;
+    List<Overdue1> mData;
 
 
     public RecyclerViewAdapterOverdue(Context mContext, List<Overdue1> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
-
 
 
     @NonNull
@@ -34,10 +33,9 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
 
         //adding the layout
 
-        v= LayoutInflater.from(mContext).inflate(R.layout.item_overdue,null,false);
-       MyViewHolder vholder = new MyViewHolder(v);
+        v = LayoutInflater.from(mContext).inflate(R.layout.item_overdue, null, false);
+        MyViewHolder vholder = new MyViewHolder(v);
         return vholder;
-
 
 
     }
@@ -50,7 +48,6 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
         holder.totalstudent_header.setText("Total Students");
         holder.assessmentda_header.setText("Assessment Data");
         holder.tcname_header.setText("Tc Name");
-
 
 
         holder.batchname.setText(mData.get(position).getBatchname());
@@ -69,11 +66,10 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-
-        private TextView batchname,batchname_header;
-        private TextView  totalstudent,totalstudent_header ;
-        private TextView assessmentda,assessmentda_header;
-        private TextView tcname,tcname_header;
+        private TextView batchname, batchname_header;
+        private TextView totalstudent, totalstudent_header;
+        private TextView assessmentda, assessmentda_header;
+        private TextView tcname, tcname_header;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -83,17 +79,15 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
             //add the id
 
             batchname = itemView.findViewById(R.id.batchnameid_due);
-            totalstudent=itemView.findViewById(R.id.totalstudentid_due);
+            totalstudent = itemView.findViewById(R.id.totalstudentid_due);
             assessmentda = itemView.findViewById(R.id.assessmentid_due);
-            tcname=itemView.findViewById(R.id.tcnameid_due);
+            tcname = itemView.findViewById(R.id.tcnameid_due);
 
 
-            batchname_header=itemView.findViewById(R.id.batchname2);
-            totalstudent_header=itemView.findViewById(R.id.totalstudent2);
-            assessmentda_header=itemView.findViewById(R.id.assessment2);
-            tcname_header=itemView.findViewById(R.id.tcname2);
-
-
+            batchname_header = itemView.findViewById(R.id.batchname2);
+            totalstudent_header = itemView.findViewById(R.id.totalstudent2);
+            assessmentda_header = itemView.findViewById(R.id.assessment2);
+            tcname_header = itemView.findViewById(R.id.tcname2);
 
 
         }

@@ -11,6 +11,7 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
     public interface NetworkListener {
         void onNetworkAvailable();
+
         void onNetworkUnavailable();
     }
 

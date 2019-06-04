@@ -1,6 +1,5 @@
 package com.vipin.assessortesta.Initials;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,14 +44,14 @@ import dmax.dialog.SpotsDialog;
 public class Complete extends Fragment {
 
 
-    ArrayList<String> batchid=new ArrayList<>();
-    ArrayList<String> batchname=new ArrayList<>();
-    ArrayList<String> totalstudents=new ArrayList<>();
-    ArrayList<String> centername=new ArrayList<>();
-    ArrayList<String> centerid=new ArrayList<>();
-    ArrayList<String> startdate=new ArrayList<>();
+    ArrayList<String> batchid = new ArrayList<>();
+    ArrayList<String> batchname = new ArrayList<>();
+    ArrayList<String> totalstudents = new ArrayList<>();
+    ArrayList<String> centername = new ArrayList<>();
+    ArrayList<String> centerid = new ArrayList<>();
+    ArrayList<String> startdate = new ArrayList<>();
 
-   Context ctx;
+    Context ctx;
 
 
     View v;
@@ -61,32 +60,27 @@ public class Complete extends Fragment {
     private android.app.AlertDialog progressDialog;
 
 
-
-
-
     //calling the page adapter
 
-    public Complete(){
+    public Complete() {
 
 
     }
 
 
-
-    public  View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //get the view of fragment
 
-        v = inflater.inflate(R.layout.fragment_complete,container,false);
-        ctx=container.getContext();
+        v = inflater.inflate(R.layout.fragment_complete, container, false);
+        ctx = container.getContext();
         //get the view of recyclerview which  is in fragment
 
         myrecyclerview = v.findViewById(R.id.Complete_recyclerview);
 
 
-
         RecyclerViewAdpterCompleted recyclerViewAdapter = new
-                RecyclerViewAdpterCompleted(getContext(),lstBatch);
+                RecyclerViewAdpterCompleted(getContext(), lstBatch);
 
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         //setadapter in recyclerview
@@ -103,22 +97,19 @@ public class Complete extends Fragment {
     }
 
 
-
     //Create the cardview
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new SpotsDialog(getActivity(),R.style.Custom);
+        progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
 
         lstBatch = new ArrayList<>();
         getBatches();
 
 
-
     }
-
 
 
     public interface OnFragmentInteractionListener {
@@ -135,39 +126,50 @@ public class Complete extends Fragment {
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("response is"+response);
+                System.out.println("response is" + response);
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    String status= jobj.getString("status");
+                    String status = jobj.getString("status");
 
-                    if (status.equals("1")){
+                    if (status.equals("1")) {
 
-                        JSONObject jobb=jobj.getJSONObject("batch_details");
-                        JSONArray jsonArray=jobb.getJSONArray("previous_batch");
+                        JSONObject jobb = jobj.getJSONObject("batch_details");
+                        JSONArray jsonArray = jobb.getJSONArray("previous_batch");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject c = jsonArray.getJSONObject(i);
 
-                            if (batchid.size()<=jsonArray.length()-1){batchid.add(c.getString("batchid"));}
-                            if (batchname.size()<=jsonArray.length()-1){batchname.add(c.getString("batch_name"));}
-                            if (totalstudents.size()<=jsonArray.length()-1){ totalstudents.add(c.getString("number_of_students"));}
-                            if (centername.size()<=jsonArray.length()-1){centername.add(c.getString("exam_center_name"));}
-                            if (startdate.size()<=jsonArray.length()-1){startdate.add(c.getString("startdate"));}
-                            if (centerid.size()<=jsonArray.length()-1){centerid.add(c.getString("exam_center_id")); }
+                            if (batchid.size() <= jsonArray.length() - 1) {
+                                batchid.add(c.getString("batchid"));
+                            }
+                            if (batchname.size() <= jsonArray.length() - 1) {
+                                batchname.add(c.getString("batch_name"));
+                            }
+                            if (totalstudents.size() <= jsonArray.length() - 1) {
+                                totalstudents.add(c.getString("number_of_students"));
+                            }
+                            if (centername.size() <= jsonArray.length() - 1) {
+                                centername.add(c.getString("exam_center_name"));
+                            }
+                            if (startdate.size() <= jsonArray.length() - 1) {
+                                startdate.add(c.getString("startdate"));
+                            }
+                            if (centerid.size() <= jsonArray.length() - 1) {
+                                centerid.add(c.getString("exam_center_id"));
+                            }
 
                         }
                         RecyclerViewAdpterCompleted recyclerViewAdapter = new
-                                RecyclerViewAdpterCompleted(getContext(),lstBatch);
+                                RecyclerViewAdpterCompleted(getContext(), lstBatch);
 
                         myrecyclerview.setAdapter(recyclerViewAdapter);
 
-                        for (int i =0;i<=batchname.size()-1; i++ ){
-                            lstBatch.add(new Complete1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i)));
+                        for (int i = 0; i <= batchname.size() - 1; i++) {
+                            lstBatch.add(new Complete1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i)));
                         }
 //c.stopShimmer();
-                    }
-                    else {
-                        Toast.makeText(getContext(),"Error",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                     }
 
 
@@ -207,26 +209,13 @@ public class Complete extends Fragment {
                 Map<String, String> map = new HashMap<>();
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("user_name", "pbharti@radiantinfonet.com");
-                System.out.println("ddd"+map);
+                System.out.println("ddd" + map);
                 return map;
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getContext()).addToRequestQueue(request);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

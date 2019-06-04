@@ -1,16 +1,16 @@
 package com.vipin.assessortesta.Photos;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Batch_Student.Batch_detail;
+import com.vipin.assessortesta.Batch_Student.Students_list;
 import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
 
@@ -21,28 +21,22 @@ public class Photo_navigation extends AppCompatActivity {
     private static final int booklet = 53;
     private static final int enrolmentt = 2254;
     private static final int attendencee = 5555;
-    private static final int feedback =556;
+    private static final int feedback = 556;
     private static final int infra = 257;
     private static final int classs = 5658;
     private static final int labpicc = 559;
     private static final int pmkvlab = 410;
 
 
-
-
-
-
-    ImageView tvsignane,counsilling,bookletpic,enrolment,attendence,feedbackform,infrapic,classroom,labpic,pmkvylab;
+    ImageView tvsignane, counsilling, bookletpic, enrolment, attendence, feedbackform, infrapic, classroom, labpic, pmkvylab;
     Button button_proceed;
-    boolean count1,count2,count3,count4,count5,count6,count7,count8,count9,count10;
-
+    boolean count1, count2, count3, count4, count5, count6, count7, count8, count9, count10;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_navigation);
-
 
 
         tvsignane = findViewById(R.id.imageview1);
@@ -57,15 +51,14 @@ public class Photo_navigation extends AppCompatActivity {
         pmkvylab = findViewById(R.id.imageview10);
 
 
-        button_proceed= findViewById(R.id.button_proceed);
-
+        button_proceed = findViewById(R.id.button_proceed);
 
 
         tvsignane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Pmkvysignane.class);
-                startActivityForResult(intent,pmsign);
+                Intent intent = new Intent(Photo_navigation.this, Pmkvysignane.class);
+                startActivityForResult(intent, pmsign);
             }
         });
 
@@ -73,18 +66,17 @@ public class Photo_navigation extends AppCompatActivity {
         counsilling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Pmkvycounselling.class);
-                startActivityForResult(intent,counsiii);
+                Intent intent = new Intent(Photo_navigation.this, Pmkvycounselling.class);
+                startActivityForResult(intent, counsiii);
             }
         });
-
 
 
         bookletpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Booklet_pic.class);
-                startActivityForResult(intent,booklet);
+                Intent intent = new Intent(Photo_navigation.this, Booklet_pic.class);
+                startActivityForResult(intent, booklet);
             }
         });
 
@@ -92,18 +84,17 @@ public class Photo_navigation extends AppCompatActivity {
         enrolment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Enrolmentform_Pic.class);
-                startActivityForResult(intent,enrolmentt);
+                Intent intent = new Intent(Photo_navigation.this, Enrolmentform_Pic.class);
+                startActivityForResult(intent, enrolmentt);
             }
         });
-
 
 
         attendence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Attendancepic.class);
-                startActivityForResult(intent,attendencee);
+                Intent intent = new Intent(Photo_navigation.this, Attendancepic.class);
+                startActivityForResult(intent, attendencee);
             }
         });
 
@@ -111,18 +102,17 @@ public class Photo_navigation extends AppCompatActivity {
         feedbackform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Feedbackformpic.class);
-                startActivityForResult(intent,feedback);
+                Intent intent = new Intent(Photo_navigation.this, Feedbackformpic.class);
+                startActivityForResult(intent, feedback);
             }
         });
-
 
 
         infrapic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Infrapic.class);
-                startActivityForResult(intent,infra);
+                Intent intent = new Intent(Photo_navigation.this, Infrapic.class);
+                startActivityForResult(intent, infra);
             }
         });
 
@@ -130,8 +120,8 @@ public class Photo_navigation extends AppCompatActivity {
         classroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Pmkvy_classroom.class);
-                startActivityForResult(intent,classs);
+                Intent intent = new Intent(Photo_navigation.this, Pmkvy_classroom.class);
+                startActivityForResult(intent, classs);
             }
         });
 
@@ -139,8 +129,8 @@ public class Photo_navigation extends AppCompatActivity {
         labpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Labpics.class);
-                startActivityForResult(intent,labpicc);
+                Intent intent = new Intent(Photo_navigation.this, Labpics.class);
+                startActivityForResult(intent, labpicc);
             }
         });
 
@@ -148,26 +138,20 @@ public class Photo_navigation extends AppCompatActivity {
         pmkvylab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Pmkvy_lab.class);
-                startActivityForResult(intent,pmkvlab);
+                Intent intent = new Intent(Photo_navigation.this, Pmkvy_lab.class);
+                startActivityForResult(intent, pmkvlab);
             }
         });
 
 
-
-
-
-
-
-
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(requestCode==pmsign) {
+        if (requestCode == pmsign) {
 
 
 //
@@ -178,7 +162,7 @@ public class Photo_navigation extends AppCompatActivity {
                 //tvsignane.setImageResource(R.drawable.ic_photo_camera);
 
                 tvsignane.setImageResource(R.drawable.checked);
-                count1=true;
+                count1 = true;
 
 
 //
@@ -194,11 +178,10 @@ public class Photo_navigation extends AppCompatActivity {
         }
 
 
-
-        if(requestCode==counsiii) {
+        if (requestCode == counsiii) {
             if (resultCode == 2) {
                 counsilling.setImageResource(R.drawable.checked);
-                count2=true;
+                count2 = true;
 
 
             }
@@ -207,14 +190,11 @@ public class Photo_navigation extends AppCompatActivity {
         }
 
 
-
-
-
-        if(requestCode==booklet) {
+        if (requestCode == booklet) {
 
             if (resultCode == 3) {
                 bookletpic.setImageResource(R.drawable.checked);
-                count3=true;
+                count3 = true;
 
 
             }
@@ -222,38 +202,35 @@ public class Photo_navigation extends AppCompatActivity {
         }
 
 
-
-
-        if(requestCode==enrolmentt) {
+        if (requestCode == enrolmentt) {
 
             if (resultCode == 4) {
 
                 enrolment.setImageResource(R.drawable.checked);
-                count4=true;
+                count4 = true;
 
             }
 
         }
 
 
-        if(requestCode==attendencee) {
-
+        if (requestCode == attendencee) {
 
 
             if (resultCode == 5) {
                 attendence.setImageResource(R.drawable.checked);
-                count5=true;
+                count5 = true;
 
             }
 
         }
 
 
-        if(requestCode==feedback) {
+        if (requestCode == feedback) {
 
             if (resultCode == 6) {
                 feedbackform.setImageResource(R.drawable.checked);
-                count6=true;
+                count6 = true;
 
 
             }
@@ -261,60 +238,51 @@ public class Photo_navigation extends AppCompatActivity {
         }
 
 
-        if(requestCode==infra) {
+        if (requestCode == infra) {
 
             if (resultCode == 7) {
 
                 infrapic.setImageResource(R.drawable.checked);
-                count7=true;
+                count7 = true;
 
             }
 
         }
 
-        if(requestCode==classs) {
+        if (requestCode == classs) {
 
             if (resultCode == 8) {
 
                 classroom.setImageResource(R.drawable.checked);
-                count8=true;
-
-
-
+                count8 = true;
 
 
             }
 
         }
 
-        if(requestCode==labpicc) {
-
+        if (requestCode == labpicc) {
 
 
             if (resultCode == 9) {
 
 
                 labpic.setImageResource(R.drawable.checked);
-                count9=true;
-
-
+                count9 = true;
 
 
             }
 
         }
 
-        if(requestCode==pmkvlab) {
-
+        if (requestCode == pmkvlab) {
 
 
             if (resultCode == 10) {
 
 
                 pmkvylab.setImageResource(R.drawable.checked);
-                count10=true;
-
-
+                count10 = true;
 
 
 //                Bundle dd = data.getExtras();
@@ -329,43 +297,27 @@ public class Photo_navigation extends AppCompatActivity {
         }
 
 
-
-
-
-
-
         button_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if( count1==true && count2==true && count3==true && count4==true && count5==true &&
-                        count6==true && count7==true && count8==true && count9==true && count10==true)
-                {
-                    Intent intent = new Intent(Photo_navigation.this, SignIn.class);
+              /*  if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
+                        count6 == true && count7 == true && count8 == true && count9 == true && count10 == true) { */
+                    Intent intent = new Intent(Photo_navigation.this, Batch_detail.class);
                     startActivity(intent);
-                }
+               /* } else {
 
-                else {
+                    Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(),"please attempt all the task",Toast.LENGTH_SHORT).show();
-
-                }
+                }*/
             }
         });
 
 
-
-
-
-        }
-
-
-
-
-
-
-
     }
+
+
+}
 
 
 

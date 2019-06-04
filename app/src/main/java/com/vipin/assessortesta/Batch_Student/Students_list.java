@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.vipin.assessortesta.ExamSection.QuestionViva;
 import com.vipin.assessortesta.R;
 
 public class Students_list  extends AppCompatActivity {
@@ -92,7 +93,7 @@ public class Students_list  extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent ii=new Intent(Students_list.this,Batch_detail.class);
+                Intent ii=new Intent(Students_list.this, QuestionViva.class);
                 startActivity(ii);
             }
 

@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical"
     android:weightSum="7"
-    android:layout_margin="16dp"
     tools:context=".Attendance.Assessor_Atten">
 
     <LinearLayout
+        android:id="@+id/li1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/li1"
         android:layout_weight=".3"
-        app:layout_constraintTop_toTopOf="@+id/rgroup"
-        >
+        app:layout_constraintTop_toTopOf="@+id/rgroup">
 
         <TextView
             android:id="@+id/textView"
@@ -29,34 +28,33 @@
     </LinearLayout>
 
     <RadioGroup
+        android:id="@+id/rgroup"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="32dp"
         android:layout_weight=".5"
         android:orientation="horizontal"
-        android:id="@+id/rgroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/li1"
-        >
-
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Yes"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <RadioButton
-        android:id="@+id/radioButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/No"
-        app:layout_constraintStart_toEndOf="@id/radioButton"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="19dp" />
+        tools:layout_editor_absoluteY="32dp">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Yes"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/No"
+            app:layout_constraintStart_toEndOf="@id/radioButton"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="19dp" />
     </RadioGroup>
 
     <LinearLayout
@@ -65,9 +63,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1.3"
-        android:visibility="gone"
         android:orientation="horizontal"
-       >
+        android:visibility="gone">
 
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -90,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@color/Blue"
             android:drawableLeft="@drawable/ic_photo_camera"
@@ -109,9 +106,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1.3"
-        android:visibility="gone"
         android:orientation="horizontal"
-        >
+        android:visibility="gone">
 
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -134,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@color/Blue"
             android:drawableLeft="@drawable/ic_photo_camera"
@@ -151,71 +147,71 @@
         android:id="@+id/currentlocation"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
-        android:orientation="vertical"
         android:layout_weight="1.5"
-        android:weightSum="2"
-        >
-<TextView
-    android:id="@+id/current_location1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Your Current location"
-    android:layout_marginTop="15dp"
-    android:layout_weight=".3"
-    android:layout_marginRight="12dp"
-    android:layout_marginLeft="12dp"
-    />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:elevation="4dp"
-        android:layout_marginBottom="1dp"
-        android:layout_weight="1.7"
-        android:background="#fff"
         android:orientation="vertical"
-
-
-        >
+        android:visibility="gone"
+        android:weightSum="2">
 
         <TextView
-            android:id="@+id/locationn"
+            android:id="@+id/current_location1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="left|center"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:drawableLeft="@drawable/ic_location"
-            android:text="Your Current Location"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:drawablePadding="10dp"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight=".3"
+            android:text="Your Current location" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="1dp"
+            android:layout_weight="1.7"
+            android:background="#fff"
+            android:elevation="4dp"
+            android:orientation="vertical"
+
+
+            >
+
+            <TextView
+                android:id="@+id/locationn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:drawableLeft="@drawable/ic_location"
+                android:drawablePadding="10dp"
+                android:gravity="left|center"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:text="Your Current Location"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tclocation"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
-        android:orientation="vertical"
         android:layout_weight="1.5"
-        android:weightSum="2"
-        >
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="2">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Training Centre location"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="15dp"
-            android:layout_weight=".3"
             android:layout_marginRight="12dp"
-            />
+            android:layout_weight=".3"
+            android:text="Training Centre location" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,9 +219,9 @@
             android:layout_marginTop="4dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="1dp"
-            android:elevation="5dp"
             android:layout_weight="1.7"
             android:background="#fff"
+            android:elevation="5dp"
             android:orientation="vertical"
 
 
@@ -235,15 +231,15 @@
                 android:id="@+id/centrelocationn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="left|center"
-                android:scrollbars="vertical"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 android:drawableLeft="@drawable/ic_location"
-                android:text="Training Centre location"
+                android:drawablePadding="10dp"
+                android:gravity="left|center"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
-                android:drawablePadding="10dp"
+                android:scrollbars="vertical"
+                android:text="Training Centre location"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -251,21 +247,20 @@
 
 
     <Button
-        android:layout_weight=".6"
-        android:layout_below="@+id/passwordEditText1"
         android:id="@+id/markattendance"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="@string/Next"
-        android:visibility="gone"
+        android:layout_below="@+id/passwordEditText1"
+        android:layout_marginTop="10dp"
+        android:layout_weight=".6"
+        android:background="@drawable/button_shadow"
+        android:elevation="10dp"
         android:gravity="center"
+        android:text="@string/Next"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold|normal"
-        android:textColor="@color/white"
-        android:elevation="10dp"
-        android:background="@drawable/button_shadow"
-        />
+        android:visibility="gone" />
 
 
 </LinearLayout>

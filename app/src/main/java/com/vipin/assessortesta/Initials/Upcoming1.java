@@ -1,7 +1,5 @@
 package com.vipin.assessortesta.Initials;
 
-import java.util.Base64;
-
 public class Upcoming1 {
 
     private String Batchname;
@@ -11,14 +9,14 @@ public class Upcoming1 {
     private String Centeridd;
     private String Batchid;
 
-    public Upcoming1(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd,String batchid) {
+    public Upcoming1(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd, String batchid) {
         Batchname = batchname;
         Totalstudent = totalstudent;
         Assessmentdate = assessmentdate;
         TcName = tcName;
-        Centeridd=centeridd;
+        Centeridd = centeridd;
         Batchid = batchid;
-        System.out.println("batchname is"+Batchname);
+        System.out.println("batchname is" + Batchname);
     }
 
     public String getBatchname() {
@@ -37,8 +35,8 @@ public class Upcoming1 {
         return TcName;
     }
 
-    public String getcenterid(){
-         return Centeridd;
+    public String getcenterid() {
+        return Centeridd;
     }
 
     public String getBatchid() {
@@ -61,11 +59,13 @@ public class Upcoming1 {
         TcName = tcName;
     }
 
-    public void setcenterid(String centeridd){
-        centeridd=centeridd;
+    public void setcenterid(String centeridd) {
+        centeridd = centeridd;
 
 
-    };
+    }
+
+    ;
 
     public void setBatchid(String batchid) {
         Batchid = batchid;

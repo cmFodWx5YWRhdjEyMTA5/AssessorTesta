@@ -1,18 +1,12 @@
 package com.vipin.assessortesta.Photos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -43,12 +37,12 @@ public class Pmkvycounselling extends BaseActivity {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     ImageView pmkvycounseling;
     TextView clickmessage_pmkvycounseling;
-    Button   submit__pmkvycounseling;
+    Button submit__pmkvycounseling;
 
     String status;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
-    String assessor_id,batch_id;
+    String assessor_id, batch_id;
     String encoded;
 
 
@@ -58,9 +52,9 @@ public class Pmkvycounselling extends BaseActivity {
         setContentView(getLayoutId());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pmkvycounseling=findViewById(R.id.pmkvycounselling);
-        clickmessage_pmkvycounseling=findViewById(R.id.clickpmkvycounselling);
-        submit__pmkvycounseling=findViewById(R.id.nextbutton_pmkvycounselling);
+        pmkvycounseling = findViewById(R.id.pmkvycounselling);
+        clickmessage_pmkvycounseling = findViewById(R.id.clickpmkvycounselling);
+        submit__pmkvycounseling = findViewById(R.id.nextbutton_pmkvycounselling);
         //click drawble right of textview
         clickmessage_pmkvycounseling.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -70,11 +64,11 @@ public class Pmkvycounselling extends BaseActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(event.getX() >= (clickmessage_pmkvycounseling.getRight() - clickmessage_pmkvycounseling.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.getX() >= (clickmessage_pmkvycounseling.getRight() - clickmessage_pmkvycounseling.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // your action here
                         captureevent();
-                        Toast.makeText(getApplicationContext(),"drawable clicked",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "drawable clicked", Toast.LENGTH_LONG).show();
                         return true;
                     }
                 }
@@ -86,9 +80,9 @@ public class Pmkvycounselling extends BaseActivity {
         submit__pmkvycounseling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pmkvycounseling==null){
-                   // System.out.print("enn" +encoded);
-                   // Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
+                if (pmkvycounseling == null) {
+                    // System.out.print("enn" +encoded);
+                    // Toast.makeText(getApplicationContext(),"photo   lo",Toast.LENGTH_LONG).show();
 //
 //                    Intent intent = new Intent();
 //                    intent.putExtra("encode",j);
@@ -96,20 +90,17 @@ public class Pmkvycounselling extends BaseActivity {
 //                    Pmkvysignane.this.finish();
 
 
-
-                }
-                else {
+                } else {
 
 
                     Sendphoto();
 
                     //System.out.print("enn" +encoded);
-                   // Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(),"photo  lo",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     //intent.putExtra("encode",encoded);
-                    setResult(2,intent);
+                    setResult(2, intent);
                     Pmkvycounselling.this.finish();
-
 
 
                 }
@@ -120,23 +111,16 @@ public class Pmkvycounselling extends BaseActivity {
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
 
-
-        assessor_id=(sharedpreferences.getString("user_name", ""));
-        System.out.println("asessoriddd" +assessor_id);
-
-
-
-
+        assessor_id = (sharedpreferences.getString("user_name", ""));
+        System.out.println("asessoriddd" + assessor_id);
 
 
         if (sharedpreferences.contains("ccc")) {
-            batch_id=sharedpreferences.getString("ccc", "");
+            batch_id = sharedpreferences.getString("ccc", "");
 
-            System.out.println("centeridddd" +batch_id);
+            System.out.println("centeridddd" + batch_id);
 
         }
-
-
 
 
     }
@@ -161,9 +145,9 @@ public class Pmkvycounselling extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-                if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){
+                if (data.getExtras() == null || (data.getExtras().get("data") == null || !(data.getExtras().get("data") instanceof Bitmap))) {
                     //todo - show error
-                    Toast.makeText(getApplicationContext(),"The file picked is invalid.Please use default camera to click Photos",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "The file picked is invalid.Please use default camera to click Photos", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -174,28 +158,25 @@ public class Pmkvycounselling extends BaseActivity {
                 int ivWidth = pmkvycounseling.getWidth();
                 int ivHeight = pmkvycounseling.getHeight();
                 int newWidth = ivWidth;
-                int newHeight = (int) Math.floor((double) currentBitmapHeight *( (double) ivWidth / (double) currentBitmapWidth));
+                int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) ivWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
                 encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-
     private void Sendphoto() {
-
-
 
 
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m.php";
 
-        System.out.println("geturll"+" "+serverURL);
+        System.out.println("geturll" + " " + serverURL);
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -203,32 +184,26 @@ public class Pmkvycounselling extends BaseActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    status= jobj.getString("status");
+                    status = jobj.getString("status");
                     //exam_status=jobj.getString("exam_status");
-                    System.out.print("responsee" +status);
-                    if(status=="1")
-                    {
-                        Toast.makeText(getApplicationContext(),"sucesss1",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    System.out.print("responsee" + status);
+                    if (status == "1") {
+                        Toast.makeText(getApplicationContext(), "sucesss1", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                        System.out.print("responsee" +response);
+                        System.out.print("responsee" + response);
 
-                        Toast.makeText(getApplicationContext()," not sucesss",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), " not sucesss", Toast.LENGTH_SHORT).show();
 
                     }
 
 
                     System.out.print(status);
 
-                }
-
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
                 }
-
-
 
 
             }
@@ -236,14 +211,14 @@ public class Pmkvycounselling extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getApplicationContext(), "Error: Please try again Later2"+error, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error: Please try again Later2" + error, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 super.getHeaders();
                 Map<String, String> map = new HashMap<>();
-                map.put("Content-Type","application/x-www-form-urlencoded");
+                map.put("Content-Type", "application/x-www-form-urlencoded");
                 return map;
             }
 
@@ -251,21 +226,17 @@ public class Pmkvycounselling extends BaseActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
-                map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("assessor_id",assessor_id);
-                map.put("batch_id",batch_id);
-                map.put("annexure_id","2");
-                map.put("annexure_image",encoded);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+                map.put("assessor_id", assessor_id);
+                map.put("batch_id", batch_id);
+                map.put("annexure_id", "2");
+                map.put("annexure_image", encoded);
                 return map;
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
-
-
-
 
 
 }

@@ -1,18 +1,12 @@
 package com.vipin.assessortesta.Photos;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -50,12 +44,7 @@ public class Pmkvysignane extends BaseActivity {
     String status;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
-    String assessor_id,batch_id;
-
-
-
-
-
+    String assessor_id, batch_id;
 
 
     @Override
@@ -121,34 +110,19 @@ public class Pmkvysignane extends BaseActivity {
         });
 
 
-
-
-
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
 
-
-        assessor_id=(sharedpreferences.getString("user_name", ""));
-        System.out.println("asessoriddd" +assessor_id);
-
-
-
-
+        assessor_id = (sharedpreferences.getString("user_name", ""));
+        System.out.println("asessoriddd" + assessor_id);
 
 
         if (sharedpreferences.contains("ccc")) {
-            batch_id=sharedpreferences.getString("ccc", "");
+            batch_id = sharedpreferences.getString("ccc", "");
 
-            System.out.println("centeridddd" +batch_id);
+            System.out.println("centeridddd" + batch_id);
 
         }
-
-
-
-
-
 
 
     }
@@ -200,21 +174,15 @@ public class Pmkvysignane extends BaseActivity {
         }
 
 
-
-
     }
-
-
 
 
     private void Sendphoto() {
 
 
-
-
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m.php";
 
-        System.out.println("geturll"+" "+serverURL);
+        System.out.println("geturll" + " " + serverURL);
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -222,32 +190,26 @@ public class Pmkvysignane extends BaseActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    status= jobj.getString("status");
+                    status = jobj.getString("status");
                     //exam_status=jobj.getString("exam_status");
-                    System.out.print("responsee" +status);
-                    if(status=="1")
-                    {
-                        Toast.makeText(getApplicationContext(),"sucesss1",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    System.out.print("responsee" + status);
+                    if (status == "1") {
+                        Toast.makeText(getApplicationContext(), "sucesss1", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                        System.out.print("responsee" +response);
+                        System.out.print("responsee" + response);
 
-                        Toast.makeText(getApplicationContext()," not sucesss",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), " not sucesss", Toast.LENGTH_SHORT).show();
 
                     }
 
 
                     System.out.print(status);
 
-                }
-
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
                 }
-
-
 
 
             }
@@ -255,14 +217,14 @@ public class Pmkvysignane extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getApplicationContext(), "Error: Please try again Later2"+error, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error: Please try again Later2" + error, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 super.getHeaders();
                 Map<String, String> map = new HashMap<>();
-                map.put("Content-Type","application/x-www-form-urlencoded");
+                map.put("Content-Type", "application/x-www-form-urlencoded");
                 return map;
             }
 
@@ -270,20 +232,17 @@ public class Pmkvysignane extends BaseActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
-                map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("assessor_id",assessor_id);
-                map.put("batch_id",batch_id);
-                map.put("annexure_id","1");
-                map.put("annexure_image",encoded);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+                map.put("assessor_id", assessor_id);
+                map.put("batch_id", batch_id);
+                map.put("annexure_id", "1");
+                map.put("annexure_image", encoded);
                 return map;
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
-
-
 
 
 }

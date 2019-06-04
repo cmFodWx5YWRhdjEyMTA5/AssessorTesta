@@ -20,17 +20,14 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
-
-
     Context mContext;
     //list of data
-    List<Upcoming1>mData;
-   CardView cardviewupcoming;
+    List<Upcoming1> mData;
+    CardView cardviewupcoming;
     String batchidd;
     SharedPreferences sharedpreferences;
     final String mybatch = "myybatch";
     final String mypreference = "mypref";
-
 
 
     //constructor of recyclerview for upcoming Batch
@@ -41,7 +38,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -49,15 +45,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View v;
 
         //adding the layout
-        v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
-        cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
+        v = LayoutInflater.from(mContext).inflate(R.layout.item_upcoming, null, false);
+        cardviewupcoming = v.findViewById(R.id.cardviewupcoming);
 
         MyViewHolder vholder = new MyViewHolder(v);
 
 
-
-
-        System.out.println("batch"+mData.get(i).getBatchname());
+        System.out.println("batch" + mData.get(i).getBatchname());
         return vholder;
 
 
@@ -75,26 +69,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
         holder.assessmentda.setText(mData.get(position).getAssessmentdate());
         holder.tcname.setText(mData.get(position).getTcName());
-        sharedpreferences=mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sharedpreferences = mContext.getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         cardviewupcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "data is"+mData.get(position).getcenterid(), Toast.LENGTH_SHORT).show();
-                Intent ii=new Intent(mContext, Assessor_Atten.class);
+                Toast.makeText(mContext, "data is" + mData.get(position).getcenterid(), Toast.LENGTH_SHORT).show();
+                Intent ii = new Intent(mContext, Assessor_Atten.class);
                 ii.putExtra("centerid", mData.get(position).getcenterid());
                 mContext.startActivity(ii);
             }
         });
 
 
-
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("ccc", mData.get(position).getBatchid());
         editor.apply();
-
-
-
-
 
 
     }
@@ -105,31 +94,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
         //Declare the variable
 
-        private TextView batchname,batchname_header;
-        private TextView  totalstudent,totalstudent_header ;
-        private TextView assessmentda,assessmentda_header;
-        private TextView tcname,tcname_header;
+        private TextView batchname, batchname_header;
+        private TextView totalstudent, totalstudent_header;
+        private TextView assessmentda, assessmentda_header;
+        private TextView tcname, tcname_header;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
 
-              //add the id
+            //add the id
 
             batchname = itemView.findViewById(R.id.batchnameid);
-            totalstudent=itemView.findViewById(R.id.totalstudentid);
+            totalstudent = itemView.findViewById(R.id.totalstudentid);
             assessmentda = itemView.findViewById(R.id.assessmentid);
-            tcname=itemView.findViewById(R.id.tcnameid);
+            tcname = itemView.findViewById(R.id.tcnameid);
 
-            batchname_header=itemView.findViewById(R.id.batchname);
-            totalstudent_header=itemView.findViewById(R.id.totalstudent);
-            assessmentda_header=itemView.findViewById(R.id.assessment);
-            tcname_header=itemView.findViewById(R.id.tcname);
+            batchname_header = itemView.findViewById(R.id.batchname);
+            totalstudent_header = itemView.findViewById(R.id.totalstudent);
+            assessmentda_header = itemView.findViewById(R.id.assessment);
+            tcname_header = itemView.findViewById(R.id.tcname);
 
 
 ////
@@ -143,12 +132,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //
 //                }
 //            });
-
-
-
-
-
-
 
 
         }

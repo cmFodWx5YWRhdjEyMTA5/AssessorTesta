@@ -6,11 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +22,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.vipin.assessortesta.R;
 
@@ -39,13 +37,13 @@ public class SignIn extends AppCompatActivity {
 
     TextView forgotpassword;
     Button login;
-    EditText username,password;
-    String uname,pass;
+    EditText username, password;
+    String uname, pass;
     String status;
     SessionManager sessionManager;
-    String id,name,user_name;
+    String id, name, user_name;
     SharedPreferences sharedpreferences;
-    String encode,decode;
+    String encode, decode;
     final String mypreference = "mypref";
     private android.app.AlertDialog progressDialog;
 
@@ -57,28 +55,24 @@ public class SignIn extends AppCompatActivity {
         username = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
 
-        encode = Base64.encodeToString("RadiantInfonetSaltKey".getBytes(),Base64.DEFAULT);
-        System.out.print("encoded" +encode);
-        System.out.print("decode" +decode);
+        encode = Base64.encodeToString("RadiantInfonetSaltKey".getBytes(), Base64.DEFAULT);
+        System.out.print("encoded" + encode);
+        System.out.print("decode" + decode);
         sessionManager = new SessionManager();
-        sharedpreferences=getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         forgotpassword = findViewById(R.id.forgotpassword);
         login = findViewById(R.id.loginbutton);
         progressDialog = new SpotsDialog(SignIn.this, R.style.Custom);
 
 
-
-
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent j = new Intent(SignIn.this,ForgotPassword.class);
+                Intent j = new Intent(SignIn.this, ForgotPassword.class);
                 startActivity(j);
             }
         });
-
-
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +80,12 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if (username.getText().toString().equals("")|password.getText().toString().equals("")) {
+                if (username.getText().toString().equals("") | password.getText().toString().equals("")) {
 
-                   showDialog();
+                    showDialog();
 
-                   // Toast.makeText(getApplicationContext(),"The required fields Username and password can't be empty", Toast.LENGTH_LONG).show();
-           }
-                else
-                {
+                    // Toast.makeText(getApplicationContext(),"The required fields Username and password can't be empty", Toast.LENGTH_LONG).show();
+                } else {
                     sendDataServer();
                 }
 
@@ -104,34 +96,27 @@ public class SignIn extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
-
-
-    public void showDialog(){
-
+    public void showDialog() {
 
 
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setMessage("You are not Registered as Assessor with us. Please Register Yourself first before Sign In.")
                 .setTitle("Message")
                 .setCancelable(true)
-                .setNegativeButton("OK",new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
 
-                    }
-                }
+                            }
+                        }
 
                 ).create();
 
         alertDialog.show();
-
 
 
     }
@@ -142,65 +127,58 @@ public class SignIn extends AppCompatActivity {
         progressDialog.show();
 
 
-        String serverURL ="https://www.skillassessment.org/sdms/android_connect1/assessor/login.php";
-        System.out.println("geturll"+" "+serverURL);
-        uname=username.getText().toString();
-        pass= password.getText().toString();
-        System.out.println("uname"+" "+uname+"  "+pass);
+        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/login.php";
+        System.out.println("geturll" + " " + serverURL);
+        uname = username.getText().toString();
+        pass = password.getText().toString();
+        System.out.println("uname" + " " + uname + "  " + pass);
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    status= jobj.getString("status");
+                    status = jobj.getString("status");
                     //exam_status=jobj.getString("exam_status");
 
                     if (status.equals("1")) {
 
 
-                            JSONObject jsonObject = jobj.getJSONObject("assessor_details");
-                            for (int i = 0; i < jsonObject.length(); i++) {
+                        JSONObject jsonObject = jobj.getJSONObject("assessor_details");
+                        for (int i = 0; i < jsonObject.length(); i++) {
 
-                                name = jsonObject.getString("name");
-                                id =jsonObject.getString("id");
-                                user_name=jsonObject.getString("user_name");
-                                //System.out.print("name-" +user_name);
+                            name = jsonObject.getString("name");
+                            id = jsonObject.getString("id");
+                            user_name = jsonObject.getString("user_name");
+                            //System.out.print("name-" +user_name);
 
-                                sessionManager.setPreferences(getApplicationContext(), "status", "1");
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("Name", name);
-                                editor.putString("user_name",user_name);
-                                editor.apply();
+                            sessionManager.setPreferences(getApplicationContext(), "status", "1");
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("Name", name);
+                            editor.putString("user_name", user_name);
+                            editor.apply();
 
 
+                            Intent z = new Intent(SignIn.this, AssessorTask.class);
+                            startActivity(z);
+                            finish();
 
-                                Intent z = new Intent(SignIn.this,AssessorTask.class);
-                                startActivity(z);
-                                finish();
+                        }
 
-                            }
+                    } else if (status.equals("0")) {
+                        Toast.makeText(getApplicationContext(), "Wrong Credentials.", Toast.LENGTH_LONG).show();
 
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Unable to Login", Toast.LENGTH_LONG).show();
                     }
-
-                    else if (status.equals("0")){
-                        Toast.makeText(getApplicationContext(),"Wrong Credentials.",Toast.LENGTH_LONG).show();
-
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Unable to Login",Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
-                    System.out.println("reeeeee"+response);
+                    System.out.println("reeeeee" + response);
 
                 }
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
-
 
 
             }
@@ -210,14 +188,14 @@ public class SignIn extends AppCompatActivity {
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
-                Toast.makeText(getApplicationContext(), "Error: Please try again Later2"+error, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error: Please try again Later2" + error, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 super.getHeaders();
                 Map<String, String> map = new HashMap<>();
-                map.put("Content-Type","application/x-www-form-urlencoded");
+                map.put("Content-Type", "application/x-www-form-urlencoded");
                 return map;
             }
 
@@ -225,7 +203,7 @@ public class SignIn extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
-                map.put("key_salt","UmFkaWFudEluZm9uZXRTYWx0S2V5");
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("user_name", uname);
                 map.put("password", pass);
                 return map;
@@ -242,10 +220,6 @@ public class SignIn extends AppCompatActivity {
         super.onBackPressed();
         finishAffinity();
     }
-
-
-
-
 
 
 }

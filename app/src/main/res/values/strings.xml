@@ -59,8 +59,6 @@ batch (check any 5 forms)\n
     <string name="anx22">PMKVY signage displayed outside the Center ?\n</string>
 
 
-
-
     <string name="inst1">Pmkvy Signane</string>
     <string name="inst2">PMKVY poster(Counseling room)</string>
     <string name="inst3">PMKVY booklet/pamphlet</string>
@@ -72,6 +70,15 @@ batch (check any 5 forms)\n
     <string name="inst9">Lab photo</string>
     <string name="inst10">Pmkvy poster (Lab</string>
 
+    <style name="wrap_wrap_black1">
+        <item name="colorPrimary">@color/lightbluee</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="text_h5" parent="@style/wrap_wrap_black1">
+        <item name="android:textSize">14.0dip</item>
+    </style>
 
 
     <!-- TODO: Remove or change this placeholder text -->

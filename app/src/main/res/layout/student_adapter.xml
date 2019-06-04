@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
+
             <LinearLayout
                 android:id="@+id/studentlist_len1"
                 android:weightSum="4"
