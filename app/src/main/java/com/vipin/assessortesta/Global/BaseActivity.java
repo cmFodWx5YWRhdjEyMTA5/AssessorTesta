@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -140,7 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                             MY_CAMERA_PERMISSION_CODE);
                 } else {
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", Camera.CameraInfo.CAMERA_FACING_BACK);
                     cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
                     cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -149,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             else {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT);
+                cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", Camera.CameraInfo.CAMERA_FACING_BACK);
                 cameraIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
                 cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
