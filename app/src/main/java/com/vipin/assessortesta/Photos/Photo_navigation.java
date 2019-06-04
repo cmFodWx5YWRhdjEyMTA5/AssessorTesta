@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.vipin.assessortesta.Batch_Student.Batch_detail;
 import com.vipin.assessortesta.Batch_Student.Students_list;
+import com.vipin.assessortesta.Batch_Student.Batch_detail;
 import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
 
@@ -32,6 +33,7 @@ public class Photo_navigation extends AppCompatActivity {
     Button button_proceed;
     boolean count1, count2, count3, count4, count5, count6, count7, count8, count9, count10;
 
+    Button submitb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,17 @@ public class Photo_navigation extends AppCompatActivity {
         classroom = findViewById(R.id.imageview8);
         labpic = findViewById(R.id.imageview9);
         pmkvylab = findViewById(R.id.imageview10);
-
+        submitb=findViewById(R.id.button_proceed);
 
         button_proceed = findViewById(R.id.button_proceed);
 
+        submitb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ii=new Intent(Photo_navigation.this, Batch_detail.class);
+                startActivity(ii);
+            }
+        });
 
         tvsignane.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +84,8 @@ public class Photo_navigation extends AppCompatActivity {
         bookletpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Booklet_pic.class);
-                startActivityForResult(intent, booklet);
+                Intent intent = new Intent(Photo_navigation.this,Booklet_pic.class);
+                startActivityForResult(intent,booklet);
             }
         });
 

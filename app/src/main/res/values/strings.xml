@@ -80,7 +80,6 @@ batch (check any 5 forms)\n
         <item name="android:textSize">14.0dip</item>
     </style>
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

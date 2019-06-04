@@ -20,6 +20,8 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
+    //may be we have declare this page seprately
+
     Context mContext;
     //list of data
     List<Upcoming1> mData;
@@ -48,19 +50,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         v = LayoutInflater.from(mContext).inflate(R.layout.item_upcoming, null, false);
         cardviewupcoming = v.findViewById(R.id.cardviewupcoming);
 
+        v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
+        cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
         MyViewHolder vholder = new MyViewHolder(v);
 
 
         System.out.println("batch" + mData.get(i).getBatchname());
+        System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
-
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        //bind the data add in holder
         holder.batchname_header.setText("Batch Name");
         holder.totalstudent_header.setText("Total Students");
         holder.assessmentda_header.setText("Assessment Data");
@@ -119,20 +122,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             totalstudent_header = itemView.findViewById(R.id.totalstudent);
             assessmentda_header = itemView.findViewById(R.id.assessment);
             tcname_header = itemView.findViewById(R.id.tcname);
+            batchname = itemView.findViewById(R.id.batchnameid_upcoming);
+            totalstudent=itemView.findViewById(R.id.totalstudentid_upcoming);
+            assessmentda = itemView.findViewById(R.id.assessmentid_upcoming);
+            tcname=itemView.findViewById(R.id.tcnameid_upcoming);
 
-
-////
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent ii=new Intent(getA,Annexure.class);
-////                    mContext.startActivity(ii);
-//
-//                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
-//
-//                }
-//            });
-
+            batchname_header=itemView.findViewById(R.id.batchname_upcoming);
+            totalstudent_header=itemView.findViewById(R.id.totalstudent_upcoming);
+            assessmentda_header=itemView.findViewById(R.id.assessment_upcoming);
+            tcname_header=itemView.findViewById(R.id.tcname_upcoming);
 
         }
     }

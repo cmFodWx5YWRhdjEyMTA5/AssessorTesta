@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Batch Name"
-                    android:theme="@style/accountnameStyle"
+                    android:theme="@style/accountnameStylecompleted"
 
                     />
 
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Student"
-                    android:theme="@style/accountnameStyle"
+                    android:theme="@style/accountnameStylecompleted"
                     />
                 <TextView
                     android:layout_margin="3dp"
@@ -64,8 +64,8 @@
                     android:id="@+id/assessment2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Assessment Date2"
-                    android:theme="@style/accountnameStyle"
+                    android:text="Assessment Date"
+                    android:theme="@style/accountnameStylecompleted"
                     />
                 <TextView
                     android:layout_margin="3dp"
@@ -101,6 +101,7 @@
                     android:text="Batch Name"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:theme="@style/accountnameStylecompleted"
 
 
                     />
@@ -116,6 +117,7 @@
                     android:text="Total Student"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:theme="@style/accountnameStylecompleted"
 
                     />
                 <TextView
@@ -127,6 +129,7 @@
                     android:text="Assessment Date"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:theme="@style/accountnameStylecompleted"
 
                     />
                 <TextView
@@ -138,6 +141,7 @@
                     android:text="Tc Name"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:theme="@style/accountnameStylecompleted"
 
                     />
 

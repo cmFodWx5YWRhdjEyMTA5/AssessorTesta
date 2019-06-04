@@ -2,14 +2,18 @@ package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,12 +47,13 @@ import dmax.dialog.SpotsDialog;
 // */
 public class Upcoming extends Fragment {
 
-    ArrayList<String> batchid = new ArrayList<>();
-    ArrayList<String> batchname = new ArrayList<>();
-    ArrayList<String> totalstudents = new ArrayList<>();
-    ArrayList<String> centername = new ArrayList<>();
-    ArrayList<String> centerid = new ArrayList<>();
-    ArrayList<String> startdate = new ArrayList<>();
+    ArrayList<String> batchid=new ArrayList<>();
+    ArrayList<String> batchname=new ArrayList<>();
+    ArrayList<String> totalstudents=new ArrayList<>();
+    ArrayList<String> centername=new ArrayList<>();
+    ArrayList<String> centerid=new ArrayList<>();
+    ArrayList<String> startdate=new ArrayList<>();
+    LinearLayout upcomingfragment;
 
     Context ctx;
 
@@ -65,9 +70,10 @@ public class Upcoming extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_upcoming, container, false);
-        myrecyclerview = v.findViewById(R.id.Upcoming_recyclerview);
-        ctx = container.getContext();
+         v = inflater.inflate(R.layout.fragment_upcoming,container,false);
+         myrecyclerview = v.findViewById(R.id.Upcoming_recyclerview);
+         upcomingfragment=v.findViewById(R.id.upcomingfragment);
+        ctx=container.getContext();
 
 
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -104,6 +110,7 @@ public class Upcoming extends Fragment {
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onResponse(String response) {
                 System.out.println("response is" + response);
@@ -115,6 +122,8 @@ public class Upcoming extends Fragment {
 
                         JSONObject jobb = jobj.getJSONObject("batch_details");
                         JSONArray jsonArray = jobb.getJSONArray("upcoming_batch");
+
+
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject c = jsonArray.getJSONObject(i);
@@ -139,12 +148,17 @@ public class Upcoming extends Fragment {
                             }
 
                         }
+
+                        if(batchid.size()==0){
+                            upcomingfragment.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.no_assess));
+                        }
+
                         RecyclerViewAdapter recyclerViewAdapter = new
                                 RecyclerViewAdapter(getContext(), lstBatch);
                         myrecyclerview.setAdapter(recyclerViewAdapter);
 
-                        for (int i = 0; i <= batchname.size() - 1; i++) {
-                            lstBatch.add(new Upcoming1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i), batchid.get(i)));
+                        for (int i =0;i<=batchname.size()-1; i++ ){
+                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i),batchid.get(i)));
                         }
 //c.stopShimmer();
                     } else {

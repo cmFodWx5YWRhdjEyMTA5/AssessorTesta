@@ -16,11 +16,16 @@
 
     <application
         android:allowBackup="true"
-
+        android:icon="@drawable/p_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_logo"
+        android:roundIcon="@drawable/p_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
+        <activity android:name=".Batch_Student.Assessment_details"></activity>
+        <activity
+            android:name=".Photos.Photo_navigation"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"></activity>
         <activity android:name=".ExamSection.QuestionViva"
             android:theme="@style/AppTheme5">
 
