@@ -2,5 +2,12 @@
 <resources>
     <dimen name="show_text">18dp</dimen>
 
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="vertical_margin">16dp</dimen>
+    <dimen name="horizontal_margin_small">8dp</dimen>
+    <dimen name="vertical_margin_small">8dp</dimen>
+    //HEIGHT
+    <dimen name="view_height_normal">48dp</dimen>
+
 
 </resources>

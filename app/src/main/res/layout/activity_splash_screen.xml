@@ -77,6 +77,15 @@
                 android:textSize="18sp"
                 android:textStyle="bold|normal" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="New User? Sign Up."
+                android:id="@+id/newuserr"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+
         </LinearLayout>
 
 

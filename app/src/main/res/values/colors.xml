@@ -12,7 +12,7 @@
     <color name="button2">#8AA920</color>
     <color name="button3">#CD3123</color>
     <color name="button4">#373C3B</color>
-
+    <color name="actionbar_opacity">#33000000</color>
 
 
 
@@ -24,7 +24,7 @@
     <color name="grey">#d9d9d9</color>
 
     <color name="lightbluee"> #4286f4</color>
-
+    <color name="transparent">#00000000</color>
 
 
 </resources>
