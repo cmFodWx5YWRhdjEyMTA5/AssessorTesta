@@ -1,49 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="horizontal"  android:layout_width="match_parent"
+<LinearLayout android:orientation="horizontal"  android:layout_width="fill_parent"
     android:layout_height="wrap_content" android:layout_marginLeft="8.0dip" android:layout_marginTop="4.0dip"
     android:layout_marginRight="8.0dip" android:minHeight="52.0dip"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+  xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 
 
 
-    <View android:background="@color/BBlue" android:layout_width="1.0dip" android:layout_height="match_parent" />
+    <View android:background="@color/BBlue" android:layout_width="1.0dip" android:layout_height="fill_parent" />
+
     <TextView android:textColor="#ffffff" android:gravity="center"
-        android:layout_gravity="top" android:id="@+id/timer"
+        android:layout_gravity="center" android:id="@+id/timer"
         android:background="@color/BBlue"
         android:layout_marginTop="5dp"
-        android:layout_width="0.0dip" android:layout_height="60dp"
+        android:layout_width="0.0dip" android:layout_height="fill_parent"
         android:text="00:00" android:layout_weight="1.0"
-        style="@style/text_h5"/>
+        style="@style/text_h5" />
 
-    <View android:background="#fff" android:layout_width="1.0dip" android:layout_height="match_parent" />
-    <TextView android:textColor="#ffffff" android:gravity="center" android:layout_gravity="top" android:id="@+id/finish"
+    <View android:background="#fff" android:layout_width="1.0dip" android:layout_height="fill_parent" />
+
+
+    <TextView android:textColor="#ffffff" android:gravity="center" android:layout_gravity="center" android:id="@+id/finish"
         android:layout_width="0.0dip"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:background="#c70202"
         android:layout_marginTop="5dp"
-        android:layout_height="60dp" android:text="Submit" android:layout_weight="1.0" style="@style/text_h5" />
-
-
-    <View android:background="#fff" android:layout_width="1.0dip" android:layout_height="match_parent" />
-    <ImageView android:textColor="#ffffff" android:gravity="center" android:layout_gravity="top" android:id="@+id/Imagecap"
-        android:layout_width="0.0dip"
-        android:visibility="visible"
-        android:src="#000"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_height="110dp" android:text="Submit" android:layout_weight="2.5" style="@style/text_h5" />
-
-
-
-
-
-
-
-
-
-
-
-
+        android:layout_height="fill_parent" android:text="Submit" android:layout_weight="1.0" style="@style/text_h5" />
 </LinearLayout>

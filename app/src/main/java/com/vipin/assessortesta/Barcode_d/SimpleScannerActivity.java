@@ -1,12 +1,33 @@
 package com.vipin.assessortesta.Barcode_d;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.text.Html;
 import android.util.Log;
+import android.util.Xml;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
 import com.vipin.assessortesta.R;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
@@ -37,28 +58,23 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZBarSc
         mScannerView.stopCamera();
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void handleResult(Result rawResult) {
-        Toast.makeText(this, "Contents = " + rawResult.getContents() +
-                ", Format = " + rawResult.getBarcodeFormat().getName(), Toast.LENGTH_SHORT).show();
+        String str=rawResult.getContents();
+        String[] ss=str.split("\" ");
+        //Toast.makeText(this, "dataa is" + ss[0]+"  "+ss[1]+"  "+ss[2]+" "+ss[3], Toast.LENGTH_LONG).show();
+        if (ss!=null) {
+            Intent intent = new Intent();
+            intent.putExtra("ss", ss);
+            setResult(2, intent); //Here 2 result code
+            //startActivity(intent);
+            finish();
+        }
 
-        String[] uid=rawResult.getContents().split("uid");
-        String[] name=rawResult.getContents().split("name");
-        String[] gender=rawResult.getContents().split("gender");
-        String[] yob=rawResult.getContents().split("yob");
-        String[] co=rawResult.getContents().split("co");
-        String[] house=rawResult.getContents().split("house");
-        String[] street=rawResult.getContents().split("street");
-        String[] vtc=rawResult.getContents().split("vtc");
-        String[] dist=rawResult.getContents().split("dist");
-        String[] state=rawResult.getContents().split("state");
-        String[] pc=rawResult.getContents().split("pc");
-        //System.out.println("uid is"+uid[0]+"name  "+name[0]);
-        Log.d("cccccc",name[0]);
-        // Note:
-        // * Wait 2 seconds to resume the preview.
-        // * On older devices continuously stopping and resuming camera preview can result in freezing the app.
-        // * I don't know why this is the case but I don't have the time to figure out.
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -67,4 +83,6 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZBarSc
             }
         }, 2000);
     }
+
+
 }

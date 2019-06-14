@@ -1,4 +1,4 @@
-package com.vipin.assessortesta.Ass_Registration;
+package com.vipin.assessortesta.utils;
 
 public class VerhoeffAlgorithm {
     static int[][] d  = new int[][]

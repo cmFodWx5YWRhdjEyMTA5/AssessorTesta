@@ -2,6 +2,7 @@ package com.vipin.assessortesta.Ass_Registration;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -11,12 +12,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.camera2.params.Face;
-import android.media.FaceDetector;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -26,14 +24,17 @@ import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -46,26 +47,39 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.androidnetworking.common.Priority;
 import com.basgeekball.awesomevalidation.ValidationHolder;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.custom.CustomErrorReset;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidation;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidationCallback;
+import com.google.android.gms.vision.Frame;
+import com.google.gson.JsonArray;
+import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
+import com.vipin.assessortesta.Ass_Registration.pojo.category.SscCateResponse;
+import com.vipin.assessortesta.Ass_Registration.pojo.category.SscItem;
+import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
 import com.vipin.assessortesta.Barcode_d.SimpleScannerActivity;
-import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Initials.NetworkStateReceiver;
-import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
-
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
+import com.vipin.assessortesta.utils.AlertDialogPayment;
+import com.vipin.assessortesta.utils.AwesomeValidation;
+import com.vipin.assessortesta.utils.VerhoeffAlgorithm;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,25 +88,36 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class AssRegActivity extends AppCompatActivity {
-    private static final int ZBAR_CAMERA_PERMISSION = 1;
-    private Class<?> mClss;
+public class AssRegActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = AssRegActivity.class.getSimpleName();
     Paint myRectPaint;
-    Spinner yearofbirth,monthofbirth,dateofbirth,education, experience, spnSscCat, spnPayment,employment,state,district,
+    Spinner yearofbirth,monthofbirth,dateofbirth, experience, spnSscCat, spnPayment,employment,state,district,
             Employment_status,OtherIdproof,category;
-    EditText input_name,input_last_name,input_mobile_no,input_address1,input_Id_no
-            ,input_address2,input_pincode,input_aadhar,input_pancard,Email,alt_no,your_city,other_qualification;
-    String emp_statuss;
-    ListView lvSSC;
+    EditText input_name,input_last_name,input_mobile_no,input_address1,input_Id_no,input_address2,input_pincode,
+            input_aadhar,input_pancard,Email,alt_no,your_city,etTransactionNo;
+    ListView lvSSC, lvQualification;
+    LinearLayout actionUploadDoc;
+    Button btnAddQualfcn, btnRemoveQualfcn, btn_Add, btn_Remove;
+    int sscId = 0;
+String namefromaadhaar;
     private DBAdapterClass dbAdapterClass;
-    int countAcademic=0;
-    List<AllCollegeNameModel.Result> result;
-    Button btn_Add, btn_Remove;
-
     CoordinatorLayout parentv;
     private android.app.AlertDialog progressDialog;
+    CircleImageView input_photograph,input_aadharpic;
+    Button input_submit,input_photograph1,input_aadharpic1;
+    SwipeRefreshLayout mySwipeRefreshLayout;
+    Spinner myspinner;
+    private ImageView actionQrCode;
 
+    List<AllCollegeNameModel.Result> result;
+    String emp_statuss;
+    int countAcademic=0, countQualification=0;
     String[] banks,states,districts,employers,jobrole;
     List<String> bankslist,Statelist,districtlist,sectorlist,employerlist,jobrolelist,preflang;
     HashMap<String, String> bankdetail = new HashMap<>();
@@ -106,28 +131,25 @@ public class AssRegActivity extends AppCompatActivity {
 
     String[] sectors=new String[]{"Select the Sector"};
     String[] preflangg=new String[]{"Select the Preffered Language"};
-    CircleImageView input_photograph,input_aadharpic;
-    Button input_submit,input_photograph1,input_aadharpic1;
     String Stateid,Statevalue,bankid,bankvalue,districtid,districtvalue,selectedstatetext,sectorid,sectorvalue,
-            employerid,employervalue,jobroleid,jobrolevalue,preflangid,preflangvalue,newString2;
+    employerid,employervalue,jobroleid,jobrolevalue,preflangid,preflangvalue,newString2;
     private static final int CAMERA_REQUEST = 1888;
     private static final int CAMERA_AADHAR_REQUEST = 1889;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private static final int ZBAR_CAMERA_PERMISSION = 1;
+    private static final int READ_REQUEST_CODE = 42;
+
     String yearobirth,monthobirth,dateobirth;
     AwesomeValidation awesomeValidation;
     String gender,eduction1,employer1,sector1,bankname1,state1,district1,encodedphoto,encodedphotoaadhar,jobrole1,
-            preflang1,categoryy,disablity_type1,
-            type_of_disablity1,Employment_status1,OtherIdproof1;
+    preflang1,categoryy,disablity_type1,
+    type_of_disablity1,Employment_status1,OtherIdproof1;
     String bankiddd,stateiddd,districtiddd,employeridname,sectoridd,jobroleeiddd,preflangiddd;
     NetworkStateReceiver networkStateReceiver;
-    SwipeRefreshLayout mySwipeRefreshLayout;
     ArrayAdapter<String> jobroleadapter;
     SparseArray<Face> faces;
     String cmp_id;
-    Spinner myspinner;
-    private int requestCode;
-    private String[] permissions;
-    private int[] grantResults;
+    CertificateResponse certResponse = null;
 
 
     @Override
@@ -136,781 +158,62 @@ public class AssRegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ass_reg);
 
         initView();
+        manageView();
         awesomeValidations();
-
-        myRectPaint = new Paint();
-        myRectPaint.setStrokeWidth(1);
-        myRectPaint.setColor(Color.WHITE);
-        myRectPaint.setStyle(Paint.Style.STROKE);
-
-        Bankdetails();
-        Statedetails();
-        Employerlist();
-        banks = new String[]{"Select the Bank"};
-        states=new String[]{"Select the State"};
-        districts=new String[]{"Select the District"};
-        employers=new String[]{"Select the Employer"};
-        jobrole=new String[]{"Select the Jobrole"};
-        Statelist = new ArrayList<>(Arrays.asList(states));
-        bankslist = new ArrayList<>(Arrays.asList(banks));
-        districtlist=new ArrayList<>(Arrays.asList(districts));
-        sectorlist=new ArrayList<>(Arrays.asList(sectors));
-        employerlist=new ArrayList<>(Arrays.asList(employers));
-        jobrolelist=new ArrayList<>(Arrays.asList(jobrole));
-        preflang=new ArrayList<>(Arrays.asList(preflangg));
-        mySwipeRefreshLayout=new SwipeRefreshLayout(getApplicationContext());
-
-
-
-
-        input_submit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                /*if(yearobirth.equals("Year")){
-
-                    Toast.makeText(getApplicationContext(),"Year must be selected",Toast.LENGTH_LONG).show();
-                }*/
-                // else
-                if (faces!=null && faces.size()==0){
-                    Snackbar.make(parentv,"Your photo is not in correct format.Click another photo.",Snackbar.LENGTH_SHORT).show();
-                }
-              /*  else if (gender.equals("Select Gender")){
-                    Toast.makeText(getApplicationContext(),"Gender must be selected",Toast.LENGTH_LONG).show();
-                }
-                else if (categoryy.equals("Select categroy")){
-                    Toast.makeText(getApplicationContext(),"categroy must be selected",Toast.LENGTH_LONG).show();
-                }
-                else if (state1.equals("Select the State")){
-                    Toast.makeText(getApplicationContext(),"State must be selected",Toast.LENGTH_LONG).show();
-                }
-
-                else if (district1.equals("Select the District")){
-                    Toast.makeText(getApplicationContext(),"District must be selected",Toast.LENGTH_LONG).show();
-                }
-
-                else if (eduction1.equals("Select Education")){
-                    Toast.makeText(getApplicationContext(),"Education must be selected",Toast.LENGTH_LONG).show();
-                }
-
-
-                else if (employer1.equals("Select the Employer")){
-                    Toast.makeText(getApplicationContext(),"Employer must be selected",Toast.LENGTH_LONG).show();
-                }
-                else if (bankname1.equals("Select the Bank")){
-                    Toast.makeText(getApplicationContext(),"Bank  name must be selected",Toast.LENGTH_LONG).show();
-
-                }*/
-                else if (!new VerhoeffAlgorithm().validateVerhoeff(input_aadhar.getText().toString())){
-                    Snackbar.make(parentv,"This Aadhaar number is invalid.Please input correct aadhaar number.",Snackbar.LENGTH_SHORT).show();
-                }
-
-
-
-                else if ((!eduction1.equals("Select Education") && eduction1.equals("Other"))&& (other_qualification.getText().toString().matches(""))){
-                    Toast.makeText(getApplicationContext(),"Education must be filled",Toast.LENGTH_LONG).show();
-                }
-               /* else if (disablity_type1.equals("Any Disability ?")){
-                    Toast.makeText(getApplicationContext(),"Disability must be Selected",Toast.LENGTH_LONG).show();
-                }*/
-
-                else if ((!disablity_type1.equals("Any Disability ?")&&disablity_type1.equals("Yes"))&& (type_of_disablity1.equals("Select Type of Disability"))){
-                    Toast.makeText(getApplicationContext(),"Disablity type must be selected",Toast.LENGTH_LONG).show();
-                }
-
-//                else if ((!disablity_type1.equals("Any Disability ?")&&disablity_type1.equals("Yes"))&& (type_of_disablity.equals("Select Type of Disability"))){
-//                    Toast.makeText(getApplicationContext(),"Disablity type must be selected",Toast.LENGTH_LONG).show();
-//                }
-
-                else if (!(OtherIdproof1.equals("Other Id Proof"))&& (input_Id_no.getText().toString().matches(""))){
-                    Toast.makeText(getApplicationContext(),"Id  must be Filled",Toast.LENGTH_LONG).show();
-                }
-
-
-
-
-
-                else if (!state1.equals("Select the State")&&(stateiddd.equals("2") && (input_pancard.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("3") && (input_pancard.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("16") && (input_pancard.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("17") && (input_pancard.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("18") && (input_pancard.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("23") && (input_pancard.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("19") && (input_pancard.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("26") && (input_pancard.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("10") && (input_pancard.getText().toString().matches(""))) )
-
-                {
-
-                    Toast.makeText(AssRegActivity.this, "PAN Card cannot be empty according to your State", Toast.LENGTH_SHORT).show();
-                }
-
-                else if ((!state1.equals("Select the State")&&stateiddd.equals("1") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("4") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("5") && (input_aadhar.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("6") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("7") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("8") && (input_aadhar.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("9") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("11") && (input_aadhar.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("12") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("13") && (input_aadhar.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("14") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("15") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("19") && (input_aadhar.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("20") && (input_aadhar.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("21") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("22") && (input_aadhar.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("24") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("25") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("27") && (input_aadhar.getText().toString().matches("")))||
-                        (!state1.equals("Select the State")&&stateiddd.equals("28") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("30") && (input_aadhar.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("31") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("32") && (input_aadhar.getText().toString().matches(""))) ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("33") && (input_aadhar.getText().toString().matches("")))  ||
-                        (!state1.equals("Select the State")&&stateiddd.equals("34") && (input_aadhar.getText().toString().matches(""))))
-
-
-
-
-
-                {
-
-                    Toast.makeText(AssRegActivity.this, "Aadhar Card Can't be empty according to your state", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-
-                else if(awesomeValidation.validate()
-                        && !(gender.equals("Select Gender"))&& !state1.equals("Select the State")
-                        && !yearobirth.equals("Year") && !district1.equals("Select the District") && !eduction1.equals("Select Education")
-                        && !((eduction1.equals("Other"))&& (other_qualification.getText().toString().matches("")))
-                        && !(!(OtherIdproof1.equals("Other Id Proof"))&& (input_Id_no.getText().toString().matches("")))
-
-
-                        && !(stateiddd.equals("2") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("3") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("16") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("17") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("18") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("23") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("19") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("26") && (input_pancard.getText().toString().matches("")))
-                        && !(stateiddd.equals("10") && (input_pancard.getText().toString().matches("")))
-
-
-                        && !(stateiddd.equals("4") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("5") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("6") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("7") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("8") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("9") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("11") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("12") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("13") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("14") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("15") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("19") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("20") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("21") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("22") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("24") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("25") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("27") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("28") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("29") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("30") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("31") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("32") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("33") && (input_aadhar.getText().toString().matches("")))
-                        && !(stateiddd.equals("34") && (input_aadhar.getText().toString().matches("")))
-                        ) {
-
-//                    Intent ii = new Intent(AssRegActivity.this, Reverify.class);
-//                    ii.putExtra("first_namee", input_name.getText().toString());
-//                    ii.putExtra("last_namee", input_last_name.getText().toString());
-//                    ii.putExtra("mobile", input_mobile_no.getText().toString());
-//                    ii.putExtra("aadhar", input_aadhar.getText().toString());
-//                    ii.putExtra("pancard", input_pancard.getText().toString());
-//                    ii.putExtra("bankaccount", input_bank_ac.getText().toString());
-//                    ii.putExtra("doy", yearobirth);
-//                    ii.putExtra("dom",monthobirth);
-//                    ii.putExtra("dod",dateobirth);
-//                    ii.putExtra("gender", gender);
-//                    ii.putExtra("bank", bankiddd);
-//                    ii.putExtra("state", stateiddd);
-//                    ii.putExtra("district", districtiddd);
-//                    ii.putExtra("education", eduction1);
-//                    //ii.putExtra("employed", employment1);
-//                    ii.putExtra("employer", employeridname);
-//                    ii.putExtra("sector", sectoridd);
-//                    ii.putExtra("addline1", input_address1.getText().toString());
-//                    ii.putExtra("addline2", input_address2.getText().toString());
-//                    ii.putExtra("pincode", input_pincode.getText().toString());
-//                    ii.putExtra("nameasinbank", input_bank_username.getText().toString());
-//                    ii.putExtra("ifsccode", input_ifsc_code.getText().toString());
-//                    ii.putExtra("jobrole",jobroleeiddd);
-//                    ii.putExtra("empid",input_empid.getText().toString());
-//                    ii.putExtra("location",input_loc.getText().toString());
-//                    ii.putExtra("preflang",preflangiddd);
-//                    ii.putExtra("pic",encodedphoto);
-//                    ii.putExtra("picaadhar",encodedphotoaadhar);
-//                    ii.putExtra("Email",Email.getText().toString());
-//                    ii.putExtra("categroy", categoryy);
-//                    ii.putExtra("alt_no",alt_no.getText().toString());
-//                    ii.putExtra("your_city",your_city.getText().toString());
-//                    ii.putExtra("other_qualification",other_qualification.getText().toString());
-//                    ii.putExtra("input_id_no",input_Id_no.getText().toString());
-//                    //  ii.putExtra("Any_disability",disablity_type1);
-//                    ii.putExtra("type_of_disblity",type_of_disablity1);
-//                    ii.putExtra("Any_disability",disablity_type1);
-//                    ii.putExtra("other_Id_proof_type",OtherIdproof1);
-//                    ii.putExtra("Employment_status",Employment_status1);
-//
-//
-//
-//
-//                    startActivity(ii);
-
-                }else
-                {
-
-                    //Toast.makeText(getApplicationContext(), "The form is not filled correctly.Please verify it and submit.", Toast.LENGTH_LONG).show();
-
-                    Snackbar.make(parentv,"The form is not filled correctly.Please verify it and submit.",Snackbar.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        try{
-
-
-            input_photograph.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                        if (checkSelfPermission(Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    MY_CAMERA_PERMISSION_CODE);
-                        } else {
-
-
-
-                        }
-                    }
-                    else {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                    }
-
-
-
-                }
-            });}
-
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        try{
-
-
-            input_photograph1.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.M)
-                @Override
-                public void onClick(View v) {
-                    if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                        if (checkSelfPermission(Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    MY_CAMERA_PERMISSION_CODE);
-                        } else {
-
-                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
-                        }
-                    }else {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                    }
-
-                }
-            });
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-
-        input_aadharpic1.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                launchActivity(SimpleScannerActivity.class);
-               /* if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if (checkSelfPermission(Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                MY_CAMERA_PERMISSION_CODE);
-                    } else {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
-                    }
-                }else {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
-                }*/
-
-            }
-        });
-
-        input_aadharpic.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if (checkSelfPermission(Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                MY_CAMERA_PERMISSION_CODE);
-                    } else {
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
-                    }
-                }else {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_AADHAR_REQUEST);
-                }
-            }
-        });
-
-
-
-
-        //Gender
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.gender));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        myspinner.setAdapter(myAdapter);
-
-        myspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                gender=myspinner.getSelectedItem().toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-
-
-
-        ArrayAdapter<String> myAdapter_type_of_disablity = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.type_of_Disablity));
-        myAdapter_type_of_disablity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //Employment _status
-
-
-        ArrayAdapter<String> myAdapterEmployment_status = new ArrayAdapter<String>(AssRegActivity.this,
-
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Employment_status_string));
-        myAdapterEmployment_status.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Employment_status.setEnabled(false);
-        Employment_status.setClickable(false);
-
-
-
-
-
-        Employment_status.setAdapter(myAdapterEmployment_status);
-
-        Employment_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                Employment_status1=Employment_status.getSelectedItem().toString();
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-
-
-
-        // Other_id_Details
-
-
-        ArrayAdapter<String> myAdapterOtherIdproof = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.other_id));
-        myAdapterOtherIdproof.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        OtherIdproof.setAdapter(myAdapterOtherIdproof);
-
-        OtherIdproof.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                OtherIdproof1=OtherIdproof.getSelectedItem().toString();
-
-                if (OtherIdproof1.equals("Other Id Proof")){
-                    input_Id_no.setVisibility(View.GONE);
-                }
-                else {
-                    input_Id_no.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-        //Year of birth
-
-        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Year));
-        myAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        yearofbirth.setAdapter(myAdapter1);
-
-        yearofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                yearobirth=yearofbirth.getSelectedItem().toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-        //Month of birth
-
-        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Month));
-        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        monthofbirth.setAdapter(myAdapter2);
-
-        monthofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                monthobirth=monthofbirth.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-        //Date of birth
-
-        ArrayAdapter<String> myAdapter3 = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Date));
-        myAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        dateofbirth.setAdapter(myAdapter3);
-
-        dateofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                dateobirth=dateofbirth.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-
-
-        });
-
-        //Education
-        ArrayAdapter<String> myAdapter4 = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Education));
-        myAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        education.setAdapter(myAdapter4);
-
-        education.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                eduction1=education.getSelectedItem().toString();
-
-                if (eduction1.equals("Other")){
-                    other_qualification.setVisibility(View.VISIBLE);
-                }
-                else {
-                    other_qualification.setVisibility(View.GONE);
-                }
-
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-        //Experience
-        ArrayAdapter<String> myAdapter5 = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Experience));
-        myAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        experience.setAdapter(myAdapter5);
-
-        experience.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-//                eduction1=experience.getSelectedItem().toString();
-//
-//                if (eduction1.equals("Other")){
-//                    other_qualification.setVisibility(View.VISIBLE);
-//                }
-//                else {
-//                    other_qualification.setVisibility(View.GONE);
-//                }
-
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-        //jobrole
-
-        //Choose category
-        ArrayAdapter<String> categoryadapt = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Category));
-        categoryadapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        category.setAdapter(categoryadapt);
-
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                // if(position > 0) {
-                categoryy = category.getSelectedItem().toString();
-                //jobroleeiddd=Jobrolelist.get(jobrole1);
-                // }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-
-        //Preffered Exam Language
-
-        //Bankname
-
-        ArrayAdapter<String> myAdapterBankname = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,bankslist);
-        myAdapterBankname.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //state
-
-        ArrayAdapter<String> myAdapterState = new ArrayAdapter<String>(AssRegActivity.this,
-                android.R.layout.simple_list_item_1,Statelist);
-        myAdapterState.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        state.setAdapter(myAdapterState);
-
-        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                state1=state.getSelectedItem().toString();
-                selectedstatetext =(String) parent.getItemAtPosition(position);
-
-                if(position > 0){
-                    String value= Statedetail.get(selectedstatetext);
-                    stateiddd=value;
-                    DistrictDetails(value);
-                    district.setVisibility(View.VISIBLE);
-
-
-                }
-                else {
-                    district.setVisibility(View.GONE);
-                }
-
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-
-
-        });
-
-
-        //District
-
-      /*  if (districtlist.size()>1){
-            districtlist.clear();
-        }
-        districtlist.add("Select the District");*/
-        district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id)
-            {
-                district1=district.getSelectedItem().toString();
-                districtiddd=districtdetail.get(district1);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
-        // Data clear
-        dbAdapterClass = new DBAdapterClass(AssRegActivity.this);
-        dbAdapterClass.createDatabase();
-        dbAdapterClass.open();  // --- open database connection
-        dbAdapterClass.deleteAcademicTable();
-        dbAdapterClass.deleteJobTable();
 
         academicListView(countAcademic);
         addItemSSSCList();
 
-        btn_Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countAcademic <= 3) {
-                    addItemSSSCList();
-                }
-            }
-        });
-        btn_Remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countAcademic > 0) {
-                    removeItemSSSCList();
-                }
-            }
-        });
-
-
     }
 
-    public void launchActivity(Class<?> clss) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            mClss = clss;
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
-        } else {
-            Intent intent = new Intent(this, clss);
-            startActivity(intent);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Employerlist();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkStateReceiver= new NetworkStateReceiver(new NetworkStateReceiver.NetworkListener() {
+            @Override
+            public void onNetworkAvailable() {
+                input_submit.setEnabled(true);
+            }
+
+            @Override
+            public void onNetworkUnavailable() {
+                input_submit.setEnabled(false);
+                Snackbar.make(parentv,"Internet Not available",Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        HashMap<String, String> map = new HashMap<>();
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null) {
+            String ss[] = extras.getStringArray("ss");
+            for (String s : ss) {
+                String[] sd = s.split("=");
+                Log.d("dataaa", sd[0]);
+                Log.d("dataaa", sd[1]);
+                map.put("key", sd[0]);
+                map.put("value", sd[1]);
+                Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+                System.out.println("dataa is" + map);
+            }
         }
     }
-
-
-
 
     private void initView() {
         progressDialog = new SpotsDialog(AssRegActivity.this, R.style.Custom);
         myspinner = findViewById(R.id.input_layout_gender);
+        actionQrCode = findViewById(R.id.actionQrCode);
         parentv = findViewById(R.id.register_yourself);
         yearofbirth=findViewById(R.id.input_layout_year);
         category=findViewById(R.id.input_layout_category);
         monthofbirth=findViewById(R.id.input_layout_month);
         dateofbirth=findViewById(R.id.input_layout_date);
-        education=findViewById(R.id.input_layout_Education);
         experience=findViewById(R.id.input_layout_exp);
 
         Employment_status= findViewById(R.id.employment_status);
@@ -918,19 +221,24 @@ public class AssRegActivity extends AppCompatActivity {
         input_Id_no = findViewById(R.id.input_Id_no);
         alt_no = findViewById(R.id.input_alt_mobile_no);
         your_city = findViewById(R.id.input_city);
-        other_qualification = findViewById(R.id.input_Eduction_other);
         spnSscCat=findViewById(R.id.spnSscCat);
         spnPayment=findViewById(R.id.spnPayment);
+        etTransactionNo=findViewById(R.id.etTransactionNo);
+
         lvSSC=findViewById(R.id.lv_ssc);
+        lvQualification=findViewById(R.id.lvQualoification);
+        btnAddQualfcn=findViewById(R.id.btnAddQualfcn);
+        btnRemoveQualfcn=findViewById(R.id.btnRemoveQualfcn);
         btn_Add=findViewById(R.id.btn_Add);
         btn_Remove=findViewById(R.id.btn_Remove);
+        actionUploadDoc=findViewById(R.id.actionUploadDoc);
 
 
         state=findViewById(R.id.input_layout_State);
         district=findViewById(R.id.input_layout_District);
+        input_photograph=findViewById(R.id.input_photograph);
         input_photograph1 = findViewById(R.id.input_photograph1);
         input_aadharpic1=findViewById(R.id.input_photograph_aadhar1);
-        input_photograph=findViewById(R.id.input_photograph);
         input_aadharpic=findViewById(R.id.input_photograph_aadhar);
         input_submit=findViewById(R.id.btn_signup);
         input_name=findViewById(R.id.input_name);
@@ -941,10 +249,43 @@ public class AssRegActivity extends AppCompatActivity {
         input_pincode=findViewById(R.id.input_pincode);
         input_aadhar=findViewById(R.id.input_aadhar);
         input_pancard = findViewById(R.id.input_pancard);
-        awesomeValidation=new AwesomeValidation(ValidationStyle.BASIC);
         Email = findViewById(R.id.input_email);
+
+        awesomeValidation=new AwesomeValidation(ValidationStyle.BASIC);
+        mySwipeRefreshLayout=new SwipeRefreshLayout(getApplicationContext());
+        myRectPaint = new Paint();
+        myRectPaint.setStrokeWidth(1);
+        myRectPaint.setColor(Color.WHITE);
+        myRectPaint.setStyle(Paint.Style.STROKE);
+
+        // DB Setup
+        dbAdapterClass = new DBAdapterClass(AssRegActivity.this);
+        dbAdapterClass.createDatabase();
+        dbAdapterClass.open();  // --- open database connection
+        dbAdapterClass.deleteAcademicTable();
+        dbAdapterClass.deleteJobTable();
     }
     private void manageView(){
+
+        actionQrCode.setOnClickListener(this::onClick);
+        input_submit.setOnClickListener(this::onClick);
+        btnAddQualfcn.setOnClickListener(this::onClick);
+        btnRemoveQualfcn.setOnClickListener(this::onClick);
+        btn_Add.setOnClickListener(this::onClick);
+        btn_Remove.setOnClickListener(this::onClick);
+        input_photograph.setOnClickListener(this::onClick);
+        input_photograph1.setOnClickListener(this::onClick);
+        input_aadharpic1.setOnClickListener(this::onClick);
+        input_aadharpic.setOnClickListener(this::onClick);
+
+        Bankdetails();
+        Statedetails();
+        callApiForSscCategory();
+        Employerlist();
+        dropdownsSetup();
+        callSscCategory();
+
+        qualificationListView(1);
 
     }
     private void awesomeValidations() {
@@ -1092,33 +433,6 @@ public class AssRegActivity extends AppCompatActivity {
             }
         }, R.string.err_tech_stacks);
 
-
-        //awesome validation for education
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_Education, new CustomValidation() {
-            @Override
-            public boolean compare(ValidationHolder validationHolder) {
-                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Education")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }, new CustomValidationCallback() {
-            @Override
-            public void execute(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(validationHolder.getErrMsg());
-                textViewError.setTextColor(Color.RED);
-            }
-        }, new CustomErrorReset() {
-            @Override
-            public void reset(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(null);
-                textViewError.setTextColor(Color.BLACK);
-            }
-        }, R.string.err_tech_stacks);
-
         //awesome validation for exp
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_exp, new CustomValidation() {
             @Override
@@ -1147,110 +461,392 @@ public class AssRegActivity extends AppCompatActivity {
 
     }
 
+    private void callSscCategory(){
+        Rx2AndroidNetworking.get("https://www.skillassessment.org/sdms/android_connect1/get_ssc.php")
+                .build()
+                .getObjectObservable(SscCateResponse.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SscCateResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-    private void addItemSSSCList() {
+                    }
 
-        View parentViewAcademic = null;
-        String qualification = "", college_name = "", joining_year = "", final_year = "";
+                    @Override
+                    public void onNext(SscCateResponse sscCateResponse) {
+                        System.out.println(sscCateResponse);
+                        Toast.makeText(AssRegActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
+                    }
 
-        dbAdapterClass.deleteAcademicTable();
-        for (int i = 0; i < countAcademic; i++) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            parentViewAcademic = getViewByPosition(i, lvSSC);
-            Spinner spnJobRole = (Spinner) parentViewAcademic.findViewById(R.id.spnJobRole);
-            EditText input_cert_no = (EditText) parentViewAcademic.findViewById(R.id.input_cert_no);
+                    }
 
-            joining_year =  spnJobRole.getSelectedItem().toString().trim();
-            final_year =  input_cert_no.getText().toString().trim();
-            dbAdapterClass.insertAcademicData(qualification, college_name, joining_year, final_year);
-        }
-        countAcademic++;
-        academicListView(countAcademic);
+                    @Override
+                    public void onComplete() {
 
-    }
-    private void removeItemSSSCList() {
-
-        View parentViewAcademic = null;
-        String qualification = "", college_name = "", joining_year = "", final_year = "";
-
-        countAcademic--;
-        dbAdapterClass.deleteAcademicTable();
-        for (int i = 0; i < countAcademic; i++) {
-
-            parentViewAcademic = getViewByPosition(i, lvSSC);
-            //   parentViewAcademic = (View) mAcademicList.getParent();
-            Spinner spnJobRole = (Spinner) parentViewAcademic.findViewById(R.id.spnJobRole);
-            EditText input_cert_no = (EditText) parentViewAcademic.findViewById(R.id.input_cert_no);
-
-            joining_year =  spnJobRole.getSelectedItem().toString().trim();
-            final_year =  input_cert_no.getText().toString().trim();
-
-            dbAdapterClass.insertAcademicData(qualification, college_name, joining_year, final_year);
-        }
-        academicListView(countAcademic);
+                    }
+                });
 
     }
 
-    public void academicListView(int countAcademic){
-        SscListAdapter sscListAdapter = new SscListAdapter(AssRegActivity.this, countAcademic,result);
-        lvSSC.setAdapter(sscListAdapter);
-        sscListAdapter.notifyDataSetChanged();
-        setListViewHeightBasedOnChildren(lvSSC);
-    }
+    private void dropdownsSetup(){
 
-    public View getViewByPosition(int pos, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition
-                + listView.getChildCount() - 1;
-
-        if (pos < firstListItemPosition || pos > lastListItemPosition) {
-            return listView.getAdapter().getView(pos, null, listView);
-        } else {
-            final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-    }
+        banks = new String[]{"Select the Bank"};
+        states=new String[]{"Select the State"};
+        districts=new String[]{"Select the District"};
+        employers=new String[]{"Select the Employer"};
+        jobrole=new String[]{"Select the Jobrole"};
+        Statelist = new ArrayList<>(Arrays.asList(states));
+        bankslist = new ArrayList<>(Arrays.asList(banks));
+        districtlist=new ArrayList<>(Arrays.asList(districts));
+        sectorlist=new ArrayList<>(Arrays.asList(sectors));
+        employerlist=new ArrayList<>(Arrays.asList(employers));
+        jobrolelist=new ArrayList<>(Arrays.asList(jobrole));
+        preflang=new ArrayList<>(Arrays.asList(preflangg));
 
 
+        //Gender
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.gender));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
+        myspinner.setAdapter(myAdapter);
+        myspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        networkStateReceiver= new NetworkStateReceiver(new NetworkStateReceiver.NetworkListener() {
             @Override
-            public void onNetworkAvailable() {
-                input_submit.setEnabled(true);
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                gender=myspinner.getSelectedItem().toString();
+
             }
 
             @Override
-            public void onNetworkUnavailable() {
-                input_submit.setEnabled(false);
-                Snackbar.make(parentv,"Internet Not available",Snackbar.LENGTH_SHORT).show();
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+
+        ArrayAdapter<String> myAdapter_type_of_disablity = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.type_of_Disablity));
+        myAdapter_type_of_disablity.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //Employment _status
+//        ArrayAdapter<String> myAdapterEmployment_status = new ArrayAdapter<String>(AssRegActivity.this,
+//
+//                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Employment_status_string));
+//        myAdapterEmployment_status.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        Employment_status.setEnabled(false);
+//        Employment_status.setClickable(false);
+//        Employment_status.setAdapter(myAdapterEmployment_status);
+        Employment_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                Employment_status1=Employment_status.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+
+        // Other_id_Details
+        ArrayAdapter<String> myAdapterOtherIdproof = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.other_id));
+        myAdapterOtherIdproof.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        OtherIdproof.setAdapter(myAdapterOtherIdproof);
+
+        OtherIdproof.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                OtherIdproof1=OtherIdproof.getSelectedItem().toString();
+
+                if (OtherIdproof1.equals("Other Id Proof")){
+                    input_Id_no.setVisibility(View.GONE);
+                }
+                else {
+                    input_Id_no.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+        //Year of birth
+
+        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Year));
+        myAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        yearofbirth.setAdapter(myAdapter1);
+
+        yearofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                yearobirth=yearofbirth.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+        //Month of birth
+
+        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Month));
+        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        monthofbirth.setAdapter(myAdapter2);
+
+        monthofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                monthobirth=monthofbirth.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+        //Date of birth
+
+        ArrayAdapter<String> myAdapter3 = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Date));
+        myAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dateofbirth.setAdapter(myAdapter3);
+
+        dateofbirth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                dateobirth=dateofbirth.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+
+        });
+
+        //Experience
+        ArrayAdapter<String> myAdapter5 = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Experience));
+        myAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        experience.setAdapter(myAdapter5);
+
+        experience.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+//                eduction1=experience.getSelectedItem().toString();
+//
+//                if (eduction1.equals("Other")){
+//                    other_qualification.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    other_qualification.setVisibility(View.GONE);
+//                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+        //jobrole
+
+        //Choose category
+        ArrayAdapter<String> categoryadapt = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Category));
+        categoryadapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        category.setAdapter(categoryadapt);
+
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                // if(position > 0) {
+                categoryy = category.getSelectedItem().toString();
+                //jobroleeiddd=Jobrolelist.get(jobrole1);
+                // }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+
+        //Preffered Exam Language
+
+        //Bankname
+
+        ArrayAdapter<String> myAdapterBankname = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,bankslist);
+        myAdapterBankname.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        //state
+        ArrayAdapter<String> myAdapterState = new ArrayAdapter<String>(AssRegActivity.this,
+                android.R.layout.simple_list_item_1,Statelist);
+        myAdapterState.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        state.setAdapter(myAdapterState);
+
+        state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                state1=state.getSelectedItem().toString();
+                selectedstatetext =(String) parent.getItemAtPosition(position);
+
+                if(position > 0){
+                    String value= Statedetail.get(selectedstatetext);
+                    stateiddd=value;
+                    DistrictDetails(value);
+                    district.setVisibility(View.VISIBLE);
+
+
+                }
+                else {
+                    district.setVisibility(View.GONE);
+                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+
+        //Payment
+        spnPayment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+//                String sSpnrtext = state.getSelectedItem().toString();
+//                String sStateId = Statedetail.get(sSpnrtext);
+//                DistrictDetails(sStateId);
+
+                String sSpnrtext = spnPayment.getSelectedItem().toString();
+                if (!sSpnrtext.equalsIgnoreCase("Select Payment")){
+                    if (sSpnrtext.equalsIgnoreCase("Yes")){
+                        etTransactionNo.setVisibility(View.VISIBLE);
+                    }else {
+                        etTransactionNo.setVisibility(View.GONE);
+                        new AlertDialogPayment().showDialog(AssRegActivity.this);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+
+
+        });
+
+        //District
+
+      /*  if (districtlist.size()>1){
+            districtlist.clear();
+        }
+        districtlist.add("Select the District");*/
+        district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id)
+            {
+                district1=district.getSelectedItem().toString();
+                districtiddd=districtdetail.get(district1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-        registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+
     }
 
     //API For Bank
@@ -1319,84 +915,10 @@ public class AssRegActivity extends AppCompatActivity {
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-    //Language Api Call
-    private void languageSelect(final String cmp_id) {
-
-        show_progressbar();
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_language.php";
-
-        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    System.out.println("languages in reg page are"+response);
-                    JSONObject jobj = new JSONObject(response);
-
-                    String status= jobj.getString("status");
-
-                    if (status.equals("1")){
-                        JSONArray jsonArray=jobj.getJSONArray("language");
-                        preflang.clear();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject c = jsonArray.getJSONObject(i);
-                            preflangid = c.getString("language_code");
-                            preflangvalue = c.getString("name");
-                            langdetail.put(preflangvalue,preflangid );
-                            preflang.add(preflangvalue);
-                        }
-                        ArrayAdapter<String> preflanguage = new ArrayAdapter<String>(AssRegActivity.this,
-                                android.R.layout.simple_list_item_1,preflang);
-                        preflanguage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Failed to fetch Language Details",Toast.LENGTH_LONG).show();
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                hide_progressbar();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                hide_progressbar();
-                Toast.makeText(getApplicationContext(), "Failed to fetch Language Details", Toast.LENGTH_LONG).show();
-            }
-        })
-
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                super.getHeaders();
-                Map<String, String> map = new HashMap<>();
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                super.getParams();
-                Map<String, String> map = new HashMap<>();
-                map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("company_id",cmp_id);
-                return map;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
-    }
-
-
     //State List
     private void Statedetails() {
 
-
         String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_state.php";
-
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1476,6 +998,8 @@ public class AssRegActivity extends AppCompatActivity {
                     String status= jobj.getString("status");
 
                     if (status.equals("1")){
+
+                        district.setVisibility(View.VISIBLE);
                         districtlist.clear();
                         JSONArray jsonArray=jobj.getJSONArray("district");
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -1762,21 +1286,6 @@ public class AssRegActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        this.requestCode = requestCode;
-        this.permissions = permissions;
-        this.grantResults = grantResults;
-        switch (requestCode) {
-            case ZBAR_CAMERA_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(mClss != null) {
-                        Intent intent = new Intent(this, mClss);
-                        startActivity(intent);
-                    }
-                } else {
-                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
-                }
-                return;
-        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -1797,6 +1306,61 @@ public class AssRegActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (resultCode == 2 && requestCode == 1){
+                //do something
+                HashMap<String, String> map = new HashMap<>();
+                Bundle extras = data.getExtras();
+                String ss[]=extras.getStringArray("ss");
+                for (String s: ss) {
+                    String[] sd=s.split("=");
+                    Log.d("dataaa",sd[0]);
+                    Log.d("dataaa",sd[1]);
+                    map.put(sd[0], sd[1]);
+                    //map.put("value", sd[1]);
+                    //Toast.makeText(this,"result"+ss[0]+" "+ss[1],Toast.LENGTH_LONG).show();
+                }
+                System.out.println("dataa is"+map);
+                System.out.println("name is"+map.get("name"));
+                System.out.println("co is"+map.get("co"));
+                System.out.println("gender is"+map.get("gender"));
+                System.out.println("street is"+map.get("street"));
+                System.out.println("dist is"+map.get("dist"));
+                System.out.println("lm is"+map.get("lm"));
+                System.out.println("subdist is"+map.get("subdist"));
+                System.out.println("yob is"+map.get("yob"));
+
+                if (map.get("name")!=null){
+                    namefromaadhaar=map.get("name").replace("\"","");
+                    String namee[]=namefromaadhaar.split(" ");
+                    input_name.setEnabled(false);
+                    input_last_name.setEnabled(false);
+                    input_name.setText(namee[0]);
+                    input_last_name.setText(namee[1]);
+                }
+                if(map.get("pc")!=null){
+                    input_pincode.setText(map.get("pc").replace("/>",""));
+                    input_pincode.setEnabled(false);
+                }
+                if(map.get("house")!=null){
+                    input_address1.setText(map.get("house").replace("\"",""));
+                    input_address1.setEnabled(false);
+                }
+                if(map.get("lm")!=null){
+                    input_address2.setText(map.get("lm").replace("\"",""));
+                    input_address2.setEnabled(false);
+                }
+                if(map.get("subdist")!=null){
+                    your_city.setText(map.get("subdist").replace("\"",""));
+                    your_city.setEnabled(false);
+                }
+            }else{
+                // Toast.makeText(this,"aaaaa",Toast.LENGTH_LONG).show();
+                //do something else
+            }}catch (Exception e){
+            System.out.println("fffff"+e);
+        }
+
         try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){
@@ -1820,7 +1384,7 @@ public class AssRegActivity extends AppCompatActivity {
                 Canvas tempCanvas = new Canvas(tempBitmap);
                 tempCanvas.drawBitmap(photo, 0, 0, null);
 
-               /* FaceDetector faceDetector = new
+                FaceDetector faceDetector = new
                         FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(true)
                         .build();
                 if(!faceDetector.isOperational()){
@@ -1840,22 +1404,16 @@ public class AssRegActivity extends AppCompatActivity {
                     x1 = thisFace.getPosition().x;
                     float y1 = thisFace.getPosition().y;
                     float x2 = x1 + thisFace.getWidth();
-                    float y2 = y1 + thisFace.getHeight();*/
+                    float y2 = y1 + thisFace.getHeight();
 
                     //tempCanvas.drawCircle(x1,y1,1,myRectPaint);
 
-                    //tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 1, 1, myRectPaint);
-               // }
+                    tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 1, 1, myRectPaint);
+                }
 
 
                 input_photograph.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
             }
-
-
-
-
-
-
 
 
             if (requestCode == CAMERA_AADHAR_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -1878,20 +1436,6 @@ public class AssRegActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(networkStateReceiver);
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Employerlist();
-    }
-
-
 
     public void show_progressbar(){
         progressDialog.show();
@@ -1905,5 +1449,610 @@ public class AssRegActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.actionQrCode:
+                funcScanQRCode();
+                break;
+            case R.id.btn_Add:
+                if (countAcademic <= 4) { addItemSSSCList(); }else {Snackbar.make(v, "Maximum 5 allowed", Snackbar.LENGTH_SHORT).show(); }
+                break;
+            case R.id.btn_Remove:
+                if (countAcademic > 1) { removeItemSSSCList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
+                break;
+            case R.id.btnAddQualfcn:
+                if (countQualification <= 4) { addItemQualificationList(); }else {Snackbar.make(v, "Maximum 5 allowed", Snackbar.LENGTH_SHORT).show(); }
+                break;
+            case R.id.btnRemoveQualfcn:
+                if (countQualification > 1) { removeItemQualificationList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
+                break;
+            case R.id.actionUploadDoc:
+                Toast.makeText(this, "Upload!", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btn_signup:
+                funcSubmitData();
+//                getSscCertList();
+                break;
+            case R.id.input_photograph:
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+                break;
+                case R.id.input_photograph1:
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+                break;
+                case R.id.input_photograph_aadhar:
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_AADHAR_REQUEST);
+                break;
+                case R.id.input_photograph_aadhar1:
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_AADHAR_REQUEST);
+                break;
+
+
+                default:
+                    Toast.makeText(this, "Not a valid selection!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void funcScanQRCode() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
+        } else {
+            Intent ii=new Intent(AssRegActivity.this,SimpleScannerActivity.class);
+            startActivityForResult(ii, 1);
+        }
+    }
+
+    private boolean isFormValid(){
+        return true;
+    }
+
+    private void funcStartCamera(int PERMISSION_CODE, int REQUEST_CODE){
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            PERMISSION_CODE);
+                } else {
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, REQUEST_CODE);
+                }
+            } else {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, REQUEST_CODE);
+            }
+        }catch (Exception e){
+            Log.e(TAG, "#Error :  Camera error occured", e);
+        }
+    }
+
+    /*API CALL*/
+    private void callApiForSscCategory(){
+
+        Rx2AndroidNetworking.get("https://www.skillassessment.org/sdms/android_connect1/get_ssc.php")
+                .build()
+                .getObjectObservable(SscCateResponse.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SscCateResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(SscCateResponse sscCateResponse) {
+
+                        if(sscCateResponse.getStatus() == 1) {
+
+                            List<String> list = new ArrayList<>();
+                            for (SscItem sscItem: sscCateResponse.getSsc()){
+                                list.add(sscItem.getName());
+                            }
+                            list.add(0, "Select Category");
+                            ArrayAdapter<String> myAdapterCat = new ArrayAdapter<String>(AssRegActivity.this,
+                                    android.R.layout.simple_list_item_1, list);
+                            myAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            spnSscCat.setAdapter(myAdapterCat);
+
+                    }
+
+                        spnSscCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view,
+                                                           int position, long id)
+                                {
+
+                                    String txt = spnSscCat.getSelectedItem().toString();
+                                    if (!txt.equals("Select Category")) {
+                                        List<SscItem> list = sscCateResponse.getSsc();
+                                        sscId = list.get(position + 1).getId();
+
+                                        callApiForSscCertName(String.valueOf(sscId));
+                                    }
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
+                            });
+                        }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void callApiForSscCertName(String id){
+
+        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/get_jobrole_sscwise.php")
+                .addUrlEncodeFormBodyParameter("ssc_id", id)
+                .build()
+                .getObjectObservable(CertificateResponse.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CertificateResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CertificateResponse certificateResponse) {
+
+                        if (certificateResponse.getStatus() == 1){
+
+                            certResponse = certificateResponse;
+
+                            countAcademic = 1;
+                            academicListView(1);
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        System.out.println("Complete");
+                    }
+                });
+    }
+
+    /*ADD REMOVE LAYOUT-SSC Detail,s*/
+    private void addItemSSSCList() {
+
+        View parentView = null;
+        String sField1 = "", sField2 = "", sField3 = "", final_year = "";
+
+        dbAdapterClass.deleteAcademicTable();
+        for (int i = 0; i < countAcademic; i++) {
+
+            parentView = getViewByPosition(i, lvSSC);
+            Spinner spnJobRole = (Spinner)parentView.findViewById(R.id.spnJobRole);
+            EditText input_cert_no = (EditText)parentView.findViewById(R.id.input_cert_no);
+            TextView tvDoc = (TextView)parentView.findViewById(R.id.tvDoc);
+
+            sField1 =  spnJobRole.getSelectedItem().toString().trim();
+            sField2 =  input_cert_no.getText().toString().trim();
+            sField3 =  tvDoc.getText().toString().trim();
+            dbAdapterClass.insertAcademicData(sField1, sField2, sField3, final_year);
+        }
+        countAcademic++;
+        academicListView(countAcademic);
+
+    }
+    private void removeItemSSSCList() {
+
+        View parentViewAcademic = null;
+        String sField1 = "", sField2 = "", sField3 = "", final_year = "";
+
+        countAcademic--;
+        dbAdapterClass.deleteAcademicTable();
+        for (int i = 0; i < countAcademic; i++) {
+
+            parentViewAcademic = getViewByPosition(i, lvSSC);
+            //   parentViewAcademic = (View) mAcademicList.getParent();
+            Spinner spnJobRole = (Spinner) parentViewAcademic.findViewById(R.id.spnJobRole);
+            EditText input_cert_no = (EditText) parentViewAcademic.findViewById(R.id.input_cert_no);
+            TextView tvDoc = (TextView) parentViewAcademic.findViewById(R.id.tvDoc);
+
+            sField1 =  spnJobRole.getSelectedItem().toString().trim();
+            sField2 =  input_cert_no.getText().toString().trim();
+            sField3 =  tvDoc.getText().toString().trim();
+            dbAdapterClass.insertAcademicData(sField1, sField2, sField3, final_year);
+        }
+        academicListView(countAcademic);
+
+    }
+    public void academicListView(int countAcademic){
+        SscListAdapter sscListAdapter = new SscListAdapter(AssRegActivity.this, countAcademic,result, certResponse);
+        lvSSC.setAdapter(sscListAdapter);
+        sscListAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(lvSSC);
+    }
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition
+                + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+    private JSONArray getSscCertList() {
+
+        View parentViewAcademic = null;
+        String sCertName = "", sCertNo = "", sPath = "";
+        JSONArray jsonArray = new JSONArray();
+
+        dbAdapterClass.deleteAcademicTable();
+        for (int i = 0; i < countAcademic; i++) {
+
+            parentViewAcademic = getViewByPosition(i, lvSSC);
+            Spinner spnJobRole = (Spinner) parentViewAcademic.findViewById(R.id.spnJobRole);
+            EditText input_cert_no = (EditText) parentViewAcademic.findViewById(R.id.input_cert_no);
+            TextView tvDoc = (TextView) parentViewAcademic.findViewById(R.id.tvDoc);
+
+            sCertName =  spnJobRole.getSelectedItem().toString().trim();
+            sCertNo =  input_cert_no.getText().toString().trim();
+            sPath =  tvDoc.getText().toString().trim();
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+            jsonObject.put("name", sCertName);
+            jsonObject.put("certificate_number", sCertNo);
+            jsonObject.put("cert_doc", encodeFileToBase64Binary(sPath.trim()));
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return jsonArray;
+    }
+
+
+    /*ADD REMOVE LAYOUT-Qualification*/
+    private void addItemQualificationList() {
+
+        View parentView = null;
+        String sField1 = "", sField2 = "", sField3 = "", final_year = "";
+
+        dbAdapterClass.deleteJobTable();
+        for (int i = 0; i < countQualification; i++) {
+
+            parentView = getViewByPosition(i, lvQualification);
+            Spinner spnQualification = (Spinner) parentView.findViewById(R.id.spnQualification);
+            TextView tvDoc = (TextView) parentView.findViewById(R.id.tvDoc);
+
+            sField1 =  spnQualification.getSelectedItem().toString().trim();
+            sField2 =  tvDoc.getText().toString().trim();
+            dbAdapterClass.insertJobData(sField1, sField2, sField3, "");
+        }
+        countQualification++;
+        qualificationListView(countQualification);
+
+    }
+    private void removeItemQualificationList() {
+
+        View parentView = null;
+        String sField1 = "", sField2 = "", sField3 = "", final_year = "";
+
+        countQualification--;
+        dbAdapterClass.deleteJobTable();
+        for (int i = 0; i < countQualification; i++) {
+
+            parentView = getViewByPosition(i, lvQualification);
+            Spinner spnQualification = (Spinner) parentView.findViewById(R.id.spnQualification);
+            TextView tvDoc = (TextView) parentView.findViewById(R.id.tvDoc);
+
+            sField1 =  spnQualification.getSelectedItem().toString().trim();
+            sField2 =  tvDoc.getText().toString().trim();
+            dbAdapterClass.insertJobData(sField1, sField2, sField3, "");
+        }
+        qualificationListView(countQualification);
+
+    }
+    public void qualificationListView(int count){
+        QualificationListAdapter qualificationListAdapter = new QualificationListAdapter(AssRegActivity.this, count,result);
+        lvQualification.setAdapter(qualificationListAdapter);
+        qualificationListAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(lvQualification);
+    }
+
+    private JSONArray getQualificationList() {
+
+        View parentView = null;
+        String sField1 = "", sField2 = "", sField3 = "", final_year = "";
+        JSONArray jsonArray = new JSONArray();
+
+        dbAdapterClass.deleteAcademicTable();
+        for (int i = 0; i < countAcademic; i++) {
+
+            parentView = getViewByPosition(i, lvQualification);
+            Spinner spnQualification = (Spinner) parentView.findViewById(R.id.spnQualification);
+            TextView tvDoc = (TextView) parentView.findViewById(R.id.tvDoc);
+
+            sField1 =  spnQualification.getSelectedItem().toString().trim();
+            sField2 =  tvDoc.getText().toString().trim();
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("name", sField1);
+                jsonObject.put("qualification_docs", encodeFileToBase64Binary(sField2.trim()));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonArray;
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(networkStateReceiver);
+    }
+
+
+    private String encodeFileToBase64Binary(String path) {
+        File yourFile = new File(path);
+        int size = (int) yourFile.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(yourFile));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        String encoded = Base64.encodeToString(bytes,Base64.NO_WRAP);
+        return encoded;
+    }
+
+    private void funcSubmitData(){
+
+        if (faces!=null && faces.size()==0){
+            Snackbar.make(parentv,"Your photo is not in correct format.Click another photo.",Snackbar.LENGTH_SHORT).show();
+        }
+
+        else if (!new VerhoeffAlgorithm().validateVerhoeff(input_aadhar.getText().toString())){
+            Snackbar.make(parentv,"This Aadhaar number is invalid.Please input correct aadhaar number.",Snackbar.LENGTH_SHORT).show();
+        }
+
+        else if (!(OtherIdproof1.equals("Other Id Proof"))&& (input_Id_no.getText().toString().matches(""))){
+            Toast.makeText(getApplicationContext(),"Id  must be Filled",Toast.LENGTH_LONG).show();
+        }
+
+
+        else if (!state1.equals("Select the State")&&(stateiddd.equals("2") && (input_pancard.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("3") && (input_pancard.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("16") && (input_pancard.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("17") && (input_pancard.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("18") && (input_pancard.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("23") && (input_pancard.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("19") && (input_pancard.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("26") && (input_pancard.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("10") && (input_pancard.getText().toString().matches(""))) )
+
+        {
+
+            Toast.makeText(AssRegActivity.this, "PAN Card cannot be empty according to your State", Toast.LENGTH_SHORT).show();
+        }
+
+        else if ((!state1.equals("Select the State")&&stateiddd.equals("1") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("4") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("5") && (input_aadhar.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("6") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("7") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("8") && (input_aadhar.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("9") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("11") && (input_aadhar.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("12") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("13") && (input_aadhar.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("14") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("15") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("19") && (input_aadhar.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("20") && (input_aadhar.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("21") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("22") && (input_aadhar.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("24") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("25") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("27") && (input_aadhar.getText().toString().matches("")))||
+                (!state1.equals("Select the State")&&stateiddd.equals("28") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("30") && (input_aadhar.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("31") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("32") && (input_aadhar.getText().toString().matches(""))) ||
+                (!state1.equals("Select the State")&&stateiddd.equals("33") && (input_aadhar.getText().toString().matches("")))  ||
+                (!state1.equals("Select the State")&&stateiddd.equals("34") && (input_aadhar.getText().toString().matches(""))))
+
+
+        {
+
+            Toast.makeText(AssRegActivity.this, "Aadhar Card Can't be empty according to your state", Toast.LENGTH_SHORT).show();
+        }
+
+
+        else if(awesomeValidation.validate()
+                && !(gender.equals("Select Gender"))&& !state1.equals("Select the State")
+                && !yearobirth.equals("Year") && !district1.equals("Select the District")
+                && !(!(OtherIdproof1.equals("Other Id Proof"))&& (input_Id_no.getText().toString().matches("")))
+
+
+                && !(stateiddd.equals("2") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("3") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("16") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("17") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("18") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("23") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("19") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("26") && (input_pancard.getText().toString().matches("")))
+                && !(stateiddd.equals("10") && (input_pancard.getText().toString().matches("")))
+
+
+                && !(stateiddd.equals("4") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("5") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("6") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("7") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("8") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("9") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("11") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("12") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("13") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("14") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("15") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("19") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("20") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("21") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("22") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("24") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("25") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("27") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("28") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("29") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("30") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("31") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("32") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("33") && (input_aadhar.getText().toString().matches("")))
+                && !(stateiddd.equals("34") && (input_aadhar.getText().toString().matches("")))
+        ) {
+
+
+            JSONObject map = new JSONObject();
+            try{
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+                map.put("mobile", input_mobile_no.getText().toString());
+                map.put("aadharimg",encodedphotoaadhar);
+                map.put("pic",encodedphoto);
+                map.put("firstname", input_name.getText().toString());
+                map.put("lastname", input_last_name.getText().toString());
+                map.put("gender", gender);
+                map.put("category", categoryy);
+                map.put("email",Email.getText().toString());
+                map.put("landline",alt_no.getText().toString());
+                map.put("year_of_birth", yearobirth);
+//                map.put("dob",monthobirth);
+                map.put("dob",dateobirth);
+                map.put("state_id", stateiddd);
+                map.put("district_id", districtiddd);
+                map.put("City",your_city.getText().toString());
+                map.put("address1", input_address1.getText().toString());
+                map.put("address2", input_address2.getText().toString());
+                map.put("pincode", input_pincode.getText().toString());
+                map.put("qualification", getQualificationList());
+                map.put("experience", experience.getSelectedItem().toString());
+                map.put("ssc_id", sscId);
+                map.put("payment", spnPayment.getSelectedItem().toString());
+                map.put("transaction_id", etTransactionNo.getText());
+                map.put("ssc_job", getSscCertList());
+                map.put("jobrole_id",jobroleeiddd);
+                map.put("empanelment_status",Employment_status1);
+                map.put("input_id_no",input_Id_no.getText().toString());
+                map.put("other_Id_proof_type",OtherIdproof1);
+//                map.put("education", eduction1);
+
+
+                map.put("aadhar", input_aadhar.getText().toString());
+                map.put("pan", input_pancard.getText().toString());
+                System.out.println("abc");
+
+                callApiForRegistration(map);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }else
+        {
+
+            //Toast.makeText(getApplicationContext(), "The form is not filled correctly.Please verify it and submit.", Toast.LENGTH_LONG).show();
+
+            Snackbar.make(parentv,"The form is not filled correctly.Please verify it and submit.",Snackbar.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    private void callApiForRegistration(JSONObject jsonObject){
+       show_progressbar();
+        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/save_assessor_data.php")
+                .addJSONObjectBody(jsonObject)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getJSONObjectObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONObject>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(JSONObject jsonObject) {
+                        hide_progressbar();
+                        Toast.makeText(AssRegActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hide_progressbar();
+                            Toast.makeText(AssRegActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        hide_progressbar();
+                    }
+                });
+    }
 
 }

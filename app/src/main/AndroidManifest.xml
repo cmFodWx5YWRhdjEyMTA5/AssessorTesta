@@ -10,6 +10,7 @@
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -40,8 +41,7 @@
             >
             <meta-data android:name="android.support.UI_OPTIONS"
                 android:value="splitActionBarWhenNarrow" />
-            >
-            ></activity>
+            </activity>
 
         <activity android:name=".Ass_Registration.AssRegActivity"
             android:theme="@style/AppTheme5"
@@ -105,12 +105,16 @@
         <activity android:name=".Initials.SignIn" />
         <activity android:name=".MainActivity" />
         <activity
+            android:name=".Assessor_Exam.TestQuestion"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
+        <activity
             android:name=".Attendance.Assessor_Atten"
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
             android:name=".Initials.SplashScreen"
-            android:theme="@style/AppTheme1">
+            android:theme="@style/AppTheme1" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

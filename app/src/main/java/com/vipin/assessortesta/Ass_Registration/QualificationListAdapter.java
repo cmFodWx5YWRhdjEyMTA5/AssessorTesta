@@ -2,62 +2,48 @@ package com.vipin.assessortesta.Ass_Registration;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Environment;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.vipin.assessortesta.Ass_Registration.db.AcademicDbModel;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
-
-
-import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
-import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
 import com.vipin.assessortesta.R;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SscListAdapter extends BaseAdapter {
+public class QualificationListAdapter extends BaseAdapter {
 
     private static final String TAG = "CustomAcademicAdapter";
     Context mContext;
     LayoutInflater inflater;
     EditText input_cert_no;
     TextView tvCertTitle;
-    Spinner spnJobRole;
-    LinearLayout actionUploadDoc;
+    Spinner spnQualification;
     List<AllCollegeNameModel.Result> result;
     private ArrayList<String> mStringList;
     ArrayList<AcademicDbModel> academicDbModelArrayList ;
     private DBAdapterClass dbAdapterClass;
-    CertificateResponse certificateResponse;
 
     int size;
-    public SscListAdapter(Context mContext, int size, List<AllCollegeNameModel.Result> result, CertificateResponse certificateResponse){
+    public QualificationListAdapter(Context mContext, int size, List<AllCollegeNameModel.Result> result){
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);
         this.size = size;
         this.result = result;
-        this.certificateResponse = certificateResponse;
 
         mStringList = new ArrayList<>(Arrays.asList(groupName(result)));
     }
@@ -78,18 +64,16 @@ public class SscListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflater.inflate(R.layout.row_ssc_layout, null);
+        view = inflater.inflate(R.layout.row_qualification_layout, null);
 
         tvCertTitle = (TextView)view.findViewById(R.id.tvCertTitle);
+        spnQualification = (Spinner)view.findViewById(R.id.spnQualification);
+        LinearLayout actionUploadDoc = (LinearLayout) view.findViewById(R.id.actionUploadDoc);
         ImageView ivUpload = (ImageView)view.findViewById(R.id.ivUpload);
-        spnJobRole = (Spinner)view.findViewById(R.id.spnJobRole);
-        input_cert_no = (EditText) view.findViewById(R.id.input_cert_no);
-        actionUploadDoc = (LinearLayout) view.findViewById(R.id.actionUploadDoc);
+        tvCertTitle.setText("Qualification-"+(i+1));
         TextView tvDoc = (TextView) view.findViewById(R.id.tvDoc);
         TextView tvDocText = (TextView) view.findViewById(R.id.tvDocText);
-
-
-        tvCertTitle.setText("Certificate-"+(i+1));
+/*
 
         if (certificateResponse != null) {
             List<JobrolesItem> jobrolesItemList = certificateResponse.getJobroles();
@@ -101,14 +85,51 @@ public class SscListAdapter extends BaseAdapter {
             list.add(0, "Select Certificate");
             ArrayAdapter arrayAdapter =
                     new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, list);
-            spnJobRole.setAdapter(arrayAdapter);
+            spnr.setAdapter(arrayAdapter);
         }
+*/
+
+
+//        if (jobrolesItemList.size() > 0) {
+
+            // OFFLINE DATA
+            /*try {
+                if (!getOfflineData(view).isEmpty() && i < getOfflineData(view).size()) {
+                    tvQualification.setText(academicDbModelArrayList.get(i).getProfile1());
+                    //            tvDegree.setText(academicDbModelArrayList.get(i).getProfile2());
+                    tvJoinYear.setText(academicDbModelArrayList.get(i).getProfile3());
+                    tvFinalYear.setText(academicDbModelArrayList.get(i).getProfile4());
+
+                    int spinnerPosition =
+                            arrayAdapter.getPosition(academicDbModelArrayList.get(i).getProfile2());
+                    spnCollege.setSelection(spinnerPosition);
+                }
+            } catch (ArrayIndexOutOfBoundsException aiobe) {
+                Log.e(TAG, " #Error : " + aiobe, aiobe);
+            }*/
+//        }else {
+
+            // OFFLINE DATA
+            /*try {
+                if (!getOfflineData(view).isEmpty() && i < getOfflineData(view).size()) {
+                    tvQualification.setText(academicDbModelArrayList.get(i).getProfile1());
+                    //            tvDegree.setText(academicDbModelArrayList.get(i).getProfile2());
+                    tvJoinYear.setText(academicDbModelArrayList.get(i).getProfile3());
+                    tvFinalYear.setText(academicDbModelArrayList.get(i).getProfile4());
+
+                }
+            } catch (ArrayIndexOutOfBoundsException aiobe) {
+                Log.e(TAG, " #Error : " + aiobe, aiobe);
+            }*/
+//        }
 
         actionUploadDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String path = Environment.getExternalStorageDirectory().toString()+ File.separator + Environment.DIRECTORY_DOWNLOADS;
+
+//                File file = new File(path);
 
                 new ChooserDialog().with(mContext)
                         .withFilter(false, false, "pdf", "doc", "docx", "jpeg", "png", "jpg")
@@ -124,6 +145,7 @@ public class SscListAdapter extends BaseAdapter {
                                     int fileSize = Integer.parseInt(String.valueOf(pathFile.length() / 1024));
 
                                     if (fileSize <= 500) {
+
                                         String sPath = path.substring(path.lastIndexOf("/") + 1);
                                         tvDoc.setText(path);
                                         tvDocText.setText(sPath);
@@ -131,21 +153,12 @@ public class SscListAdapter extends BaseAdapter {
                                         ivUpload.setImageResource(R.drawable.ic_file_done);
                                         ivUpload.setColorFilter(ContextCompat.getColor(mContext, R.color.button2), android.graphics.PorterDuff.Mode.SRC_IN);
 
-                                    }else {
+                                    } else {
                                         new AlertDialog.Builder(mContext)
                                                 .setIcon(R.drawable.ic_complain)
                                                 .setTitle("Warning")
-                                                .setMessage("File size can't be greater than 500kb")
-                                                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-
-                                                        tvDocText.setTextColor(mContext.getResources().getColor(R.color.black));
-                                                        tvDocText.setText("Upload Document");
-                                                        ivUpload.setImageResource(R.drawable.ic_uploading_file);
-
-                                                    }
-                                                })
+                                                .setMessage("File size should be between 1-500KB")
+                                                .setNegativeButton("OK", null)
                                                 .show();
                                     }
                                 }
@@ -153,6 +166,7 @@ public class SscListAdapter extends BaseAdapter {
                         })
                         .build()
                         .show();
+
             }
         });
 
@@ -182,7 +196,5 @@ public class SscListAdapter extends BaseAdapter {
         academicDbModelArrayList = dbAdapterClass.retrieveAcademicData();
         return academicDbModelArrayList;
     }
-
-
 
 }

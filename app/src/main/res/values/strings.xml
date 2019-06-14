@@ -200,7 +200,7 @@ status of each question using one of the following symbols:</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
-
+    <string name="hint_trans_no">Transaction Number</string>
     //error message
     <string name="err_tech_stacks">It must be selected</string>
     <string name="err_msg_foraadhar">it must be 12 digit</string>
@@ -222,7 +222,13 @@ status of each question using one of the following symbols:</string>
     <string name="err_msg_for_gender">it must be selected</string>
     <string name="error_message_email">Email is not in form</string>
     <string name="hint_cert_no">Certificate Number</string>
+    <string name="title_choose_file">Choose File</string>
 
+    <string-array name="arr_empanelment">
+        <item>Select</item>
+        <item>Radiant Infonet</item>
+
+    </string-array>
 
     <string-array name="gender">
         <item>Select Gender</item>
@@ -250,6 +256,15 @@ status of each question using one of the following symbols:</string>
 
     </string-array>
 
+    <string-array name="Arr_Qualification">
+        <item>Select</item>
+        <item>10th</item>
+        <item>12th</item>
+        <item>Graduation</item>
+        <item>Above Graduation</item>
+        <item>Other</item>
+
+    </string-array>
 
     <string-array name="Disablity">
         <item>Any Disablity ?</item>
