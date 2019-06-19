@@ -16,7 +16,7 @@
         <include android:id="@+id/count_down_strip" layout="@layout/countdown_timer_header"
             android:layout_height="110dp"
             android:layout_width="match_parent" />
-              /* android:layout_marginTop="?attr/actionBarSize" */
+
 
 
 
