@@ -81,6 +81,26 @@ batch (check any 5 forms)\n
         <item name="android:textSize">14.0dip</item>
     </style>
 
+    <string name="scanner_activity">ZBar Scanner - Full Activity</string>
+    <string name="scanner_fragment_activity">ZBar Scanner - Full Fragment Activity</string>
+    <string name="simple_scanner_activity">ZBar Scanner - Simple Activity</string>
+    <string name="simple_scanner_fragment_activity">ZBar Scanner - Simple Fragment Activity</string>
+    <string name="simple_activity_sample">Simple Activity Sample</string>
+    <string name="simple_fragment_sample">Simple Fragment Sample</string>
+    <string name="activity_sample">Full Activity Sample</string>
+    <string name="fragment_sample">Full Fragment Sample</string>
+    <string name="toggle_flash">Flash</string>
+    <string name="flash_on">Flash [ON]</string>
+    <string name="flash_off">Flash [OFF]</string>
+    <string name="auto_focus_on">Auto Focus [ON]</string>
+    <string name="auto_focus_off">Auto Focus [OFF]</string>
+    <string name="formats">Formats</string>
+    <string name="choose_formats">Choose Formats</string>
+    <string name="select_camera">Select a Camera</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="cancel_button1">Cancel</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -201,13 +221,18 @@ status of each question using one of the following symbols:</string>
     <string name="err_msg_for_gender">it must be selected</string>
     <string name="error_message_email">Email is not in form</string>
     <string name="hint_cert_no">Certificate Number</string>
-    <string name="hint_trans_no">Transaction Number</string>
-    <string name="select_camera">Select Camera</string>
-    <string name="ok_button">Ok</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="choose_formats">Choose Formats</string>
     <string name="title_choose_file">Choose File</string>
+<string name="annexurem">Annexure M Photos</string>
+    <string name="stuatten">Students Attendance</string>
+    <string name="Questionalign">Align Questions</string>
+    <string name="stufeedback">Students Feedback</string>
+    <string name="annexurems">Annexure M</string>
+    <string name="grouppics">Group Photos</string>
+    <string-array name="arr_empanelment">
+        <item>Select</item>
+        <item>Radiant Infonet</item>
 
+    </string-array>
 
     <string-array name="gender">
         <item>Select Gender</item>
@@ -496,11 +521,7 @@ status of each question using one of the following symbols:</string>
 
     </string-array>
 
-    <string-array name="arr_empanelment">
-        <item>Select</item>
-        <item>Radiant Infonet</item>
 
-    </string-array>
 
 
 </resources>
