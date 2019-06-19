@@ -17,22 +17,17 @@ package com.vipin.assessortesta.Attendance;
         import android.support.annotation.Nullable;
         import android.support.v4.app.ActivityCompat;
         import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
-        import android.support.v7.view.ContextThemeWrapper;
         import android.text.method.ScrollingMovementMethod;
         import android.util.Base64;
         import android.util.Log;
         import android.view.View;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
         import android.widget.Button;
         import android.widget.LinearLayout;
         import android.widget.RadioButton;
         import android.widget.RadioGroup;
         import android.widget.TextView;
         import android.widget.Toast;
-
         import com.android.volley.AuthFailureError;
         import com.android.volley.DefaultRetryPolicy;
         import com.android.volley.Request;
@@ -50,17 +45,10 @@ package com.vipin.assessortesta.Attendance;
         import com.google.android.gms.location.LocationServices;
         import com.google.android.gms.location.LocationSettingsRequest;
         import com.google.android.gms.location.LocationSettingsResult;
-        import com.google.android.gms.location.LocationSettingsStates;
         import com.google.android.gms.location.LocationSettingsStatusCodes;
-        import com.google.android.gms.tasks.OnSuccessListener;
         import com.vipin.assessortesta.Global.BaseActivity;
-        import com.vipin.assessortesta.Initials.ForgotPassword;
         import com.vipin.assessortesta.Initials.MyNetwork;
-        import com.vipin.assessortesta.Initials.SignIn;
-        import com.vipin.assessortesta.Photos.Infrapic;
         import com.vipin.assessortesta.Photos.Photo_navigation;
-        import com.vipin.assessortesta.Photos.Pmkvysignane;
-        import com.vipin.assessortesta.Photos.photo_navigator;
         import com.vipin.assessortesta.R;
 
         import org.json.JSONException;
@@ -452,7 +440,6 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         currloc= address + "," + streett + "," + city + "," + country;
         System.out.println("current location is"+currloc);
         currentlocationn.setText(currloc);
-
         }
 
         } catch (IOException e) {
@@ -690,7 +677,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                 double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
                 double dist = earthRadius * c;
-
+                Toast.makeText(getApplicationContext(),"distance is"+dist,Toast.LENGTH_LONG).show();
                 return dist; // output distance, in MILES
             }
 

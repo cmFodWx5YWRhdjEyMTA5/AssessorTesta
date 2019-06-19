@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,18 +23,26 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/p_logo"
         android:supportsRtl="true"
-        tools:replace="android:icon"
-        android:theme="@style/AppTheme1">
-        <activity android:name=".Batch_Student.Assessment_details"></activity>
+        android:theme="@style/AppTheme1"
+        tools:replace="android:icon">
+        <activity android:name=".practical_exam.PracticalExamActivity"></activity>
+        <activity
+            android:name=".student_group.StudentGroupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme5" />
+        <activity
+            android:name=".Ass_Registration.AssRegActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme5"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Batch_Student.Assessment_details" />
         <activity
             android:name=".Photos.Photo_navigation"
             android:label="Annexure(M)"
-            android:theme="@style/AppTheme5"></activity>
-        <activity android:name=".ExamSection.QuestionViva"
-            android:theme="@style/AppTheme5">
-
-        </activity>
-
+            android:theme="@style/AppTheme5" />
+        <activity
+            android:name=".ExamSection.QuestionViva"
+            android:theme="@style/AppTheme5" />
         <activity
             android:name=".Batch_Student.Students_list"
             android:label="List of Students"
@@ -88,6 +98,8 @@
         <activity android:name=".Initials.ForgotPassword" />
         <activity android:name=".Initials.SignIn" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".Barcode_d.BaseScannerActivity" />
+        <activity android:name=".Barcode_d.SimpleScannerActivity" />
         <activity
             android:name=".Attendance.Assessor_Atten"
             android:label="@string/assessorattendance"
