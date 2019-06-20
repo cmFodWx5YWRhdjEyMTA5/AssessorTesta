@@ -24,8 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1"
         tools:replace="android:icon">
-        <activity android:name=".Initials.SplashScreen"
-            android:theme="@style/AppTheme1"></activity>
+        <activity  android:name=".Batch_Student.Batch_instruction"
+            android:label="@string/assessorattendance"
+            android:theme="@style/AppTheme5"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Batch_Student.Assessment_details" />
         <activity
             android:name=".Photos.Photo_navigation"
@@ -112,10 +114,8 @@
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Batch_Student.Batch_instruction"
-            android:label="@string/assessorattendance"
-            android:theme="@style/AppTheme5"
-            android:screenOrientation="portrait"
+            android:name=".Initials.SplashScreen"
+            android:theme="@style/AppTheme1"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

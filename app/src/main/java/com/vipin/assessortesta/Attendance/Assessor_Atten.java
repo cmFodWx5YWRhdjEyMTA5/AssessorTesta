@@ -46,6 +46,7 @@ package com.vipin.assessortesta.Attendance;
         import com.google.android.gms.location.LocationSettingsRequest;
         import com.google.android.gms.location.LocationSettingsResult;
         import com.google.android.gms.location.LocationSettingsStatusCodes;
+        import com.vipin.assessortesta.Batch_Student.Batch_instruction;
         import com.vipin.assessortesta.Global.BaseActivity;
         import com.vipin.assessortesta.Initials.MyNetwork;
         import com.vipin.assessortesta.Photos.Photo_navigation;
@@ -610,7 +611,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                                                         Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                                                 }
                                                 else if (status.equals("1")){
-                                                        Intent ii = new Intent(Assessor_Atten.this, Photo_navigation.class);
+                                                        Intent ii = new Intent(Assessor_Atten.this, Batch_instruction.class);
                                                         startActivity(ii);
 
 
