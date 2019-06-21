@@ -211,6 +211,9 @@ status of each question using one of the following symbols:</string>
     <string name="err_tech_stacks">It must be selected</string>
     <string name="err_msg_foraadhar">it must be 12 digit</string>
     <string name="err_msg_formobile">it must be 10 digit or not null</string>
+
+    <string name="err_msg_certificate">it must be filled</string>
+
     <string name="err_msg_for_first_name">it must be in form or not empty</string>
     <string name="err_msg_for_last_name">it must be in form or not empty</string>
     <string name="err_msg_for_address1">it must be in form or not empty</string>
