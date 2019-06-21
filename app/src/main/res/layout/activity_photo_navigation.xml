@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.vipin.assessortesta.Photos.photo_navigator">
+    tools:context="com.vipin.assessortesta.Photos.Photo_navigation">
 
     <ScrollView
         android:id="@+id/scroll1"

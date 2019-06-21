@@ -23,6 +23,8 @@
     <string name="pmkvybooklet">2.1 Click a picture of the PMKVY Booklet provided to trainees.</string>
     <string name="pmkvylab">4.1 Click a picture of poster of PMKVY displayed in the Laboratory.</string>
     <string name="groupphoto">Click a group photo of all the students.</string>
+    <string name="groupphotoself">Click a group photo with Selfie of all the students.</string>
+
 
     <string name="anx1">Is the center located at the same address as mentioned on SDMS?\n</string>
     <string name="anx2">Is Infrastructure(No. of classrooms, State of Laboratories, etc)present at the
@@ -70,6 +72,11 @@ batch (check any 5 forms)\n
     <string name="inst8">Pmkvy poster(Classroom)</string>
     <string name="inst9">Lab photo</string>
     <string name="inst10">Pmkvy poster (Lab</string>
+
+
+    <string name="GroupPhoto">Group Photo</string>
+    <string name="GroupPhotoselfie">Group Photo With Selfie</string>
+
 
     <style name="wrap_wrap_black1">
         <item name="colorPrimary">@color/lightbluee</item>
@@ -222,7 +229,7 @@ status of each question using one of the following symbols:</string>
     <string name="error_message_email">Email is not in form</string>
     <string name="hint_cert_no">Certificate Number</string>
     <string name="title_choose_file">Choose File</string>
-<string name="annexurem">Annexure M Photos</string>
+    <string name="annexurem">Annexure M Photos</string>
     <string name="stuatten">Students Attendance</string>
     <string name="Questionalign">Align Questions</string>
     <string name="stufeedback">Students Feedback</string>

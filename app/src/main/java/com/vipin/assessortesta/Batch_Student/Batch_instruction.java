@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
 import com.vipin.assessortesta.Initials.Annexure;
 import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
@@ -114,7 +115,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card6_intent = new Intent(Batch_instruction.this, Photo_navigation.class);
+                Intent card6_intent = new Intent(Batch_instruction.this,Group_Photo_Instructor_Activity.class);
                 startActivity(card6_intent); }
         });
 
