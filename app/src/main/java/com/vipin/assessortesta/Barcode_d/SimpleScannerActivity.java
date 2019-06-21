@@ -64,15 +64,16 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZBarSc
     public void handleResult(Result rawResult) {
         String str=rawResult.getContents();
         String[] ss=str.split("\" ");
-        //Toast.makeText(this, "dataa is" + ss[0]+"  "+ss[1]+"  "+ss[2]+" "+ss[3], Toast.LENGTH_LONG).show();
+
         if (ss!=null) {
-            Intent intent = new Intent();
+            System.out.println(ss);
+            Intent intent = new Intent(SimpleScannerActivity.this, AssRegActivity.class);
             intent.putExtra("ss", ss);
             setResult(2, intent); //Here 2 result code
-            //startActivity(intent);
-            finish();
-        }
+            startActivity(intent);
 
+            //finish();
+        }
 
 
         Handler handler = new Handler();

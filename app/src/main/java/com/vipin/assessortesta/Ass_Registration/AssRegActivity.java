@@ -2,7 +2,7 @@ package com.vipin.assessortesta.Ass_Registration;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -12,9 +12,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -29,7 +32,6 @@ import android.util.Patterns;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,19 +50,23 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.basgeekball.awesomevalidation.ValidationHolder;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.custom.CustomErrorReset;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidation;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidationCallback;
 import com.google.android.gms.vision.Frame;
-import com.google.gson.JsonArray;
+import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
 import com.vipin.assessortesta.Ass_Registration.pojo.category.SscCateResponse;
 import com.vipin.assessortesta.Ass_Registration.pojo.category.SscItem;
 import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
+import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
 import com.vipin.assessortesta.Barcode_d.SimpleScannerActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Initials.NetworkStateReceiver;
@@ -99,14 +105,14 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = AssRegActivity.class.getSimpleName();
     Paint myRectPaint;
     Spinner yearofbirth,monthofbirth,dateofbirth, experience, spnSscCat, spnPayment,employment,state,district,
-            Employment_status,OtherIdproof,category;
+            spnrEmpnlmentStatus,OtherIdproof,category;
     EditText input_name,input_last_name,input_mobile_no,input_address1,input_Id_no,input_address2,input_pincode,
             input_aadhar,input_pancard,Email,alt_no,your_city,etTransactionNo;
     ListView lvSSC, lvQualification;
     LinearLayout actionUploadDoc;
     Button btnAddQualfcn, btnRemoveQualfcn, btn_Add, btn_Remove;
     int sscId = 0;
-String namefromaadhaar;
+
     private DBAdapterClass dbAdapterClass;
     CoordinatorLayout parentv;
     private android.app.AlertDialog progressDialog;
@@ -114,7 +120,10 @@ String namefromaadhaar;
     Button input_submit,input_photograph1,input_aadharpic1;
     SwipeRefreshLayout mySwipeRefreshLayout;
     Spinner myspinner;
-    private ImageView actionQrCode;
+    private ImageView actionQrCode, ivUploadPan, ivUploadOthrId, ivUploadExp;
+    private ConstraintLayout layoutOtherId;
+    LinearLayout actionUploadExpDoc;
+    TextView tvDocTextExp;
 
     List<AllCollegeNameModel.Result> result;
     String emp_statuss;
@@ -135,16 +144,19 @@ String namefromaadhaar;
     String Stateid,Statevalue,bankid,bankvalue,districtid,districtvalue,selectedstatetext,sectorid,sectorvalue,
     employerid,employervalue,jobroleid,jobrolevalue,preflangid,preflangvalue,newString2;
     private static final int CAMERA_REQUEST = 1888;
+    private static final int PAN_CAMERA_REQUEST = 1890;
+
     private static final int CAMERA_AADHAR_REQUEST = 1889;
+    private static final int CAMERA_OTHER_ID_REQUEST = 1889;
+
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int ZBAR_CAMERA_PERMISSION = 1;
     private static final int READ_REQUEST_CODE = 42;
 
     String yearobirth,monthobirth,dateobirth;
     AwesomeValidation awesomeValidation;
-    String gender,eduction1,employer1,sector1,bankname1,state1,district1,encodedphoto,encodedphotoaadhar,jobrole1,
-    preflang1,categoryy,disablity_type1,
-    type_of_disablity1,Employment_status1,OtherIdproof1;
+    String gender,eduction1,employer1,sector1,bankname1,state1,district1,encodedphoto,encodedphotoaadhar, encodedphotoPan,
+            encodedphotoExp, encodedphotoOtherId, jobrole1,    preflang1,categoryy,disablity_type1,    type_of_disablity1,Employment_status1,OtherIdproof1;
     String bankiddd,stateiddd,districtiddd,employeridname,sectoridd,jobroleeiddd,preflangiddd;
     NetworkStateReceiver networkStateReceiver;
     ArrayAdapter<String> jobroleadapter;
@@ -217,7 +229,7 @@ String namefromaadhaar;
         dateofbirth=findViewById(R.id.input_layout_date);
         experience=findViewById(R.id.input_layout_exp);
 
-        Employment_status= findViewById(R.id.employment_status);
+        spnrEmpnlmentStatus= findViewById(R.id.spnrEmpnlmentStatus);
         OtherIdproof = findViewById(R.id.otherIdproof);
         input_Id_no = findViewById(R.id.input_Id_no);
         alt_no = findViewById(R.id.input_alt_mobile_no);
@@ -251,6 +263,17 @@ String namefromaadhaar;
         input_aadhar=findViewById(R.id.input_aadhar);
         input_pancard = findViewById(R.id.input_pancard);
         Email = findViewById(R.id.input_email);
+        ivUploadPan = findViewById(R.id.ivUploadPan);
+
+        layoutOtherId = findViewById(R.id.layoutOtherId);
+        ivUploadOthrId = findViewById(R.id.ivUploadOthrId);
+
+        actionUploadExpDoc = findViewById(R.id.actionUploadExpDoc);
+        ivUploadExp = findViewById(R.id.ivUploadExp);
+        tvDocTextExp = findViewById(R.id.tvDocTextExp);
+
+
+
 
         awesomeValidation=new AwesomeValidation(ValidationStyle.BASIC);
         mySwipeRefreshLayout=new SwipeRefreshLayout(getApplicationContext());
@@ -278,6 +301,12 @@ String namefromaadhaar;
         input_photograph1.setOnClickListener(this::onClick);
         input_aadharpic1.setOnClickListener(this::onClick);
         input_aadharpic.setOnClickListener(this::onClick);
+        ivUploadPan.setOnClickListener(this::onClick);
+        ivUploadOthrId.setOnClickListener(this::onClick);
+        actionUploadExpDoc.setOnClickListener(this::onClick);
+
+
+
 
         Bankdetails();
         Statedetails();
@@ -528,16 +557,16 @@ String namefromaadhaar;
 //                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Employment_status_string));
 //        myAdapterEmployment_status.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //
-//        Employment_status.setEnabled(false);
-//        Employment_status.setClickable(false);
-//        Employment_status.setAdapter(myAdapterEmployment_status);
-        Employment_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+//        spnrEmpnlmentStatus.setEnabled(false);
+//        spnrEmpnlmentStatus.setClickable(false);
+//        spnrEmpnlmentStatus.setAdapter(myAdapterEmployment_status);
+        spnrEmpnlmentStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id)
             {
-                Employment_status1=Employment_status.getSelectedItem().toString();
+                Employment_status1=spnrEmpnlmentStatus.getSelectedItem().toString();
             }
 
             @Override
@@ -566,10 +595,10 @@ String namefromaadhaar;
                 OtherIdproof1=OtherIdproof.getSelectedItem().toString();
 
                 if (OtherIdproof1.equals("Other Id Proof")){
-                    input_Id_no.setVisibility(View.GONE);
+                    layoutOtherId.setVisibility(View.GONE);
                 }
                 else {
-                    input_Id_no.setVisibility(View.VISIBLE);
+                    layoutOtherId.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -1202,11 +1231,11 @@ String namefromaadhaar;
                     String status= jobj.getString("status");
                     emp_statuss=jobj.getString("emp_status");
 
-                    ArrayAdapter myAdap = (ArrayAdapter) Employment_status.getAdapter(); //cast to an ArrayAdapter
+                    ArrayAdapter myAdap = (ArrayAdapter) spnrEmpnlmentStatus.getAdapter(); //cast to an ArrayAdapter
                     int spinnerPosition = myAdap.getPosition(emp_statuss);
 
 //set the default according to value
-                    Employment_status.setSelection(spinnerPosition);
+                    spnrEmpnlmentStatus.setSelection(spinnerPosition);
 
                     /*if (jobrolelist.size()<=1){
                         jobrolelist.clear();
@@ -1291,61 +1320,6 @@ String namefromaadhaar;
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if (resultCode == 2 && requestCode == 1){
-                //do something
-                HashMap<String, String> map = new HashMap<>();
-                Bundle extras = data.getExtras();
-                String ss[]=extras.getStringArray("ss");
-                for (String s: ss) {
-                    String[] sd=s.split("=");
-                    Log.d("dataaa",sd[0]);
-                    Log.d("dataaa",sd[1]);
-                    map.put(sd[0], sd[1]);
-                    //map.put("value", sd[1]);
-                    //Toast.makeText(this,"result"+ss[0]+" "+ss[1],Toast.LENGTH_LONG).show();
-                }
-                System.out.println("dataa is"+map);
-                System.out.println("name is"+map.get("name"));
-                System.out.println("co is"+map.get("co"));
-                System.out.println("gender is"+map.get("gender"));
-                System.out.println("street is"+map.get("street"));
-                System.out.println("dist is"+map.get("dist"));
-                System.out.println("lm is"+map.get("lm"));
-                System.out.println("subdist is"+map.get("subdist"));
-                System.out.println("yob is"+map.get("yob"));
-
-                if (map.get("name")!=null){
-                    namefromaadhaar=map.get("name").replace("\"","");
-                    String namee[]=namefromaadhaar.split(" ");
-                    input_name.setEnabled(false);
-                    input_last_name.setEnabled(false);
-                    input_name.setText(namee[0]);
-                    input_last_name.setText(namee[1]);
-                }
-                if(map.get("pc")!=null){
-                    input_pincode.setText(map.get("pc").replace("/>",""));
-                    input_pincode.setEnabled(false);
-                }
-                if(map.get("house")!=null){
-                    input_address1.setText(map.get("house").replace("\"",""));
-                    input_address1.setEnabled(false);
-                }
-                if(map.get("lm")!=null){
-                    input_address2.setText(map.get("lm").replace("\"",""));
-                    input_address2.setEnabled(false);
-                }
-                if(map.get("subdist")!=null){
-                    your_city.setText(map.get("subdist").replace("\"",""));
-                    your_city.setEnabled(false);
-                }
-            }else{
-                // Toast.makeText(this,"aaaaa",Toast.LENGTH_LONG).show();
-                //do something else
-            }}catch (Exception e){
-            System.out.println("fffff"+e);
-        }
-
-        try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){
                     //todo - show error
@@ -1398,8 +1372,6 @@ String namefromaadhaar;
 
                 input_photograph.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
             }
-
-
             if (requestCode == CAMERA_AADHAR_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 int currentBitmapWidth = photo.getWidth();
@@ -1414,6 +1386,36 @@ String namefromaadhaar;
                 encodedphotoaadhar = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
             }
+
+            if (requestCode == PAN_CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                int currentBitmapWidth = photo.getWidth();
+                int currentBitmapHeight = photo.getHeight();
+                mySwipeRefreshLayout.setRefreshing(false);
+                int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) currentBitmapWidth / (double) currentBitmapWidth));
+                Bitmap newbitMap = Bitmap.createScaledBitmap(photo, currentBitmapWidth, newHeight, true);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                newbitMap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                encodedphotoPan = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            }
+            if (requestCode == CAMERA_OTHER_ID_REQUEST && resultCode == Activity.RESULT_OK) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                int currentBitmapWidth = photo.getWidth();
+                int currentBitmapHeight = photo.getHeight();
+                mySwipeRefreshLayout.setRefreshing(false);
+                int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) currentBitmapWidth / (double) currentBitmapWidth));
+                Bitmap newbitMap = Bitmap.createScaledBitmap(photo, currentBitmapWidth, newHeight, true);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                newbitMap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                encodedphotoOtherId= Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            }
+
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -1454,10 +1456,14 @@ String namefromaadhaar;
             case R.id.actionUploadDoc:
                 Toast.makeText(this, "Upload!", Toast.LENGTH_SHORT).show();
                 break;
-
+            case R.id.ivUploadPan:
+                Toast.makeText(this, "PAN Upload!", Toast.LENGTH_SHORT).show();
+                funcStartCamera(MY_CAMERA_PERMISSION_CODE, PAN_CAMERA_REQUEST);
+                break;
             case R.id.btn_signup:
                 funcSubmitData();
 //                getSscCertList();
+//                getQualificationList();
                 break;
             case R.id.input_photograph:
                     funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
@@ -1471,11 +1477,71 @@ String namefromaadhaar;
                 case R.id.input_photograph_aadhar1:
                     funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_AADHAR_REQUEST);
                 break;
+                case R.id.ivUploadOthrId:
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_OTHER_ID_REQUEST);
+                break;
+                case R.id.actionUploadExpDoc:
+                    funcUploadExpDoc();
+                break;
+
 
 
                 default:
                     Toast.makeText(this, "Not a valid selection!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void funcUploadExpDoc() {
+
+
+        String path = Environment.getExternalStorageDirectory().toString()+ File.separator + Environment.DIRECTORY_DOWNLOADS;
+
+        new ChooserDialog().with(AssRegActivity.this)
+                .withFilter(false, false, "pdf", "jpeg", "png", "jpg")
+                .withStartFile(path)
+                .withResources(R.string.title_choose_file, R.string.title_choose, R.string.dialog_cancel)
+                .withChosenListener(new ChooserDialog.Result() {
+                    @Override
+                    public void onChoosePath(String path, File pathFile) {
+//                                Toast.makeText(mContext, "FILE: " + path, Toast.LENGTH_SHORT).show();
+//                                System.out.println(pathFile);
+
+                        if (pathFile.length() > 0) {
+                            int fileSize = Integer.parseInt(String.valueOf(pathFile.length() / 1024));
+
+                            if (fileSize <= 500) {
+                                String sPath = path.substring(path.lastIndexOf("/") + 1);
+                                tvDocTextExp.setText(path);
+                                tvDocTextExp.setText(sPath);
+                                tvDocTextExp.setTextColor(getResources().getColor(R.color.button2));
+                                ivUploadExp.setImageResource(R.drawable.ic_file_done);
+                                ivUploadExp.setColorFilter(ContextCompat.getColor(AssRegActivity.this, R.color.button2), android.graphics.PorterDuff.Mode.SRC_IN);
+
+                                encodedphotoExp = encodeFileToBase64Binary(path);
+
+                            }else {
+                                new android.app.AlertDialog.Builder(AssRegActivity.this)
+                                        .setIcon(R.drawable.ic_complain)
+                                        .setTitle("Warning")
+                                        .setMessage("File size can't be greater than 500kb")
+                                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                tvDocTextExp.setTextColor(getResources().getColor(R.color.black));
+                                                tvDocTextExp.setText("Upload Document");
+                                                ivUploadExp.setImageResource(R.drawable.ic_uploading_file);
+
+                                            }
+                                        })
+                                        .show();
+                            }
+                        }
+                    }
+                })
+                .build()
+                .show();
+
     }
 
     private void funcScanQRCode() {
@@ -1485,8 +1551,8 @@ String namefromaadhaar;
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
         } else {
-            Intent ii=new Intent(AssRegActivity.this,SimpleScannerActivity.class);
-            startActivityForResult(ii, 1);
+            Intent intent = new Intent(this, SimpleScannerActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -1496,7 +1562,7 @@ String namefromaadhaar;
 
     private void funcStartCamera(int PERMISSION_CODE, int REQUEST_CODE){
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.CAMERA},
@@ -1630,9 +1696,9 @@ String namefromaadhaar;
         for (int i = 0; i < countAcademic; i++) {
 
             parentView = getViewByPosition(i, lvSSC);
-            Spinner spnJobRole = (Spinner)parentView.findViewById(R.id.spnJobRole);
-            EditText input_cert_no = (EditText)parentView.findViewById(R.id.input_cert_no);
-            TextView tvDoc = (TextView)parentView.findViewById(R.id.tvDoc);
+            Spinner spnJobRole = (Spinner) parentView.findViewById(R.id.spnJobRole);
+            EditText input_cert_no = (EditText) parentView.findViewById(R.id.input_cert_no);
+            TextView tvDoc = (TextView) parentView.findViewById(R.id.tvDoc);
 
             sField1 =  spnJobRole.getSelectedItem().toString().trim();
             sField2 =  input_cert_no.getText().toString().trim();
@@ -1710,6 +1776,7 @@ String namefromaadhaar;
         String sCertName = "", sCertNo = "", sPath = "";
         JSONArray jsonArray = new JSONArray();
 
+        List<JobrolesItem> jobrolesItemList = certResponse.getJobroles();
         dbAdapterClass.deleteAcademicTable();
         for (int i = 0; i < countAcademic; i++) {
 
@@ -1724,9 +1791,12 @@ String namefromaadhaar;
 
             JSONObject jsonObject = new JSONObject();
             try {
-            jsonObject.put("name", sCertName);
+            jsonObject.put("jobrole_id", jobrolesItemList.get(i).getId());
             jsonObject.put("certificate_number", sCertNo);
-            jsonObject.put("cert_doc", encodeFileToBase64Binary(sPath.trim()));
+            jsonObject.put("jobrole_docs", encodeFileToBase64Binary(sPath.trim()));
+
+            String sExt = sPath.substring(sPath.length()-4);
+            jsonObject.put("doc_ext", sExt);
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1803,17 +1873,18 @@ String namefromaadhaar;
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("name", sField1);
-                jsonObject.put("qualification_docs", encodeFileToBase64Binary(sField2.trim()));
+                String sExt = sField2.substring(sField2.length()-4);
+                jsonObject.put("qualification", sField1);
+                jsonObject.put("image_path", encodeFileToBase64Binary(sField2.trim()));
+                jsonObject.put("doc_ext", sExt);
 
+                jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         return jsonArray;
     }
-
-
 
     @Override
     protected void onDestroy() {
@@ -1954,8 +2025,8 @@ String namefromaadhaar;
             try{
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("mobile", input_mobile_no.getText().toString());
-                map.put("aadharimg",encodedphotoaadhar);
-                map.put("pic",encodedphoto);
+                map.put("image_path",encodedphoto);
+                map.put("aadhar_img",encodedphotoaadhar);
                 map.put("firstname", input_name.getText().toString());
                 map.put("lastname", input_last_name.getText().toString());
                 map.put("gender", gender);
@@ -1963,32 +2034,41 @@ String namefromaadhaar;
                 map.put("email",Email.getText().toString());
                 map.put("landline",alt_no.getText().toString());
                 map.put("year_of_birth", yearobirth);
-//                map.put("dob",monthobirth);
-                map.put("dob",dateobirth);
+                map.put("dob",yearobirth+"-"+monthobirth+"-"+dateobirth);
                 map.put("state_id", stateiddd);
                 map.put("district_id", districtiddd);
                 map.put("City",your_city.getText().toString());
                 map.put("address1", input_address1.getText().toString());
                 map.put("address2", input_address2.getText().toString());
                 map.put("pincode", input_pincode.getText().toString());
-                map.put("qualification", getQualificationList());
-                map.put("experience", experience.getSelectedItem().toString());
+
+                String sDocText = tvDocTextExp.getText().toString();
+                String sExp = experience.getSelectedItem().toString().split("\\s")[0].trim();
+                map.put("experience", sExp);
+                map.put("experience_certificate", encodedphotoExp);
+                map.put("doc_ext", sDocText.substring(sDocText.length()-4));
+
                 map.put("ssc_id", sscId);
                 map.put("payment", spnPayment.getSelectedItem().toString());
                 map.put("transaction_id", etTransactionNo.getText());
-                map.put("ssc_job", getSscCertList());
-                map.put("jobrole_id",jobroleeiddd);
-                map.put("empanelment_status",Employment_status1);
-                map.put("input_id_no",input_Id_no.getText().toString());
-                map.put("other_Id_proof_type",OtherIdproof1);
-//                map.put("education", eduction1);
 
+                map.put("partner_id", 1);
+                String otherIdText = OtherIdproof1.replace(" ", "");
+                map.put("other_id_type", otherIdText);
+                map.put("other_id_number",input_Id_no.getText().toString());
+                map.put("other_id_img", encodedphotoOtherId);
 
                 map.put("aadhar", input_aadhar.getText().toString());
                 map.put("pan", input_pancard.getText().toString());
+                map.put("pan_img", encodedphotoPan);
                 System.out.println("abc");
 
-                callApiForRegistration(map);
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(map);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("registration", jsonArray);
+                callApiForRegistration(jsonObject);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1996,9 +2076,6 @@ String namefromaadhaar;
 
         }else
         {
-
-            //Toast.makeText(getApplicationContext(), "The form is not filled correctly.Please verify it and submit.", Toast.LENGTH_LONG).show();
-
             Snackbar.make(parentv,"The form is not filled correctly.Please verify it and submit.",Snackbar.LENGTH_SHORT).show();
         }
 
@@ -2007,36 +2084,182 @@ String namefromaadhaar;
 
     private void callApiForRegistration(JSONObject jsonObject){
        show_progressbar();
-        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/save_assessor_data.php")
+
+        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data.php")
                 .addJSONObjectBody(jsonObject)
-                .setPriority(Priority.MEDIUM)
+                .setPriority(Priority.HIGH)
                 .build()
-                .getJSONObjectObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JSONObject>() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(JSONObject jsonObject) {
+                    public void onResponse(JSONObject response) {
                         hide_progressbar();
-                        Toast.makeText(AssRegActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+                        try {
+                            if (response.getInt( "status") == 1){
+                                Toast.makeText(AssRegActivity.this, "Success-1", Toast.LENGTH_SHORT).show();
+                                submitData2();
+                            }else {
+                                String msg = response.getString("msg");
+                                Drawable d = (Drawable)getResources().getDrawable(android.R.drawable.ic_delete);
+                                new AlertDialog.Builder(AssRegActivity.this)
+                                        .setIcon(d)
+                                        .setTitle("Alert")
+                                        .setMessage(msg)
+                                        .setNegativeButton("Ok", null)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Toast.makeText(AssRegActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(ANError anError) {
                         hide_progressbar();
-                            Toast.makeText(AssRegActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AssRegActivity.this, "Failed-1", Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onComplete() {
-                        hide_progressbar();
-                    }
-                });
+                })
+                ;
     }
+
+    private void submitData2(){
+        JSONObject map = new JSONObject();
+        try{
+            map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+            map.put("email",Email.getText().toString());
+            map.put("config_qualification", getQualificationList());
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(map);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("registration", jsonArray);
+            callApiForRegImage(jsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void callApiForRegImage(JSONObject jsonObject){
+        show_progressbar();
+
+        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data_image.php")
+                .addJSONObjectBody(jsonObject)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hide_progressbar();
+
+                        try {
+                            if (response.getInt("status") == 1){
+
+                                Toast.makeText(AssRegActivity.this, "Success-2", Toast.LENGTH_SHORT).show();
+                                submitData3();
+
+                            }else {
+                                String msg = response.getString("msg");
+                                Drawable d = (Drawable)getResources().getDrawable(android.R.drawable.ic_delete);
+                                new AlertDialog.Builder(AssRegActivity.this)
+                                        .setIcon(d)
+                                        .setTitle("Alert")
+                                        .setMessage(msg)
+                                        .setNegativeButton("Ok", null)
+                                        .show();
+                                submitData3();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        hide_progressbar();
+                        Toast.makeText(AssRegActivity.this, "Failed-2", Toast.LENGTH_SHORT).show();
+                        submitData3();
+                    }
+                })
+        ;
+    }
+    private void submitData3(){
+        JSONObject map = new JSONObject();
+        try{
+            map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+            map.put("email",Email.getText().toString());
+            map.put("ssc_job", getSscCertList());
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(map);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("registration", jsonArray);
+            callApiForRegImage3(jsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void callApiForRegImage3(JSONObject jsonObject){
+        show_progressbar();
+
+        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data_image.php")
+                .addJSONObjectBody(jsonObject)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hide_progressbar();
+
+                        try {
+                            if (response.getInt("status") == 1){
+
+                                Drawable d = (Drawable)getResources().getDrawable(android.R.drawable.ic_menu_info_details);
+                                new AlertDialog.Builder(AssRegActivity.this)
+                                        .setIcon(d)
+                                        .setTitle("Alert")
+                                        .setMessage("Registration Succesfull.")
+                                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+//                                                startActivity(new Intent(AssRegActivity.this, StudentGroupActivity.class));
+//                                                finish();
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+
+                            }else {
+                                String msg = response.getString("msg");
+                                Drawable d = (Drawable)getResources().getDrawable(android.R.drawable.ic_delete);
+                                new AlertDialog.Builder(AssRegActivity.this)
+                                        .setIcon(d)
+                                        .setTitle("Alert")
+                                        .setMessage(msg)
+                                        .setNegativeButton("Ok", null)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        hide_progressbar();
+                        Toast.makeText(AssRegActivity.this, "Failed-3", Toast.LENGTH_SHORT).show();
+                    }
+                })
+        ;
+    }
+
+
+
 
 }

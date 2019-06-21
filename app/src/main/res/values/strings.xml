@@ -206,7 +206,7 @@ status of each question using one of the following symbols:</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
-    <string name="hint_trans_no">Transaction Number</string>
+
     //error message
     <string name="err_tech_stacks">It must be selected</string>
     <string name="err_msg_foraadhar">it must be 12 digit</string>
@@ -235,6 +235,10 @@ status of each question using one of the following symbols:</string>
     <string name="stufeedback">Students Feedback</string>
     <string name="annexurems">Annexure M</string>
     <string name="grouppics">Group Photos</string>
+    <string name="hint_trans_no">Transaction Number</string>
+    <string name="title_practical_exam">Practical Exam</string>
+    <string name="txt_add">Add</string>
+    <string name="title_assessor_feedback">Type of Question  VIVA</string>
     <string-array name="arr_empanelment">
         <item>Select</item>
         <item>Radiant Infonet</item>
@@ -267,15 +271,6 @@ status of each question using one of the following symbols:</string>
 
     </string-array>
 
-    <string-array name="Arr_Qualification">
-        <item>Select</item>
-        <item>10th</item>
-        <item>12th</item>
-        <item>Graduation</item>
-        <item>Above Graduation</item>
-        <item>Other</item>
-
-    </string-array>
 
     <string-array name="Disablity">
         <item>Any Disablity ?</item>
@@ -292,7 +287,6 @@ status of each question using one of the following symbols:</string>
 
     </string-array>
 
-
     <string-array name="type_of_Disablity">
         <item>Select Type of Disability</item>
         <item>Blindness (Visually Impaired)</item>
@@ -306,14 +300,12 @@ status of each question using one of the following symbols:</string>
         <item>Other</item>
     </string-array>
 
-
     <string-array name="other_id">
         <item>Other Id Proof</item>
         <item>Driving Licence</item>
         <item>Voter Id Card</item>
         <item>Other</item>
     </string-array>
-
 
     <string-array name="Year">
         <item>Year</item>
@@ -498,7 +490,7 @@ status of each question using one of the following symbols:</string>
 
     <string-array name="Arr_Payment">
         <item>Select Payment</item>
-        <item>Yes </item>
+        <item>Yes</item>
         <item>No</item>
     </string-array>
 
@@ -518,6 +510,26 @@ status of each question using one of the following symbols:</string>
         <item>Select District</item>
         <item>Yes </item>
         <item>No</item>
+    </string-array>
+
+    <string-array name="Arr_Qualification">
+        <item>Select</item>
+        <item>10th</item>
+        <item>12th</item>
+        <item>Graduation</item>
+        <item>Above Graduation</item>
+        <item>Other</item>
+
+    </string-array>
+
+    <string-array name="Arr_Other_Qualification">
+        <item>Select</item>
+        <item>10th</item>
+        <item>12th</item>
+        <item>Graduation</item>
+        <item>Above Graduation</item>
+        <item>Other</item>
+
     </string-array>
 
 

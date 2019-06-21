@@ -10,7 +10,7 @@
         android:id="@+id/layoutTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1e88e5"
+        android:background="@color/BBlue"
         android:padding="@dimen/horizontal_margin"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Instructions For Payment"
-
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +58,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
 
-        android:padding="@dimen/horizontal_margin_small"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingBottom="@dimen/horizontal_margin"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hrzLine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,27 +71,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dear Assessor to continue with your registration process."
+        android:textStyle="bold"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Kindly submit your registration amount,"
+        android:layout_marginTop="@dimen/horizontal_margin_small_small"
+        android:layout_marginBottom="@dimen/horizontal_margin_small_small"
         />
 
         #1
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Beneficiary:"
+                android:text="Beneficiary: "
+                android:textColor="#666666"
+                android:fontFamily="sans-serif-medium"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Apparel, Madeups &amp; Home Furnishing Sector Skill Council"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 />
 
         </LinearLayout>
@@ -94,16 +109,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/vertical_margin_small_small"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bank Name:"
+
+                android:textColor="#666666"
+                android:fontFamily="sans-serif-medium"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indian Overseas Bank"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 />
 
         </LinearLayout>
@@ -112,16 +134,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/vertical_margin_small_small"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bank Account Number:"
+
+                android:textColor="#666666"
+                android:fontFamily="sans-serif-medium"
                 />
             <TextView
+                android:id="@+id/tvBankAcNO"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="180401000010000"
+                android:textColor="@color/lightbluee"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/drawable_content_copy"
                 />
 
         </LinearLayout>
@@ -130,16 +161,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/vertical_margin_small_small"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IFSC/RTGS code: "
+
+                android:textColor="#666666"
+                android:fontFamily="sans-serif-medium"
                 />
             <TextView
+                android:id="@+id/tvIFSC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IOBA0001804"
+                android:textColor="@color/lightbluee"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/drawable_content_copy"
                 />
 
         </LinearLayout>
@@ -148,6 +188,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Note: For future refrence keep your transation number."
+
+            android:layout_marginTop="@dimen/vertical_margin"
             />
 
     </LinearLayout>

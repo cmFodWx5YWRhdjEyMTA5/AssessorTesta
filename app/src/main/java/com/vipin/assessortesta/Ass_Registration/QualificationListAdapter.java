@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -132,7 +131,7 @@ public class QualificationListAdapter extends BaseAdapter {
 //                File file = new File(path);
 
                 new ChooserDialog().with(mContext)
-                        .withFilter(false, false, "pdf", "doc", "docx", "jpeg", "png", "jpg")
+                        .withFilter(false, false, "pdf", "jpeg", "png", "jpg")
                         .withStartFile(path)
                         .withResources(R.string.title_choose_file, R.string.title_choose, R.string.dialog_cancel)
                         .withChosenListener(new ChooserDialog.Result() {

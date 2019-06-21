@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -9,14 +12,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-    productFlavors {
     }
     compileOptions {
         sourceCompatibility = '1.8'
@@ -26,28 +28,33 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.facebook.shimmer:shimmer:0.4.0'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'me.biubiubiu.justifytext:library:1.1'
-    implementation 'com.basgeekball:awesome-validation:4.2'
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-config:16.3.0'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+//    GOOGLE
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'me.biubiubiu.justifytext:library:1.1'
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'com.github.d-max:spots-dialog:0.4@aar'
     implementation 'com.github.satyan:sugar:1.3'
+    implementation 'com.basgeekball:awesome-validation:4.2'
     implementation 'com.amitshekhar.android:rx2-android-networking:1.0.1'
-    implementation 'com.google.android.gms:play-services-vision:17.0.2'
-    implementation 'com.obsez.android.lib.filechooser:filechooser:1.1.10'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation 'me.dm7.barcodescanner:zbar:1.9.13'
+
+    implementation 'com.obsez.android.lib.filechooser:filechooser:1.1.10'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'com.kevalpatel2106:hiddencamera:1.3.3'
 }

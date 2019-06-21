@@ -39,11 +39,6 @@
         <item name="DialogSpotCount">8</item>
     </style>
 
-    <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
-        <!-- Support Library compability -->
-        <item name="windowActionBarOverlay">true</item>
-    </style>
 
 
         <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
@@ -110,6 +105,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support Library compability -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
 
 
 </resources>

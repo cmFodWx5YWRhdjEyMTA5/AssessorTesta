@@ -4,32 +4,24 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Environment;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.vipin.assessortesta.Ass_Registration.db.AcademicDbModel;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
-
-
 import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
 import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
 import com.vipin.assessortesta.R;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,7 +39,7 @@ public class SscListAdapter extends BaseAdapter {
     LinearLayout actionUploadDoc;
     List<AllCollegeNameModel.Result> result;
     private ArrayList<String> mStringList;
-    ArrayList<AcademicDbModel> academicDbModelArrayList ;
+    ArrayList<com.vipin.assessortesta.Ass_Registration.db.AcademicDbModel> academicDbModelArrayList ;
     private DBAdapterClass dbAdapterClass;
     CertificateResponse certificateResponse;
 
@@ -111,7 +103,7 @@ public class SscListAdapter extends BaseAdapter {
                 String path = Environment.getExternalStorageDirectory().toString()+ File.separator + Environment.DIRECTORY_DOWNLOADS;
 
                 new ChooserDialog().with(mContext)
-                        .withFilter(false, false, "pdf", "doc", "docx", "jpeg", "png", "jpg")
+                        .withFilter(false, false, "pdf", "jpeg", "png", "jpg")
                         .withStartFile(path)
                         .withResources(R.string.title_choose_file, R.string.title_choose, R.string.dialog_cancel)
                         .withChosenListener(new ChooserDialog.Result() {
