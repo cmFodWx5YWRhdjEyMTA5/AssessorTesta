@@ -32,7 +32,6 @@
 
             ></activity>
         <activity android:name=".Group_Photo_Activity.GroupPhoto_Activity"
-
             android:label="Annexure(M)"
             android:theme="@style/AppTheme5"
             />
@@ -41,6 +40,14 @@
             android:theme="@style/AppTheme5"
 
             />
+
+
+        <activity android:name=".Batch_Student.Batch_instruction"
+        android:label="@string/assessorattendance"
+        android:theme="@style/AppTheme5"
+        android:screenOrientation="portrait"
+            />
+
 
         <activity android:name=".Batch_Student.Assessment_details" />
         <activity android:name=".feedback.AssessorFeedbackActivity"
@@ -57,7 +64,7 @@
             android:name=".student_group.StudentGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
-            android:name=".ExamSection.QuestionViva"
+          <activity  android:name=".ExamSection.QuestionViva"
             android:theme="@style/AppTheme5" />
         <activity
             android:name=".Barcode_d.SimpleScannerActivity"
@@ -125,9 +132,13 @@
         <activity
             android:name=".Initials.AssessorTask"
             android:theme="@style/AppTheme4" />
+
         <activity android:name=".Initials.ForgotPassword" />
+
         <activity android:name=".Initials.SignIn" />
+
         <activity android:name=".MainActivity" />
+
         <activity
             android:name=".Assessor_Exam.TestQuestion"
             android:screenOrientation="portrait"
@@ -136,10 +147,10 @@
             android:name=".Attendance.Assessor_Atten"
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
+
         <activity
-            android:name=".Batch_Student.Batch_instruction"
-            android:label="@string/assessorattendance"
-            android:theme="@style/AppTheme5"
+            android:name=".Initials.SplashScreen"
+            android:theme="@style/AppTheme1"
             android:screenOrientation="portrait"
             >
             <intent-filter>
