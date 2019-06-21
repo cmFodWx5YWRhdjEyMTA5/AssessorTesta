@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.practical_exam.PracticalExamActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
@@ -23,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
 
 //        Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
 //        Intent i = new Intent(SplashScreen.this, StudentGroupActivity.class);
-        Intent i = new Intent(SplashScreen.this, PracticalExamActivity.class);
+        Intent i = new Intent(SplashScreen.this, AssessorFeedbackActivity.class);
 
         startActivity(i);
 

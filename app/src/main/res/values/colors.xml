@@ -38,6 +38,10 @@
     <color name="colors3">#9D92E8</color>
     <color name="colors4">#088EAB</color>
     <color name="colors5">#3AACDF</color>
+    <color name="colorSmoggyWhite">#f8f8f8</color>
+    <color name="colorNonSelectBg">#90a4ae</color>
+    <color name="colorSelectBg">#8bc34a</color>
+
 
 
     <array name="arr_group_color">

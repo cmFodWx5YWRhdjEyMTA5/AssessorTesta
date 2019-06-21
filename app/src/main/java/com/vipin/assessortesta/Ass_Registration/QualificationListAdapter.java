@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.vipin.assessortesta.Ass_Registration.db.AcademicDbModel;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
-import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
-import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
 import com.vipin.assessortesta.R;
 
 import java.io.File;

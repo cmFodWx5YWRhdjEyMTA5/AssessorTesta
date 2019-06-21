@@ -2,7 +2,6 @@ package com.vipin.assessortesta.Ass_Registration;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,7 +31,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,7 +59,6 @@ import com.basgeekball.awesomevalidation.utility.custom.CustomErrorReset;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidation;
 import com.basgeekball.awesomevalidation.utility.custom.CustomValidationCallback;
 import com.google.android.gms.vision.Frame;
-import com.google.gson.JsonArray;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.vipin.assessortesta.Ass_Registration.db.DBAdapterClass;
@@ -75,7 +72,6 @@ import com.vipin.assessortesta.Initials.NetworkStateReceiver;
 import com.vipin.assessortesta.R;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.AlertDialogPayment;
 import com.vipin.assessortesta.utils.AwesomeValidation;
 import com.vipin.assessortesta.utils.VerhoeffAlgorithm;
@@ -1811,11 +1807,12 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
             JSONObject jsonObject = new JSONObject();
             try {
-                String sExt = sPath.substring(sPath.length()-4);
             jsonObject.put("jobrole_id", jobrolesItemList.get(i).getId());
             jsonObject.put("certificate_number", sCertNo);
             jsonObject.put("jobrole_docs", encodeFileToBase64Binary(sPath.trim()));
-                jsonObject.put("doc_ext", sExt);
+
+            String sExt = sPath.substring(sPath.length()-4);
+            jsonObject.put("doc_ext", sExt);
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -2064,7 +2061,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 String sDocText = tvDocTextExp.getText().toString();
                 String sExp = experience.getSelectedItem().toString().split("\\s")[0].trim();
                 map.put("experience", sExp);
-                map.put("experience_certificate", sExp);
+                map.put("experience_certificate", encodedphotoExp);
                 map.put("doc_ext", sDocText.substring(sDocText.length()-4));
 
                 map.put("ssc_id", sscId);
