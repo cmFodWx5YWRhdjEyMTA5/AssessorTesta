@@ -238,7 +238,7 @@ status of each question using one of the following symbols:</string>
     <string name="hint_trans_no">Transaction Number</string>
     <string name="title_practical_exam">Practical Exam</string>
     <string name="txt_add">Add</string>
-    <string name="title_assessor_feedback">Type of Question  VIVA</string>
+    <string name="title_assessor_feedback">Feedback</string>
     <string-array name="arr_empanelment">
         <item>Select</item>
         <item>Radiant Infonet</item>
