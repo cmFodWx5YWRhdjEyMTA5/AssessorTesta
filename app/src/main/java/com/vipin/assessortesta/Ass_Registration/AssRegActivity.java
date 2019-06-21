@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -290,12 +291,8 @@ String namefromaadhaar;
     }
     private void awesomeValidations() {
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_name,"[a-zA-Z\\s]+", R.string.err_msg_for_first_name);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_last_name,"[a-zA-Z\\s]+", R.string.err_msg_for_last_name);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_address1,"(.|\\s)*\\S(.|\\s)*", R.string.err_msg_for_address1);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_pincode,"^[0-9]{6}$", R.string.err_msg_pincode);
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_mobile_no,"^[0-9]{10}$", R.string.err_msg_formobile);
-
-        // awesomeValidation.addValidation(AssRegActivity.this, R.id.input_email, Patterns.EMAIL_ADDRESS, R.string.err_msg_email);
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_email, Patterns.EMAIL_ADDRESS, R.string.err_msg_email);
 
         cmp_id = getIntent().getStringExtra("cmp_id");
         System.out.println("the id of company is"+cmp_id);
@@ -328,58 +325,8 @@ String namefromaadhaar;
             }
         }, R.string.err_tech_stacks);
 
-        //awesome validation for gender
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_gender, new CustomValidation() {
-            @Override
-            public boolean compare(ValidationHolder validationHolder) {
-                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Gender")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }, new CustomValidationCallback() {
-            @Override
-            public void execute(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(validationHolder.getErrMsg());
-                textViewError.setTextColor(Color.RED);
-            }
-        }, new CustomErrorReset() {
-            @Override
-            public void reset(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(null);
-                textViewError.setTextColor(Color.BLACK);
-            }
-        }, R.string.err_tech_stacks);
 
 
-        //awesome validation for category
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_category, new CustomValidation() {
-            @Override
-            public boolean compare(ValidationHolder validationHolder) {
-                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Category")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }, new CustomValidationCallback() {
-            @Override
-            public void execute(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(validationHolder.getErrMsg());
-                textViewError.setTextColor(Color.RED);
-            }
-        }, new CustomErrorReset() {
-            @Override
-            public void reset(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(null);
-                textViewError.setTextColor(Color.BLACK);
-            }
-        }, R.string.err_tech_stacks);
 
         //awesome validation for state
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_State, new CustomValidation() {
@@ -432,6 +379,43 @@ String namefromaadhaar;
                 textViewError.setTextColor(Color.BLACK);
             }
         }, R.string.err_tech_stacks);
+
+
+
+
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_District, new CustomValidation() {
+            @Override
+            public boolean compare(ValidationHolder validationHolder) {
+                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select the District")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }, new CustomValidationCallback() {
+            @Override
+            public void execute(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(validationHolder.getErrMsg());
+                textViewError.setTextColor(Color.RED);
+            }
+        }, new CustomErrorReset() {
+            @Override
+            public void reset(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(null);
+                textViewError.setTextColor(Color.BLACK);
+            }
+        }, R.string.err_tech_stacks);
+
+
+
+
+
+
+
+
+
 
         //awesome validation for exp
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_exp, new CustomValidation() {
