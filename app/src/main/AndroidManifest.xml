@@ -26,6 +26,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1"
         tools:replace="android:icon">
+        <activity android:name=".Group_Photo_Activity.GroupPhoto_selfie_Activity"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+
+            ></activity>
+        <activity android:name=".Group_Photo_Activity.GroupPhoto_Activity"
+
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+            />
+        <activity android:name=".Group_Photo_Activity.Group_Photo_Instructor_Activity"
+            android:label="Annexure(M)"
+            android:theme="@style/AppTheme5"
+
+            />
+
+        <activity android:name=".Batch_Student.Assessment_details" />
         <activity android:name=".feedback.AssessorFeedbackActivity"
             android:label="@string/title_assessor_feedback"
             android:screenOrientation="portrait"
@@ -40,19 +57,22 @@
             android:name=".student_group.StudentGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
+            android:name=".ExamSection.QuestionViva"
+            android:theme="@style/AppTheme5" />
+        <activity
+            android:name=".Barcode_d.SimpleScannerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppOverlayTheme"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
+        </activity>
         <activity
             android:name=".Ass_Registration.AssRegActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Batch_Student.Assessment_details" />
-        <activity
-            android:name=".Photos.Photo_navigation"
-            android:label="Annexure(M)"
-            android:theme="@style/AppTheme5" />
-        <activity
-            android:name=".ExamSection.QuestionViva"
-            android:theme="@style/AppTheme5" />
         <activity
             android:name=".Batch_Student.Students_list"
             android:label="List of Students"
@@ -108,15 +128,20 @@
         <activity android:name=".Initials.ForgotPassword" />
         <activity android:name=".Initials.SignIn" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Barcode_d.BaseScannerActivity" />
-        <activity android:name=".Barcode_d.SimpleScannerActivity" />
+        <activity
+            android:name=".Assessor_Exam.TestQuestion"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".Attendance.Assessor_Atten"
             android:label="@string/assessorattendance"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Initials.SplashScreen"
-            android:theme="@style/AppTheme1">
+            android:name=".Batch_Student.Batch_instruction"
+            android:label="@string/assessorattendance"
+            android:theme="@style/AppTheme5"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

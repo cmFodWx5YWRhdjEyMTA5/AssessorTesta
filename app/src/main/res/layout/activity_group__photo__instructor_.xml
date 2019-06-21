@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Group_Photo_Activity.Group_Photo_Instructor_Activity">
+
+
+    <ScrollView
+        android:id="@+id/scroll1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+        <LinearLayout
+            android:id="@+id/lene"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            >
+
+
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1.5"
+                >
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="true"
+                    android:text="@string/GroupPhoto"
+                    android:textSize="16sp"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/textView11"
+                    android:layout_marginTop="20dp"
+                    android:singleLine="true"
+                    android:text="@string/GroupPhotoselfie"
+                    android:textSize="16sp"
+                    android:textStyle="normal|bold" />
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp"
+                android:orientation="vertical"
+                android:layout_weight=".5">
+
+
+                <ImageView
+
+                    android:id="@+id/imageview11"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView11"
+                    android:background="@drawable/group_photo_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+                <ImageView
+                    android:id="@+id/imageview22"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/imageview11"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/textView22"
+                    android:background="@drawable/group_photo_background"
+                    android:padding="5dp"
+                    android:paddingLeft="100dp"
+                    android:src="@drawable/ic_photo_camera" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_proceeds"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_shadow"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="Submit"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold|normal" />
+
+
+
+
+</RelativeLayout>
