@@ -39,6 +39,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -275,7 +276,14 @@ public class Camera2VideoFragment extends Fragment
 
                 try {
                     File file = new File(sImagePath);
+//                    File f = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+
+//                    String sPath = "/storage/emulated/0/Android/data/com.vipin.assessortesta/files/Download/videoplayback.mp4";
+//                    String sPath = "/storage/emulated/0/Download/videoplayback.mp4";
+
                     callUploadVideApi(file);
+//                    callUploadVideApi(new File(sPath));
+
                 }catch (Exception e){
                     Toast.makeText(getActivity(), "Video upload failed", Toast.LENGTH_SHORT).show();
                 }
@@ -286,7 +294,7 @@ public class Camera2VideoFragment extends Fragment
 
     private void startCameraWithTimer(){
 
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(30000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     mButtonVideo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause_circle_outline_white_24dp, 0, 0, 0);
@@ -569,8 +577,11 @@ public class Camera2VideoFragment extends Fragment
             mNextVideoAbsolutePath = getVideoFilePath(getActivity());
         }
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
-        mMediaRecorder.setVideoEncodingBitRate(10000000);
+        mMediaRecorder.setVideoEncodingBitRate(1000000);
+//        mMediaRecorder.setVideoFrameRate(30);
+//        mMediaRecorder.setVideoEncodingBitRate(1000000);
         mMediaRecorder.setVideoFrameRate(30);
+
         mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -748,7 +759,7 @@ public class Camera2VideoFragment extends Fragment
 
         show_progressbar();
         AndroidNetworking.upload("https://www.skillassessment.org/sdms/android_connect1/assessor/save_practical_videos.php")
-                .addMultipartFile("student_video",file, "multipart/form-data")
+                .addMultipartFile("student_video",file)
                 .addMultipartParameter("student_id","UKJK005")
                 .addMultipartParameter("video_time","2019-06-18 05:55:25")
                 .addMultipartParameter("assessor_id","pbharti@radiantinfonet.com")
@@ -784,7 +795,6 @@ public class Camera2VideoFragment extends Fragment
                     }
                 });
     }
-
 
     public void show_progressbar(){
         progressDialog.show();
