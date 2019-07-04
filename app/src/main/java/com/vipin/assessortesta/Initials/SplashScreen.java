@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
-import com.vipin.assessortesta.practical_exam.PracticalExamActivity;
+import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
 
@@ -24,8 +24,10 @@ public class SplashScreen extends AppCompatActivity {
 
 //        Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
 //        Intent i = new Intent(SplashScreen.this, StudentGroupActivity.class);
+//        Intent i = new Intent(SplashScreen.this, StudentAssignActivity.class);
         Intent i = new Intent(SplashScreen.this, AssessorFeedbackActivity.class);
 
+//        Intent i = new Intent(SplashScreen.this, PracticalStuListActivity.class);
         startActivity(i);
 
         login.setOnClickListener(new View.OnClickListener() {

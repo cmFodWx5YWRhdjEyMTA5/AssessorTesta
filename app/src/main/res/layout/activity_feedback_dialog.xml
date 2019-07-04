@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_marginBottom="32dp"
+    tools:context=".feedback.feedback_dialog.FeedbackDialogActivity">
+
+    <!--HEADER-->
+    <FrameLayout
+        android:id="@+id/frameHeader"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="vertical"
+        android:background="@color/BBlue"
+        android:padding="@dimen/vertical_margin"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+
+        android:paddingLeft="@dimen/vertical_margin_small"
+        android:paddingTop="@dimen/horizontal_margin_small_small"
+        android:paddingRight="@dimen/horizontal_margin_small"
+        android:paddingBottom="@dimen/horizontal_margin_small_small"
+        android:background="@drawable/drawable_round_green"
+        android:textColor="@color/white"
+        android:layout_gravity="center_vertical"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_feedback_title"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvTitleRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_rate"
+        android:textColor="@color/black"
+        android:padding="@dimen/horizontal_margin"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/llExpMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleRate"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/llExp1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/llExp2"
+            android:gravity="center"
+            >
+        <ImageView
+            android:id="@+id/ivExp1"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_exp_4"
+            />
+            <TextView
+                android:id="@+id/tvExp1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excellent"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llExp2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/llExp1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/llExp3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            >
+
+        <ImageView
+            android:id="@+id/ivExp2"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_exp_3"
+            />
+            <TextView
+                android:id="@+id/tvExp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Very Good"
+                android:gravity="center"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llExp3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/llExp2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/llExp4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            >
+
+        <ImageView
+            android:id="@+id/ivExp3"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_exp_2"
+            />
+            <TextView
+                android:id="@+id/tvExp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Good"
+                android:gravity="center"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llExp4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/llExp3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center"
+            >
+
+        <ImageView
+            android:id="@+id/ivExp4"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_exp_1"
+            />
+            <TextView
+                android:id="@+id/tvExp4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Poor"
+                android:gravity="center"
+                />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llExpMain"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_comment_title"
+                android:textColor="@color/black"
+                android:padding="@dimen/horizontal_margin_small_small"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="@dimen/horizontal_margin_small"
+                android:layout_marginRight="@dimen/horizontal_margin_small"
+                />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:background="@drawable/drawable_border_feedback"
+                android:padding="@dimen/horizontal_margin_small"
+                android:layout_marginLeft="@dimen/horizontal_margin_small"
+                android:layout_marginRight="@dimen/horizontal_margin_small"
+                android:layout_marginBottom="@dimen/horizontal_margin_small"
+                >
+
+                <EditText
+                    android:id="@+id/etComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="Enter Comment here..." />
+            </FrameLayout>
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_submit"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:background="@drawable/button_shadow"
+
+        android:padding="@dimen/vertical_margin_small"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/llInstruction"
+        app:layout_constraintWidth_percent=".8"
+        />
+
+    <LinearLayout
+        android:id="@+id/llInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:layout_marginLeft="@dimen/vertical_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instruction:"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1. Press 'Icon' to rate."
+        android:layout_marginLeft="@dimen/vertical_margin"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2. Write comment and submit it."
+        android:layout_marginLeft="@dimen/vertical_margin"
+        />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

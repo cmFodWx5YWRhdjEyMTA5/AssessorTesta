@@ -1,6 +1,8 @@
 package com.vipin.assessortesta.student_group;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -15,13 +17,16 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.pojo.practical_que.PracticalQuesResponse;
+import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 
 public class StudentGroupAdapter extends RecyclerView.Adapter<StudentGroupAdapter.MyViewHolder>{
 
     private Context _context;
-
-    StudentGroupAdapter(Context _context){
+    PracticalQuesResponse response;
+    StudentGroupAdapter(Context _context, PracticalQuesResponse response){
     this._context = _context;
+    this.response = response;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -33,7 +38,6 @@ public class StudentGroupAdapter extends RecyclerView.Adapter<StudentGroupAdapte
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             tvGroupName = (TextView) itemView.findViewById(R.id.tvGroupName);
             ivGmailLetter = (ImageView)itemView.findViewById(R.id.ivGmailLetter);
-
         }
     }
 
@@ -47,7 +51,7 @@ public class StudentGroupAdapter extends RecyclerView.Adapter<StudentGroupAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        if (i == 0) {
+        if (i == -1) {
             myViewHolder.cardView.setCardBackgroundColor(_context.getResources().getColor(R.color.BBlue));
             myViewHolder.tvGroupName.setTextColor(_context.getResources().getColor(R.color.white));
 
@@ -61,12 +65,17 @@ public class StudentGroupAdapter extends RecyclerView.Adapter<StudentGroupAdapte
             TextDrawable textDrawable = TextDrawable.builder().buildRound("" + (i + 1), colorToUse);
             myViewHolder.ivGmailLetter.setImageDrawable(textDrawable);
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+
+        if (response.getTotalQuestions() != null){
+
+            return response.getTotalQuestions();
+        }else {
+            return 0;
+        }
     }
 
 }
