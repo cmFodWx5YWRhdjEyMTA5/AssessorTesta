@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +62,9 @@ public class Upcoming extends Fragment {
     ShimmerFrameLayout c;
     private RecyclerView myrecyclerview;
     private List<Upcoming1> lstBatch;
-    private android.app.AlertDialog progressDialog;
+   // private android.app.AlertDialog progressDialog;
+
+
 
     public Upcoming() {
 
@@ -74,14 +77,7 @@ public class Upcoming extends Fragment {
          myrecyclerview = v.findViewById(R.id.Upcoming_recyclerview);
          upcomingfragment=v.findViewById(R.id.upcomingfragment);
         ctx=container.getContext();
-
-
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /*c =
-                (ShimmerFrameLayout) v.findViewById(R.id.shimmer_view_container);*/
-
-
-        // c.startShimmer();
         return v;
 
     }
@@ -91,9 +87,10 @@ public class Upcoming extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         lstBatch = new ArrayList<>();
-        progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
+       // progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
 
         getBatches();
+
 
 
     }
@@ -104,7 +101,7 @@ public class Upcoming extends Fragment {
 
     private void getBatches() {
 
-        progressDialog.show();
+      //  progressDialog.show();
 
 
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
@@ -130,9 +127,11 @@ public class Upcoming extends Fragment {
 
                             if (batchid.size() <= jsonArray.length() - 1) {
                                 batchid.add(c.getString("batchid"));
+                                System.out.println("batchidd  " +batchid);
                             }
                             if (batchname.size() <= jsonArray.length() - 1) {
                                 batchname.add(c.getString("batch_name"));
+
                             }
                             if (totalstudents.size() <= jsonArray.length() - 1) {
                                 totalstudents.add(c.getString("number_of_students"));
@@ -147,6 +146,12 @@ public class Upcoming extends Fragment {
                                 centerid.add(c.getString("exam_center_id"));
                             }
 
+
+
+
+
+
+
                         }
 
                         if(batchid.size()==0){
@@ -159,6 +164,10 @@ public class Upcoming extends Fragment {
 
                         for (int i =0;i<=batchname.size()-1; i++ ){
                             lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i),batchid.get(i)));
+
+
+
+
                         }
 //c.stopShimmer();
                     } else {
@@ -170,18 +179,18 @@ public class Upcoming extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()) {
+//                    progressDialog.dismiss();
+//                }
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()) {
+//                    progressDialog.dismiss();
+//                }
                 Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
             }
         }) {

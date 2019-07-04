@@ -20,24 +20,25 @@
         >
 
         <TextView
+            android:id="@+id/BatchName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Batch Name"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/Batchname_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
-
-            />
+            android:text="RASCI01"
+            android:singleLine="true"
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
@@ -64,24 +65,27 @@
         >
 
         <TextView
+            android:id="@+id/TotalStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Total Students"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/Totalstudent_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
@@ -108,24 +112,27 @@
         >
 
         <TextView
+            android:id="@+id/ExamDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Assessment Date"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/AssessmentDate_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
@@ -151,24 +158,27 @@
         >
 
         <TextView
+            android:id="@+id/Tcname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tc Name"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/Tcname_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
@@ -194,24 +204,27 @@
         >
 
         <TextView
+            android:id="@+id/Asname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Assessor name"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/Assessorname_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
@@ -237,76 +250,37 @@
         >
 
         <TextView
+            android:id="@+id/Tcloc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tc Location"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/Tclocation_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/view6"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/linear6"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
-        android:background="#A9A9A9" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:id="@+id/linear7"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="State"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:textSize="@dimen/show_text"
-
-            />
-
-    </LinearLayout>
 
     <View
         android:id="@+id/view7"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/linear7"
+        android:layout_below="@id/linear6"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -325,24 +299,27 @@
         >
 
         <TextView
+            android:id="@+id/contactperson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Email ID"
-            android:textStyle="bold"
+            android:text="Contact Person"
             android:textColor="@color/black"
-            android:textSize="@dimen/show_text" />
+            android:textSize="@dimen/show_text"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/contactPerson_Data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RASCI01"
             android:layout_gravity="right"
+            android:layout_weight="1"
             android:gravity="right"
-            android:textSize="@dimen/show_text"
+            android:text="RASCI01"
+            android:singleLine="true"
 
-            />
+
+            android:textSize="@dimen/show_text" />
 
     </LinearLayout>
 

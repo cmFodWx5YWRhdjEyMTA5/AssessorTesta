@@ -3,6 +3,7 @@ package com.vipin.assessortesta.Batch_Student;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,19 +17,101 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
+import com.vipin.assessortesta.Ass_Registration.pojo.category.SscCateResponse;
 import com.vipin.assessortesta.Attendance.Student_attendance;
 import com.vipin.assessortesta.ExamSection.QuestionViva;
+import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import dmax.dialog.SpotsDialog;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class Students_list  extends AppCompatActivity {
     RecyclerView meet_rc;
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String batchid,studentid,studentname,ATTENDSTATUS,ATTENDSTATUS1;
+    private android.app.AlertDialog progressDialog;
+    Button submit;
+    int attendance_status1;
+
+
+
     final Context myContext = Students_list.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
+
+
+
+//        ATTENDSTATUS = getIntent().getStringExtra("persent");
+//      //  Toast.makeText(getApplicationContext(),""+ATTENDSTATUS,Toast.LENGTH_LONG).show();
+//        ATTENDSTATUS1 = getIntent().getStringExtra("Absent");
+//        //Toast.makeText(getApplicationContext(),""+ATTENDSTATUS1,Toast.LENGTH_LONG).show();
+//
+       progressDialog = new SpotsDialog(Students_list.this, R.style.Custom);
+        submit = findViewById(R.id.submit);
+
+
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (attendance_status1==0)
+                {
+                    Toast.makeText(getApplicationContext(), "mark all the student attendence", Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+
+                    Intent intent1 = new Intent(Students_list.this,Batch_instruction.class);
+                    setResult(2, intent1);
+                    intent1.putExtra("resultcode",555);
+
+                    startActivity(intent1);
+                    Students_list.this.finish();
+
+
+
+
+
+                }
+            }
+        });
+
+
+
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override
@@ -36,11 +119,82 @@ public class Students_list  extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 
         meet_rc = (RecyclerView) findViewById(R.id.meet_rc);
-        meet_rc.setLayoutManager(new LinearLayoutManager(myContext));
-        meet_rc.setAdapter(new MeetAdapter());
+
+        if(batchid!=null) {
+            callApi();
+        }
+
+
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+
+
+        }
+
+
+
     }
 
+    private void callApi(){
+        progressDialog.show();
+
+        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_students_list_batchwise.php")
+                .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
+                .addBodyParameter("assessor_id", "pbharti@radiantinfonet.com")
+                .addBodyParameter("batch_id",batchid)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                             attendance_status1 = response.getInt("attendance_status");
+                            if (response.getInt("status") == 1) {
+
+                                JSONArray jsonArray = response.getJSONArray("student_details");
+
+                                meet_rc.setLayoutManager(new LinearLayoutManager(myContext));
+                                meet_rc.setAdapter(new MeetAdapter(jsonArray));
+
+                                submit.setVisibility(View.VISIBLE);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                    }
+                });
+    }
+
+
     private class MeetAdapter extends RecyclerView.Adapter<MeetAdapter.ViewHolder> {
+
+        JSONArray jsonArray;
+        MeetAdapter(JSONArray jsonArray){
+            this.jsonArray = jsonArray;
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(myContext);
@@ -50,15 +204,68 @@ public class Students_list  extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.maccountName.setText("Student1");
-            holder.mcontactperson.setText("9015363586");
-            holder.mlocation.setText("Delhi");
-            holder.mstartDate.setText("Batch no. 1");
+
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(position);
+
+                holder.maccountName.setText(jsonObject.getString("name"));
+
+
+
+
+                if (jsonObject.getString("mobile").equals("null") || jsonObject.getString("mobile").equals("")  ) {
+
+                    holder.mcontactperson.setText("NA");
+
+                }
+                else
+                {
+                    holder.mcontactperson.setText(jsonObject.getString("mobile"));
+                }
+
+                if (jsonObject.getString("email").equals("null") || jsonObject.getString("email").equals("")) {
+                    holder.mlocation.setText("NA");
+                }
+                else
+                {
+                    holder.mlocation.setText(jsonObject.getString("email"));
+                }
+                holder.mstartDate.setText(jsonObject.getString("tc_name"));
+                holder.mendDate.setText(jsonObject.getString("batch_id"));
+                holder.Attendstatus.setText(jsonObject.getString("student_attendance"));
+
+
+
+                String studentid = jsonObject.getString("student_id");
+                 studentname = jsonObject.getString("name");
+                String studentname1 = jsonObject.getString("name");
+
+
+                String tcname= jsonObject.getString("tc_name");
+
+
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent ii=new Intent(Students_list.this, Student_attendance.class);
+                        ii.putExtra("student_id", studentid);
+                        ii.putExtra("tc_name",tcname );
+                        ii.putExtra("name",studentname1 );
+                        startActivity(ii);
+                    }
+                });
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 8;
+            return jsonArray.length();
             // return accountName.size();
         }
 
@@ -68,7 +275,7 @@ public class Students_list  extends AppCompatActivity {
 
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-            TextView maccountName, mcontactperson, mlocation, mstartDate, mendDate, meetStatus, textMenu;
+            TextView maccountName, mcontactperson, mlocation, mstartDate, mendDate, Attendstatus, textMenu;
             AlertDialog dialog;
             double desLat, desLng;
             Geocoder geocoder;
@@ -83,6 +290,7 @@ public class Students_list  extends AppCompatActivity {
                 mlocation = (TextView) itemView.findViewById(R.id.studentlist_assessmentid);
                 mstartDate = (TextView) itemView.findViewById(R.id.studentlist_tcnameid);
                 mendDate = (TextView) itemView.findViewById(R.id.studentlist_namee);
+                Attendstatus = itemView.findViewById(R.id.Attend_data);
 
 
             }
@@ -94,10 +302,15 @@ public class Students_list  extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent ii=new Intent(Students_list.this, Student_attendance.class);
-                startActivity(ii);
+
             }
 
         }
     }
+
+
+
+
+
+
 }

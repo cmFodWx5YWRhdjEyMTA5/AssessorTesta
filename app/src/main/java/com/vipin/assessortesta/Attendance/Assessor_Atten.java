@@ -67,6 +67,8 @@ package com.vipin.assessortesta.Attendance;
 
 public class Assessor_Atten extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+
+
         LinearLayout uploadphotoo, uploadid, currentlocation, tclocation;
         Button atten;
         TextView centrelocation, currentlocationn;
@@ -92,139 +94,149 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         private android.app.AlertDialog progressDialog;
         SharedPreferences sharedpreferences;
         final String mypreference = "mypref";
-        String username;
+
+        String username,Batchid,exam_date,batch_name;
 
             double lat2=28.5953926,lat1;
             double lng2=77.1757398,lng1;
 
                 @Override
         protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        uploadphotoo = findViewById(R.id.uploadphoto1);
-        input_photograph2 = findViewById(R.id.input_photograph2);
-        input_photograph1 = findViewById(R.id.input_photograph1);
-        input_photograph22 = findViewById(R.id.input_photograph22);
-        uploadid = findViewById(R.id.inputidproof);
-        currentlocation = findViewById(R.id.currentlocation);
-        tclocation = findViewById(R.id.tclocation);
-        atten = findViewById(R.id.markattendance);
-        centrelocation = findViewById(R.id.centrelocationn);
-        currentlocationn = findViewById(R.id.locationn);
-        input_photograph = findViewById(R.id.input_photograph);
-        progressDialog = new SpotsDialog(Assessor_Atten.this, R.style.Custom);
+                        super.onCreate(savedInstanceState);
+                        setContentView(getLayoutId());
+                        uploadphotoo = findViewById(R.id.uploadphoto1);
+                        input_photograph2 = findViewById(R.id.input_photograph2);
+                        input_photograph1 = findViewById(R.id.input_photograph1);
+                        input_photograph22 = findViewById(R.id.input_photograph22);
+                        uploadid = findViewById(R.id.inputidproof);
+                        currentlocation = findViewById(R.id.currentlocation);
+                        tclocation = findViewById(R.id.tclocation);
+                        atten = findViewById(R.id.markattendance);
+                        centrelocation = findViewById(R.id.centrelocationn);
+                        currentlocationn = findViewById(R.id.locationn);
+                        input_photograph = findViewById(R.id.input_photograph);
+                        progressDialog = new SpotsDialog(Assessor_Atten.this, R.style.Custom);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(Assessor_Atten.this);
-        centrelocation.setMovementMethod(new ScrollingMovementMethod());
-        currentlocationn.setMovementMethod(new ScrollingMovementMethod());
-        centeridd = getIntent().getStringExtra("centerid");
+                        fusedLocationClient = LocationServices.getFusedLocationProviderClient(Assessor_Atten.this);
+                        centrelocation.setMovementMethod(new ScrollingMovementMethod());
+                        currentlocationn.setMovementMethod(new ScrollingMovementMethod());
 
-        input_photograph2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        captureevent1();
-        }
-        });
+                        centeridd = getIntent().getStringExtra("centerid");
+                        Batchid = getIntent().getStringExtra("Batchid");
+                        exam_date = getIntent().getStringExtra("exam_date");
+                        batch_name = getIntent().getStringExtra("batch_name");
 
-        input_photograph1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        captureevent();
-        }
-        });
-
-        input_photograph22.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        captureevent1();
-        }
-        });
-
-        input_photograph.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        captureevent();
-        }
-        });
+                        System.out.println("xxxxxxx" +Batchid+ " eee" +exam_date + " eee" +batch_name);
 
 
 
 
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-        // checkedId is the RadioButton selected
-        RadioButton rb = (RadioButton) findViewById(checkedId);
-        if (rb.getText().equals("Yes")) {
-        System.out.println("yes clicked");
-        uploadphotoo.setVisibility(View.VISIBLE);
-        uploadid.setVisibility(View.VISIBLE);
-        currentlocation.setVisibility(View.VISIBLE);
-        tclocation.setVisibility(View.VISIBLE);
-        atten.setVisibility(View.VISIBLE);
-        } else {
 
-        showDialogAtten();
-        System.out.println("No clicked");
-        attendancealert();
-        uploadphotoo.setVisibility(View.GONE);
-        uploadid.setVisibility(View.GONE);
-        currentlocation.setVisibility(View.GONE);
-        tclocation.setVisibility(View.GONE);
-        atten.setVisibility(View.GONE);
-        }
 
-        }
-        });
 
+                        input_photograph2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                        captureevent();
+                                }
+                        });
+
+                        input_photograph1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                        captureevent();
+                                }
+                        });
+
+                        input_photograph22.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                        captureevent1();
+                                }
+                        });
+
+                        input_photograph.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                        captureevent1();
+                                }
+                        });
+
+
+                        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rgroup);
+                        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                        // checkedId is the RadioButton selected
+                                        RadioButton rb = (RadioButton) findViewById(checkedId);
+                                        if (rb.getText().equals("Yes")) {
+                                                System.out.println("yes clicked");
+                                                uploadphotoo.setVisibility(View.VISIBLE);
+                                                uploadid.setVisibility(View.VISIBLE);
+                                                currentlocation.setVisibility(View.VISIBLE);
+                                                tclocation.setVisibility(View.VISIBLE);
+                                                atten.setVisibility(View.VISIBLE);
+                                        } else {
+
+                                                showDialogAtten();
+                                                System.out.println("No clicked");
+                                                attendancealert();
+                                                uploadphotoo.setVisibility(View.GONE);
+                                                uploadid.setVisibility(View.GONE);
+                                                currentlocation.setVisibility(View.GONE);
+                                                tclocation.setVisibility(View.GONE);
+                                                atten.setVisibility(View.GONE);
+                                        }
+
+                                }
+                        });
 
 
                         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
 
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("exam_date",exam_date );
+                    editor.putString("batch_name",batch_name);
+                    editor.putString("batch_id",Batchid);
+                    editor.commit();
+
+
                         if (sharedpreferences.contains("user_name")) {
-                                username=sharedpreferences.getString("user_name", "");
-                                System.out.println("asessoriddd" +username);
+                                username = sharedpreferences.getString("user_name", "");
+                                System.out.println("asessoriddd" + username);
 
                         }
 
 
-
-
-
                         atten.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
-                //do what you want to do...
-                System.out.println("distance between these points is"+distance(lat1, lng1, lat2, lng2));
-            }
-            else{
-                    System.out.println("distance between these points is"+distance(lat1, lng1, lat2, lng2));
-            }
-                if (photoself==null ){
+                                @Override
+                                public void onClick(View v) {
+                                        if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
+                                                //do what you want to do...
+                                                System.out.println("distance between these points is" + distance(lat1, lng1, lat2, lng2));
+                                        } else {
+                                                System.out.println("distance between these points is" + distance(lat1, lng1, lat2, lng2));
+                                        }
+                                        if (photoself == null) {
 
-                        Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), "Photo mandotary", Toast.LENGTH_LONG).show();
 
-                }else if (photoidproof==null){
+                                        } else if (photoidproof == null) {
 
-                        Toast.makeText(getApplicationContext(),"Photo mandotary",Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), "Photo mandotary", Toast.LENGTH_LONG).show();
+                                        } else {
+
+
+                                                save_Assessoratten();
+                                        }
+
+                                }
+                        });
+
+
                 }
-
-
-                else{
-
-
-
-                        save_Assessoratten();
-                }
-
-        }
-        });
-
-
-        }
 
 
                 public void showDialogAtten(){
@@ -239,17 +251,11 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                                         {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-
-
-                                                }
-                                        }
+                                                }}
 
                                 ).create();
 
                         alertDialog.show();
-
-
-
                 }
 
 
@@ -329,6 +335,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         @Override
         protected void onStart() {
         super.onStart();
+
 //Get current location
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);

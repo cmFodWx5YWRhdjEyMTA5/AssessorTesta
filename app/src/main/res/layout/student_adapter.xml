@@ -20,7 +20,7 @@
 
             <LinearLayout
                 android:id="@+id/studentlist_len1"
-                android:weightSum="4"
+                android:weightSum="6"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -76,6 +76,17 @@
 
                     />
 
+                <TextView
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:id="@+id/Attend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atte.. Status"
+                    android:theme="@style/accountnameStyle"
+
+                    />
+
             </LinearLayout>
 
 
@@ -83,7 +94,7 @@
 
 
             <LinearLayout
-                android:weightSum="4"
+                android:weightSum="6"
                 android:layout_alignParentRight="true"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -148,6 +159,19 @@
                     android:textSize="14sp"
                     android:textStyle="normal"
 
+                    />
+
+
+                <TextView
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:id="@+id/Attend_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atte.. Status"
+                    android:theme="@style/accountnameStyle"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
                     />
 
 

@@ -316,7 +316,7 @@
 </ScrollView>
 
     <Button
-        android:id="@+id/button_proceed"
+        android:id="@+id/button_proceed1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
