@@ -35,23 +35,17 @@
             android:label="Annexure(M)"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Group_Photo_Activity.GroupPhoto_Activity"
+            android:name=".Group_Photo_Activity.GroupPhoto_Activity"/>
         <activity android:name=".Assessor_Exam.TestInstruction"
             android:theme="@style/AppTheme5"
 
             ></activity>
 
-        <activity
-            android:name=".Group_Photo_Activity.Group_Photo_Instructor_Activity"
-            android:theme="@style/AppTheme5" />
 
 
 
-        <activity android:name=".Batch_Student.Batch_instruction"
-        android:label="@string/assessorattendance"
-        android:theme="@style/AppTheme5"
-        android:screenOrientation="portrait"
-            />
+
+
 
 
              />
@@ -75,7 +69,7 @@
         <activity android:name=".Batch_Student.Assessment_details" />
         <activity
             android:name=".feedback.AssessorFeedbackActivity"
-            android:label="@string/title_assessor_feedback"
+            android:label="@string/txt_feedback_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
         <activity
