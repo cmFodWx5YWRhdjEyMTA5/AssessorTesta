@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -319,13 +320,11 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     }
     private void awesomeValidations() {
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_name,"[a-zA-Z\\s]+", R.string.err_msg_for_first_name);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_last_name,"[a-zA-Z\\s]+", R.string.err_msg_for_last_name);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_address1,"(.|\\s)*\\S(.|\\s)*", R.string.err_msg_for_address1);
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_pincode,"^[0-9]{6}$", R.string.err_msg_pincode);
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_mobile_no,"^[0-9]{10}$", R.string.err_msg_formobile);
-
-        // awesomeValidation.addValidation(AssRegActivity.this, R.id.input_email, Patterns.EMAIL_ADDRESS, R.string.err_msg_email);
-
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_email, Patterns.EMAIL_ADDRESS, R.string.err_msg_email);
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.etTransactionNo,"(.|\\s)*\\S(.|\\s)*", R.string.err_msg_certificate);
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_pincode,"^[0-9]{6}$", R.string.err_msg_pincode);
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_address1,"(.|\\s)*\\S(.|\\s)*", R.string.err_msg_for_address1);
         cmp_id = getIntent().getStringExtra("cmp_id");
         System.out.println("the id of company is"+cmp_id);
 
@@ -338,32 +337,9 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Year")) {
                     return false;
                 } else {
-                    return true;
-                }
-            }
-        }, new CustomValidationCallback() {
-            @Override
-            public void execute(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(validationHolder.getErrMsg());
-                textViewError.setTextColor(Color.RED);
-            }
-        }, new CustomErrorReset() {
-            @Override
-            public void reset(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(null);
-                textViewError.setTextColor(Color.BLACK);
-            }
-        }, R.string.err_tech_stacks);
 
-        //awesome validation for gender
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_gender, new CustomValidation() {
-            @Override
-            public boolean compare(ValidationHolder validationHolder) {
-                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Gender")) {
-                    return false;
-                } else {
+
+
                     return true;
                 }
             }
@@ -384,31 +360,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         }, R.string.err_tech_stacks);
 
 
-        //awesome validation for category
-        awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_category, new CustomValidation() {
-            @Override
-            public boolean compare(ValidationHolder validationHolder) {
-                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Category")) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }, new CustomValidationCallback() {
-            @Override
-            public void execute(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(validationHolder.getErrMsg());
-                textViewError.setTextColor(Color.RED);
-            }
-        }, new CustomErrorReset() {
-            @Override
-            public void reset(ValidationHolder validationHolder) {
-                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
-                textViewError.setError(null);
-                textViewError.setTextColor(Color.BLACK);
-            }
-        }, R.string.err_tech_stacks);
+
 
         //awesome validation for state
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_State, new CustomValidation() {
@@ -462,6 +414,20 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
             }
         }, R.string.err_tech_stacks);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //awesome validation for exp
         awesomeValidation.addValidation(AssRegActivity.this, R.id.input_layout_exp, new CustomValidation() {
             @Override
@@ -487,6 +453,124 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 textViewError.setTextColor(Color.BLACK);
             }
         }, R.string.err_tech_stacks);
+
+
+
+
+
+       // select ssc details category
+
+
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.spnSscCat, new CustomValidation() {
+            @Override
+            public boolean compare(ValidationHolder validationHolder) {
+                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Category")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }, new CustomValidationCallback() {
+            @Override
+            public void execute(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(validationHolder.getErrMsg());
+                textViewError.setTextColor(Color.RED);
+            }
+        }, new CustomErrorReset() {
+            @Override
+            public void reset(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(null);
+                textViewError.setTextColor(Color.BLACK);
+            }
+        }, R.string.err_tech_stacks);
+
+
+
+
+
+
+
+
+        // select ssc details payment
+
+
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.spnPayment, new CustomValidation() {
+            @Override
+            public boolean compare(ValidationHolder validationHolder) {
+                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select Payment")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }, new CustomValidationCallback() {
+            @Override
+            public void execute(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(validationHolder.getErrMsg());
+                textViewError.setTextColor(Color.RED);
+            }
+        }, new CustomErrorReset() {
+            @Override
+            public void reset(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(null);
+                textViewError.setTextColor(Color.BLACK);
+            }
+        }, R.string.err_tech_stacks);
+
+
+
+
+
+
+
+
+
+
+        // select Enpanelment company
+
+
+        awesomeValidation.addValidation(AssRegActivity.this, R.id.spnrEmpnlmentStatus, new CustomValidation() {
+            @Override
+            public boolean compare(ValidationHolder validationHolder) {
+                if (((Spinner) validationHolder.getView()).getSelectedItem().toString().equals("Select")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }, new CustomValidationCallback() {
+            @Override
+            public void execute(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(validationHolder.getErrMsg());
+                textViewError.setTextColor(Color.RED);
+            }
+        }, new CustomErrorReset() {
+            @Override
+            public void reset(ValidationHolder validationHolder) {
+                TextView textViewError = (TextView) ((Spinner) validationHolder.getView()).getSelectedView();
+                textViewError.setError(null);
+                textViewError.setTextColor(Color.BLACK);
+            }
+        }, R.string.err_tech_stacks);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -1702,6 +1786,9 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 });
     }
 
+
+
+
     /*ADD REMOVE LAYOUT-SSC Detail,s*/
     private void addItemSSSCList() {
 
@@ -1839,6 +1926,19 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
             sField1 =  spnQualification.getSelectedItem().toString().trim();
             sField2 =  tvDoc.getText().toString().trim();
             dbAdapterClass.insertJobData(sField1, sField2, sField3, "");
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
         countQualification++;
         qualificationListView(countQualification);
@@ -1870,7 +1970,6 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         qualificationListAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(lvQualification);
     }
-
     private JSONArray getQualificationList() {
 
         View parentView = null;
@@ -1942,6 +2041,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         else if (!(OtherIdproof1.equals("Other Id Proof"))&& (input_Id_no.getText().toString().matches(""))){
             Toast.makeText(getApplicationContext(),"Id  must be Filled",Toast.LENGTH_LONG).show();
         }
+
 
 
         else if (!state1.equals("Select the State")&&(stateiddd.equals("2") && (input_pancard.getText().toString().matches(""))) ||

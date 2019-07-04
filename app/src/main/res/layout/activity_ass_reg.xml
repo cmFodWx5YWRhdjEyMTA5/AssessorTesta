@@ -78,7 +78,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_mobile"
-                    android:text="9876543210"
                     android:inputType="number"
                     android:digits="1234567890"
                     android:maxLength="10"
@@ -235,7 +234,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name"
-                    android:text="First"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -249,8 +247,7 @@
                     android:id="@+id/input_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_last_name"
-                    android:text="Last"
+                    android:hint="Last Name"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -294,7 +291,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
-                    android:text="dsa@gmail.com"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -311,7 +307,6 @@
                     android:hint= "@string/alt_hint_mobile"
                     android:inputType="number"
                     android:digits="1234567890"
-                    android:text="9889555500"
                     android:maxLength="10"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
@@ -487,7 +482,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_city"
-                    android:text="delhi"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -502,7 +496,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_address_line1"
-                    android:text="bhukaji cama place"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -516,7 +509,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_address_line2"
-                    android:text="lajpat nagar"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -532,7 +524,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_pincode"
                     android:inputType="number"
-                    android:text="110088"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -775,7 +766,6 @@
                     android:hint="@string/hint_trans_no"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:text="transA/098A123"
                     android:visibility="gone"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -854,7 +844,7 @@
                     android:background="@color/BBlue"
                     android:gravity="left"
                     android:paddingLeft="15dp"
-                    android:text="Empanelment Company"
+                    android:text="Enpanelment Company"
                     android:textColor="@color/white"
                     android:textSize="22sp"
 
@@ -919,7 +909,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_aadhar"
                     android:inputType="number"
-                    android:text="699521974642"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
@@ -945,7 +934,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_pancard"
                     android:inputType="text"
-                    android:text="WAM89343434"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
