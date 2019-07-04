@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="@dimen/horizontal_margin_small"
-    tools:context=".practical_exam.PracticalExamActivity">
+    tools:context=".practical_student_assign.StudentAssignActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Q1."
-                android:textSize="16sp"
+                android:textSize="18sp"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:id="@+id/tvQues"
@@ -40,8 +41,18 @@
                 android:layout_marginLeft="@dimen/horizontal_margin_small"
                 android:fontFamily="sans-serif"
                 android:textSize="16sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="1.5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginBottom="@dimen/vertical_margin_small"
+            />
 
         <LinearLayout
             android:id="@+id/frameNonSelected"

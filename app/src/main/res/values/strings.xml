@@ -241,7 +241,13 @@ status of each question using one of the following symbols:</string>
     <string name="hint_trans_no">Transaction Number</string>
     <string name="title_practical_exam">Practical Exam</string>
     <string name="txt_add">Add</string>
-    <string name="title_assessor_feedback">Feedback</string>
+    <string name="txt_rubrics">Rubrics</string>
+    <string name="txt_feedback_hint">Enter Feedback</string>
+    <string name="txt_feedback_title">Feedback</string>
+    <string name="txt_rate">Please rate student performance</string>
+    <string name="txt_comment_title">Comment</string>
+    <string name="txt_submit">Submit</string>
+    <string name="record">Record</string>
     <string-array name="arr_empanelment">
         <item>Select</item>
         <item>Radiant Infonet</item>
@@ -535,5 +541,8 @@ status of each question using one of the following symbols:</string>
 
     </string-array>
 
+    <string name="stop">Stop</string>
+    <string name="permission_request">This sample needs permission for camera and audio recording.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 
 </resources>

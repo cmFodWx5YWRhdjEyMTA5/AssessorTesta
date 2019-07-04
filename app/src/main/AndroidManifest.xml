@@ -3,15 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vipin.assessortesta">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -26,18 +20,41 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1"
         tools:replace="android:icon">
-        <activity android:name=".Assessor_Exam.TestInstruction"
+        <activity android:name=".practical_student_list.PracticalStuListActivity"
+            android:label="Student List"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme5"
-
-            ></activity>
+            />
+        <activity
+            android:name=".feedback.feedback_dialog.FeedbackDialogActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UserDialog" />
         <activity
             android:name=".Group_Photo_Activity.GroupPhoto_selfie_Activity"
             android:label="Annexure(M)"
             android:theme="@style/AppTheme5" />
         <activity
             android:name=".Group_Photo_Activity.GroupPhoto_Activity"
-            android:label="Annexure(M)"
+        <activity android:name=".Assessor_Exam.TestInstruction"
+            android:theme="@style/AppTheme5"
+
+            ></activity>
+
+        <activity
+            android:name=".Group_Photo_Activity.Group_Photo_Instructor_Activity"
             android:theme="@style/AppTheme5" />
+
+
+
+        <activity android:name=".Batch_Student.Batch_instruction"
+        android:label="@string/assessorattendance"
+        android:theme="@style/AppTheme5"
+        android:screenOrientation="portrait"
+            />
+
+
+             />
         <activity
             android:name=".Group_Photo_Activity.Group_Photo_Instructor_Activity"
             android:label="Annexure(M)"
@@ -62,7 +79,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".practical_exam.PracticalExamActivity"
+            android:name=".practical_student_assign.StudentAssignActivity"
             android:label="@string/title_practical_exam"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />

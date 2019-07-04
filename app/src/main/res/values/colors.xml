@@ -6,6 +6,8 @@
     <color name="Blue">#2E78B5</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="colorGray">#bababa</color>
+
 
 
     <color name="button1">#2E78B5</color>
@@ -67,5 +69,11 @@
         <item>@color/colors4</item>
         <item>@color/colors5</item>
     </array>
+
+    <color name="colorExp1">#2FC78E</color>
+    <color name="colorExp2">#64dd17</color>
+    <color name="colorExp3">#ffab00</color>
+    <color name="colorExp4">#ff0000</color>
+
 
 </resources>
