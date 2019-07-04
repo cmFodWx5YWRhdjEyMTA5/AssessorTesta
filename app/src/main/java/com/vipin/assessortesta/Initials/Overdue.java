@@ -56,7 +56,7 @@ public class Overdue extends Fragment {
     View v;
     private RecyclerView myrecyclerview;
     private List<Overdue1> lstBatch;
-    private android.app.AlertDialog progressDialog;
+   // private android.app.AlertDialog progressDialog;
 
     public Overdue() {
     }
@@ -86,7 +86,7 @@ public class Overdue extends Fragment {
         super.onCreate(savedInstanceState);
         lstBatch = new ArrayList<>();
 
-        progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
+        //progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
 
         getBatches();
 
@@ -99,7 +99,7 @@ public class Overdue extends Fragment {
 
     private void getBatches() {
 
-        progressDialog.show();
+      //  progressDialog.show();
 
 
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
@@ -159,18 +159,18 @@ public class Overdue extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()) {
+//                    progressDialog.dismiss();
+//                }
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+//                if (progressDialog.isShowing()) {
+//                    progressDialog.dismiss();
+//                }
                 Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
             }
         }) {

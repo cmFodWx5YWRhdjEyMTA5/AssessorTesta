@@ -40,7 +40,9 @@ public class Upcoming1 {
     }
 
     public String getBatchid() {
+
         return Batchid;
+
     }
 
     public void setBatchname(String batchname) {
@@ -67,7 +69,9 @@ public class Upcoming1 {
 
     ;
 
-    public void setBatchid(String batchid) {
+    public void setBatchid(String batchid)
+    {
+
         Batchid = batchid;
     }
 }

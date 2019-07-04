@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.vipin.assessortesta.Batch_Student.Batch_detail;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.Batch_Student.Students_list;
 import com.vipin.assessortesta.Batch_Student.Batch_detail;
+import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
 import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
 
@@ -51,17 +53,10 @@ public class Photo_navigation extends AppCompatActivity {
         classroom = findViewById(R.id.imageview8);
         labpic = findViewById(R.id.imageview9);
         pmkvylab = findViewById(R.id.imageview10);
-        submitb=findViewById(R.id.button_proceed);
 
-        button_proceed = findViewById(R.id.button_proceed);
+        button_proceed = findViewById(R.id.button_proceed1);
 
-        submitb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ii=new Intent(Photo_navigation.this, Batch_detail.class);
-                startActivity(ii);
-            }
-        });
+
 
         tvsignane.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,15 +305,18 @@ public class Photo_navigation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-              /*  if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
-                        count6 == true && count7 == true && count8 == true && count9 == true && count10 == true) { */
-                    Intent intent = new Intent(Photo_navigation.this, Batch_detail.class);
-                    startActivity(intent);
-               /* } else {
+               if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
+                        count6 == true && count7 == true && count8 == true && count9 == true && count10 == true) {
+
+                   Intent intent = new Intent();
+                   setResult(1, intent);
+                   Photo_navigation.this.finish();
+
+                } else {
 
                     Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
 
-                }*/
+                }
             }
         });
 

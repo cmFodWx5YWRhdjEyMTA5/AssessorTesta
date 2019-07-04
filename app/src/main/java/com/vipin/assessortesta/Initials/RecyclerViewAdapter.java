@@ -54,9 +54,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         MyViewHolder vholder = new MyViewHolder(v);
 
-
-
-
         System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
 
@@ -82,6 +79,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Toast.makeText(mContext, "data is"+mData.get(position).getcenterid(), Toast.LENGTH_SHORT).show();
                 Intent ii=new Intent(mContext, Assessor_Atten.class);
                 ii.putExtra("centerid", mData.get(position).getcenterid());
+                ii.putExtra("Batchid", mData.get(position).getBatchid());
+                ii.putExtra("exam_date", mData.get(position).getAssessmentdate());
+                ii.putExtra("batch_name", mData.get(position).getBatchname());
+
                 mContext.startActivity(ii);
             }
         });

@@ -23,6 +23,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.vipin.assessortesta.Assessor_Exam.TestInstruction;
+import com.vipin.assessortesta.Assessor_Exam.TestQuestion;
 import com.vipin.assessortesta.R;
 
 import org.json.JSONException;
@@ -41,7 +43,7 @@ public class SignIn extends AppCompatActivity {
     String uname, pass;
     String status;
     SessionManager sessionManager;
-    String id, name, user_name;
+    String id, name, user_name,exam_status;
     SharedPreferences sharedpreferences;
     String encode, decode;
     final String mypreference = "mypref";
@@ -73,6 +75,22 @@ public class SignIn extends AppCompatActivity {
                 startActivity(j);
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +140,71 @@ public class SignIn extends AppCompatActivity {
     }
 
 
+
+
+
+
+    public void NotApproved(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Your Account Is Still Under Process Kindly Check After Some Time ")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }}
+
+                ).create();
+
+        alertDialog.show();
+    }
+
+
+
+
+    public void ResultAwaited(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Your Examination Result Is Pending.After successfull completion you will get notification.")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }}
+
+                ).create();
+
+        alertDialog.show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void sendDataServer() {
 
         progressDialog.show();
@@ -149,7 +232,10 @@ public class SignIn extends AppCompatActivity {
                             name = jsonObject.getString("name");
                             id = jsonObject.getString("id");
                             user_name = jsonObject.getString("user_name");
-                            //System.out.print("name-" +user_name);
+                            exam_status = jsonObject.getString("exam_status");
+
+
+                            System.out.print("name-" + exam_status);
 
                             sessionManager.setPreferences(getApplicationContext(), "status", "1");
                             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -158,13 +244,59 @@ public class SignIn extends AppCompatActivity {
                             editor.apply();
 
 
+                        }
+
+
+
+
+
+
+                        if(exam_status.equals("Approved") ) {
+
+
                             Intent z = new Intent(SignIn.this, AssessorTask.class);
                             startActivity(z);
+                            finish();
+                        }
+                        else if (exam_status.equals("Not Approved") ){
+                            NotApproved();
+
+
+                        }
+
+                        else if (exam_status.equals("Result Awaited") )
+                        {
+                            ResultAwaited();
+
+                        }
+                        else
+                        {
+
+                            Intent x = new Intent(SignIn.this, TestInstruction.class);
+                            startActivity(x);
                             finish();
 
                         }
 
-                    } else if (status.equals("0")) {
+
+
+
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+                    else if (status.equals("0")) {
                         Toast.makeText(getApplicationContext(), "Wrong Credentials.", Toast.LENGTH_LONG).show();
 
                     } else {
@@ -173,7 +305,7 @@ public class SignIn extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Error: Please try again Later1", Toast.LENGTH_LONG).show();
-                    System.out.println("reeeeee" + response);
+                    System.out.println("reeeeee" +response);
 
                 }
                 if (progressDialog.isShowing()) {
@@ -220,6 +352,13 @@ public class SignIn extends AppCompatActivity {
         super.onBackPressed();
         finishAffinity();
     }
+
+
+
+
+
+
+
 
 
 }

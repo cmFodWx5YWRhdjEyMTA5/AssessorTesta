@@ -57,7 +57,7 @@ public class Complete extends Fragment {
     View v;
     private RecyclerView myrecyclerview;
     private List<Complete1> lstBatch;
-    private android.app.AlertDialog progressDialog;
+   // private android.app.AlertDialog progressDialog;
 
 
     //calling the page adapter
@@ -103,8 +103,6 @@ public class Complete extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
-
         lstBatch = new ArrayList<>();
         getBatches();
 
@@ -119,7 +117,7 @@ public class Complete extends Fragment {
     private void getBatches() {
 
 
-        progressDialog.show();
+      //  progressDialog.show();
 
         String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
 
@@ -162,12 +160,12 @@ public class Complete extends Fragment {
                         RecyclerViewAdpterCompleted recyclerViewAdapter = new
                                 RecyclerViewAdpterCompleted(getContext(), lstBatch);
 
-                        myrecyclerview.setAdapter(recyclerViewAdapter);
+                           myrecyclerview.setAdapter(recyclerViewAdapter);
 
                         for (int i = 0; i <= batchname.size() - 1; i++) {
                             lstBatch.add(new Complete1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i)));
                         }
-//c.stopShimmer();
+
                     } else {
                         Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                     }
@@ -177,21 +175,12 @@ public class Complete extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
 
-
-             /*   if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }*/
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
+
                 Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
             }
         }) {

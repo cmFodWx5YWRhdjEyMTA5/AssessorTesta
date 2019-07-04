@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.vipin.assessortesta.Batch_Student.Batch_detail;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.Photos.Pmkvycounselling;
 import com.vipin.assessortesta.Photos.Pmkvysignane;
@@ -85,5 +88,37 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
         }
 
 
+
+
+
+        button_proceeds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (count1 == true && count2 == true ) {
+
+                    Intent intent = new Intent();
+                    setResult(6, intent);
+                    Group_Photo_Instructor_Activity.this.finish();
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
 }

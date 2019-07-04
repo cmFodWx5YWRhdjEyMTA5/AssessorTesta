@@ -7,10 +7,13 @@
     tools:context="com.vipin.assessortesta.Initials.Annexure">
 
     <ScrollView
+
+        android:id="@+id/scrollviewforRadio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/relativelayoutAnnexure"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -802,24 +805,39 @@
             </RadioGroup>
 
 
+
+
+
+            <Button
+                android:id="@+id/submitOfAnnexure"
+                android:layout_below="@+id/rgroup22"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_shadow"
+                android:elevation="10dp"
+                android:gravity="center"
+                android:text="Submit"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold|normal" />
+
+
+
+
+
         </RelativeLayout>
+
+
+
 
 
     </ScrollView>
 
 
-    <!--<Button-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Next"-->
-    <!--android:layout_gravity="right"-->
-    <!--android:textAllCaps="false"-->
-    <!--android:textSize="14sp"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:background="@color/Blue"-->
-    <!--android:layout_margin="20dp"-->
-    <!--android:drawableRight="@drawable/ic_arrow_forward_black_24dp"/>-->
+
 
 </RelativeLayout>
