@@ -97,7 +97,7 @@ public class Camera2VideoFragment extends Fragment
 
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
-    String assessor_id,batchid;
+    String assessor_id,batchid,bid;
 
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
