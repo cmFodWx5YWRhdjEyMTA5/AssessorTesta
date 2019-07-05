@@ -65,7 +65,7 @@ public class Upcoming extends Fragment {
     View v;
     ShimmerFrameLayout c;
     private RecyclerView myrecyclerview;
-    private List<Upcoming1> lstBatch;
+    private List<Upcoming1> lstBatch = new ArrayList<>();;
    // private android.app.AlertDialog progressDialog;
 
 
@@ -92,7 +92,7 @@ public class Upcoming extends Fragment {
             System.out.println("asessoriddd" + assessor_id);
 
         }
-
+        getBatches();
 
         return v;
 
@@ -102,10 +102,10 @@ public class Upcoming extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lstBatch = new ArrayList<>();
+
        // progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
 
-        getBatches();
+
 
 
 

@@ -62,10 +62,6 @@ public class StudentGroupActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Practical Exam Group");
         progressDialog = new SpotsDialog(this, R.style.Custom);
 
-        initView();
-        manageView();
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("user_name")) {
@@ -80,6 +76,12 @@ public class StudentGroupActivity extends AppCompatActivity {
             System.out.println("asessoriddd" + batchid);
 
         }
+
+        initView();
+        manageView();
+
+
+
 
 
     }

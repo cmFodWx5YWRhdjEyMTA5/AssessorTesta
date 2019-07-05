@@ -79,15 +79,6 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new SpotsDialog(this, R.style.Custom);
 
-        String sJson = getIntent().getExtras().getString("que_data");
-        position = getIntent().getExtras().getInt("position");
-        Gson gson = new Gson();
-        response = gson.fromJson(sJson, PracticalQuesResponse.class);
-
-        initView();
-        manageView();
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("user_name")) {
@@ -102,6 +93,19 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
             batchid = sharedpreferences.getString("batch_id", "");
             System.out.println("asessoriddd" + batchid);
         }
+
+        try {
+
+            String sJson = getIntent().getExtras().getString("que_data");
+            position = getIntent().getExtras().getInt("position");
+            Gson gson = new Gson();
+            response = gson.fromJson(sJson, PracticalQuesResponse.class);
+
+    initView();
+    manageView();
+}    catch (Exception e){ e.printStackTrace();}
+
+
 
     }
 
