@@ -16,6 +16,9 @@ import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activ
 import com.vipin.assessortesta.Initials.Annexure;
 import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.pojo.feedback.Practical;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
+import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
 public class Batch_instruction extends AppCompatActivity {
     TextView card1_textview1,card2_textview2,card3_textview3,card4_textview4,card5_textview5,card6_textview6;
@@ -120,7 +123,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card3_intent = new Intent(Batch_instruction.this,Students_list .class);
+                Intent card3_intent = new Intent(Batch_instruction.this, StudentGroupActivity.class);
                 startActivityForResult(card3_intent, CARD3_REQUESTCODE);}
         });
 
@@ -130,7 +133,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card4_intent = new Intent(Batch_instruction.this, Photo_navigation.class);
+                Intent card4_intent = new Intent(Batch_instruction.this, PracticalStuListActivity.class);
                 startActivityForResult(card4_intent, CARD4_REQUESTCODE);
             }
         });

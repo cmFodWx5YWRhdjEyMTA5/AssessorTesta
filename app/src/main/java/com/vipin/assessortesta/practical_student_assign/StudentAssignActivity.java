@@ -1,7 +1,9 @@
 package com.vipin.assessortesta.practical_student_assign;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -65,6 +67,10 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
     int quesId;
     Double stuCount, quesCount;
 
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batchid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,22 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
         initView();
         manageView();
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+        }
 
     }
 
@@ -113,7 +135,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         show_progressbar();
         Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_not_assigned_student.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("batch_id", "197")
+                .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("question_id", ""+quesId)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -256,9 +278,9 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         show_progressbar();
         AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_group.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("batch_id", "197")
+                .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("question_id", ""+quesId)
-                .addBodyParameter("assessor_id", "pbharti@radiantinfonet.com")
+                .addBodyParameter("assessor_id", assessor_id)
                 .addBodyParameter("student_id", jsonObject.toString())
                 .setPriority(Priority.MEDIUM)
                 .build()

@@ -67,6 +67,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     String[] arrTitle = {"Excellent", "Very Good", "Good", "Poor"};
     FeedbackResponse feedbackRes;
     int quesId;
+    String stuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,10 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                     .commit();
         }
 
+        try{
+            stuId = getIntent().getExtras().getString("stu_id");
+        }catch (Exception e){}
+
         initView();
        manageView();
 
@@ -91,7 +96,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         show_progressbar();
         Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_ques_detail.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("student_id", "UKJK003")
+                .addBodyParameter("student_id", stuId)
                 .build()
                 .getObjectObservable(FeedbackResponse.class)
                 .subscribeOn(Schedulers.io())
@@ -252,6 +257,12 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         }
     }
 
+    public int getQuesId(){
+        return quesId;
+    }
+    public String getStuId(){
+        return stuId;
+    }
 
 
 }

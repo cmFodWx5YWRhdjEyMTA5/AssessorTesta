@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Matrix;
@@ -93,6 +94,10 @@ public class Camera2VideoFragment extends Fragment
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
     CountDownTimer countDownTimer;
+
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batchid;
 
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -224,7 +229,27 @@ public class Camera2VideoFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_camera2_video, container, false);
+
+
+
+
+        sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+        }
+
+
+
+            return inflater.inflate(R.layout.fragment_camera2_video, container, false);
     }
 
     @Override
@@ -746,14 +771,18 @@ public class Camera2VideoFragment extends Fragment
 
     private void callUploadVideApi(File file){
 
+        int quesId = ((AssessorFeedbackActivity)getActivity()).getQuesId();
+        String stuId = ((AssessorFeedbackActivity)getActivity()).getStuId();
+
+
         show_progressbar();
         AndroidNetworking.upload("https://www.skillassessment.org/sdms/android_connect1/assessor/save_practical_videos.php")
                 .addMultipartFile("student_video",file, "multipart/form-data")
-                .addMultipartParameter("student_id","UKJK005")
+                .addMultipartParameter("student_id",stuId)
                 .addMultipartParameter("video_time","2019-06-18 05:55:25")
-                .addMultipartParameter("assessor_id","pbharti@radiantinfonet.com")
-                .addMultipartParameter("batch_id","197")
-                .addMultipartParameter("question_id","2")
+                .addMultipartParameter("assessor_id",assessor_id)
+                .addMultipartParameter("batch_id",batchid)
+                .addMultipartParameter("question_id",""+quesId)
                 .setTag("uploadTest")
                 .setPriority(Priority.HIGH)
                 .build()

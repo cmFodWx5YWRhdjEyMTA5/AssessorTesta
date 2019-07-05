@@ -1,5 +1,7 @@
 package com.vipin.assessortesta.practical_student_list;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,12 @@ public class PracticalStuListActivity extends AppCompatActivity {
     private RecyclerView rcNonSelected;
     private android.app.AlertDialog progressDialog;
 
+
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batchid;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,29 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
         initView();
         manageView();
+
+
+
+
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+        }
+
+
+
+
 
     }
 
@@ -63,8 +94,8 @@ public class PracticalStuListActivity extends AppCompatActivity {
         show_progressbar();
         Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_basic_details.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("batch_id", "197")
-                .addBodyParameter("assessor_id", "pbharti@radiantinfonet.com")
+                .addBodyParameter("batch_id",batchid)
+                .addBodyParameter("assessor_id", assessor_id)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getObjectObservable(PracticalStuListResponse.class)
@@ -110,10 +141,10 @@ public class PracticalStuListActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         // TODO Handle item click
 
-                        FrameLayout frameSelectBg = (FrameLayout)view.findViewById(R.id.frameSelectBg);
-                        ImageView ivTick = (ImageView) view.findViewById(R.id.ivTick);
-
-                        List<StudentDetailsItem> itemList = response.getStudentDetails();
+//                        FrameLayout frameSelectBg = (FrameLayout)view.findViewById(R.id.frameSelectBg);
+//                        ImageView ivTick = (ImageView) view.findViewById(R.id.ivTick);
+//
+//                        List<StudentDetailsItem> itemList = response.getStudentDetails();
                         /*String stuId = itemList.get(position).getStudentId();
                         if (ivTick.getTag().equals("None")) {
                             frameSelectBg.setBackgroundColor(getResources().getColor(R.color.colorSelectBg));

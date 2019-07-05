@@ -83,8 +83,9 @@ public class PracticalStuListRcAdapter extends RecyclerView.Adapter<PracticalStu
 
                     Toast.makeText(_context, "Feedback already submitted", Toast.LENGTH_SHORT).show();
                 }else {
-                    Intent i = new Intent(_context, AssessorFeedbackActivity.class);
-                    _context.startActivity(i);
+                    Intent intent = new Intent(_context, AssessorFeedbackActivity.class);
+                    intent.putExtra("stu_id", itemList.get(i).getStudentId());
+                    _context.startActivity(intent);
                 }
             }
         });

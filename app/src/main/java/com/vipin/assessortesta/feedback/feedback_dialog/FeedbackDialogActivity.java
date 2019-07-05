@@ -4,8 +4,10 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
@@ -43,6 +45,12 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
     private android.app.AlertDialog progressDialog;
 
 
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batchid;
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,22 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
 
         initView();
         manageView();
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+
+        }
 
     }
 
@@ -132,8 +156,8 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
         show_progressbar();
         AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_feedback.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("batch_id", "197")
-                .addBodyParameter("assessor_id", "6")
+                .addBodyParameter("batch_id", batchid)
+                .addBodyParameter("assessor_id",assessor_id)
                 .addBodyParameter("question_id", ques_id)
                 .addBodyParameter("student_id", stu_id)
                 .addBodyParameter("performance", sRate)

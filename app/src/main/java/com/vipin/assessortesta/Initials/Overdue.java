@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,6 +52,10 @@ public class Overdue extends Fragment {
 
 
     Context ctx;
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id;
+
 
 
     View v;
@@ -66,6 +71,18 @@ public class Overdue extends Fragment {
         v = inflater.inflate(R.layout.fragment_overdue, container, false);
         myrecyclerview = v.findViewById(R.id.overdue_recyclerview);
         ctx = container.getContext();
+
+
+        sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+
 
 
 //        RecyclerViewAdapterOverdue recyclerViewAdapter = new
@@ -115,7 +132,7 @@ public class Overdue extends Fragment {
                     if (status.equals("1")) {
 
                         JSONObject jobb = jobj.getJSONObject("batch_details");
-                        JSONArray jsonArray = jobb.getJSONArray("upcoming_batch");
+                        JSONArray jsonArray = jobb.getJSONArray("overdue_batch");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject c = jsonArray.getJSONObject(i);
@@ -187,7 +204,7 @@ public class Overdue extends Fragment {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("user_name", "pbharti@radiantinfonet.com");
+                map.put("user_name", assessor_id);
                 System.out.println("ddd" + map);
                 return map;
             }

@@ -2,6 +2,7 @@ package com.vipin.assessortesta.Batch_Student;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Geocoder;
@@ -48,7 +49,7 @@ public class Students_list  extends AppCompatActivity {
     RecyclerView meet_rc;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
-    String batchid,studentid,studentname,ATTENDSTATUS,ATTENDSTATUS1;
+    String batchid,studentid,studentname,ATTENDSTATUS,ATTENDSTATUS1,username;
     private android.app.AlertDialog progressDialog;
     Button submit;
     int attendance_status1;
@@ -71,6 +72,23 @@ public class Students_list  extends AppCompatActivity {
        progressDialog = new SpotsDialog(Students_list.this, R.style.Custom);
         submit = findViewById(R.id.submit);
 
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+
+
+        }
+
+        if (sharedpreferences.contains("user_name")) {
+            username = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + username);
+
+        }
+
+
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +96,7 @@ public class Students_list  extends AppCompatActivity {
             public void onClick(View v) {
                 if (attendance_status1==0)
                 {
-                    Toast.makeText(getApplicationContext(), "mark all the student attendence", Toast.LENGTH_SHORT).show();
+                    MarkAllAttendence();
 
                 }
                 else
@@ -86,7 +104,7 @@ public class Students_list  extends AppCompatActivity {
 
                     Intent intent1 = new Intent(Students_list.this,Batch_instruction.class);
                     setResult(2, intent1);
-                    intent1.putExtra("resultcode",555);
+                    intent1.putExtra("resultcode",1);
 
                     startActivity(intent1);
                     Students_list.this.finish();
@@ -106,13 +124,51 @@ public class Students_list  extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        if (progressDialog.isShowing()) {
+//            progressDialog.dismiss();
+//        }
+//    }
+
+
+
+
+
+
+
+
+
+
+
+    public void MarkAllAttendence(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Please Mark All The Student's Attendece ")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }}
+
+                ).create();
+
+        alertDialog.show();
     }
+
+
+
+
+
+
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -127,15 +183,7 @@ public class Students_list  extends AppCompatActivity {
 
 
 
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-
-        if (sharedpreferences.contains("batch_id")) {
-            batchid = sharedpreferences.getString("batch_id", "");
-            System.out.println("asessoriddd" + batchid);
-
-
-        }
 
 
 
@@ -146,28 +194,30 @@ public class Students_list  extends AppCompatActivity {
 
         AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_students_list_batchwise.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("assessor_id", "pbharti@radiantinfonet.com")
+                .addBodyParameter("assessor_id",username)
                 .addBodyParameter("batch_id",batchid)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        System.out.println("gggg"+response);
                         try {
                              attendance_status1 = response.getInt("attendance_status");
                             if (response.getInt("status") == 1) {
 
                                 JSONArray jsonArray = response.getJSONArray("student_details");
-
+                                System.out.println("gggg"+jsonArray);
                                 meet_rc.setLayoutManager(new LinearLayoutManager(myContext));
                                 meet_rc.setAdapter(new MeetAdapter(jsonArray));
 
                                 submit.setVisibility(View.VISIBLE);
 
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            System.out.println("gggg"+e);
                         }
 
                         if (progressDialog.isShowing()) {
@@ -178,7 +228,7 @@ public class Students_list  extends AppCompatActivity {
 
                     @Override
                     public void onError(ANError anError) {
-
+                        System.out.println("gggg"+anError);
                         if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }

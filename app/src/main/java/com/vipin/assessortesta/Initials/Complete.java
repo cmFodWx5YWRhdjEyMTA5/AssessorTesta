@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,6 +54,10 @@ public class Complete extends Fragment {
 
     Context ctx;
 
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id;
+
 
     View v;
     private RecyclerView myrecyclerview;
@@ -77,6 +82,14 @@ public class Complete extends Fragment {
         //get the view of recyclerview which  is in fragment
 
         myrecyclerview = v.findViewById(R.id.Complete_recyclerview);
+
+        sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
 
 
         RecyclerViewAdpterCompleted recyclerViewAdapter = new
@@ -197,7 +210,7 @@ public class Complete extends Fragment {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("user_name", "pbharti@radiantinfonet.com");
+                map.put("user_name", assessor_id);
                 System.out.println("ddd" + map);
                 return map;
             }

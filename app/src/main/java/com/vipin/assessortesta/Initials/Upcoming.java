@@ -58,6 +58,10 @@ public class Upcoming extends Fragment {
 
     Context ctx;
 
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id;
+
     View v;
     ShimmerFrameLayout c;
     private RecyclerView myrecyclerview;
@@ -78,6 +82,18 @@ public class Upcoming extends Fragment {
          upcomingfragment=v.findViewById(R.id.upcomingfragment);
         ctx=container.getContext();
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
+        sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
         return v;
 
     }
@@ -207,7 +223,7 @@ public class Upcoming extends Fragment {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("user_name", "pbharti@radiantinfonet.com");
+                map.put("user_name", assessor_id);
                 System.out.println("ddd" + map);
                 return map;
             }

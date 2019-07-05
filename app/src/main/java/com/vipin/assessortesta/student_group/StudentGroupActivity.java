@@ -1,7 +1,9 @@
 package com.vipin.assessortesta.student_group;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +25,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.pojo.practical_que.PracticalItem;
@@ -44,6 +47,12 @@ public class StudentGroupActivity extends AppCompatActivity {
     private RecyclerView rcView;
     private android.app.AlertDialog progressDialog;
 
+    SharedPreferences sharedpreferences;
+    final String mypreference = "mypref";
+    String assessor_id,batchid;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +64,24 @@ public class StudentGroupActivity extends AppCompatActivity {
 
         initView();
         manageView();
+
+
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            System.out.println("asessoriddd" + assessor_id);
+
+        }
+
+
+        if (sharedpreferences.contains("batch_id")) {
+            batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+
+        }
+
+
     }
 
     private void initView() {
@@ -73,7 +100,7 @@ public class StudentGroupActivity extends AppCompatActivity {
         show_progressbar();
         AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_practical_question.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("batch_id", "197")
+                .addBodyParameter("batch_id",batchid)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -163,7 +190,7 @@ public class StudentGroupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, StudentAssignActivity.class));
+        startActivity(new Intent(this, Batch_instruction.class));
         finish();
     }
 }

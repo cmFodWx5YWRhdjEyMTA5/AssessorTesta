@@ -1,7 +1,9 @@
 package com.vipin.assessortesta.Group_Photo_Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -95,6 +97,11 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+
+
+
                 if (count1 == true && count2 == true ) {
 
                     Intent intent = new Intent();
@@ -102,7 +109,9 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
                     Group_Photo_Instructor_Activity.this.finish();
                 } else {
 
-                    Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
+                    completeAllTask();
+
+                    //Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -117,6 +126,26 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
 
 
 
+    public void completeAllTask(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Please Complete All The Task ")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }}
+
+                ).create();
+
+        alertDialog.show();
+    }
 
 
 
