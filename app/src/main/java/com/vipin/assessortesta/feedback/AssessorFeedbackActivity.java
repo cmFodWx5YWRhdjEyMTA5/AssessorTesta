@@ -2,6 +2,7 @@ package com.vipin.assessortesta.feedback;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.adapter.FeedbackVpAdapter;
 import com.vipin.assessortesta.feedback.camera.Camera2VideoFragment;
@@ -34,6 +37,8 @@ import com.vipin.assessortesta.feedback.extra.FeedbackShowButton;
 import com.vipin.assessortesta.feedback.feedback_dialog.FeedbackDialogActivity;
 import com.vipin.assessortesta.feedback.fragment.FragmentChildFeedback;
 import com.vipin.assessortesta.pojo.feedback.FeedbackResponse;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
+import com.vipin.assessortesta.utils.NetworkManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +60,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class AssessorFeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final  String TAG = "AssessorFeedback";
     private TextView tvQuesNO, tvQues;
     private Button btnProceed;
     private TabLayout tbFeedback;
@@ -88,7 +94,11 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         initView();
        manageView();
 
-        funcCallApi();
+        if (NetworkManager.getInstance().isOnline(this) == true) {
+            funcCallApi();
+        }else {
+            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+        }
 
     }
 
@@ -96,7 +106,10 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         show_progressbar();
         Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_ques_detail.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("student_id", stuId)
+//                .addBodyParameter("student_id", stuId)
+                .addBodyParameter("student_id", "P4806738948")
+//                .addBodyParameter("student_id", "1145")
+
                 .build()
                 .getObjectObservable(FeedbackResponse.class)
                 .subscribeOn(Schedulers.io())
@@ -110,26 +123,34 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                     @Override
                     public void onNext(FeedbackResponse feedbackResponse) {
                         hide_progressbar();
-                        Toast.makeText(AssessorFeedbackActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        feedbackRes = feedbackResponse;
+                        try {
+                            if (feedbackResponse.getStatus() == 1) {
+                                feedbackRes = feedbackResponse;
+
+                                String sQues = feedbackResponse.getPractical().getJsonMember().getQuestion();
+                                quesId = feedbackResponse.getPractical().getJsonMember().getQuestionId();
 
 
-                        String sQues = feedbackResponse.getPractical().getJsonMember().getQuestion();
-                        quesId = feedbackResponse.getPractical().getJsonMember().getQuestionId();
+                                tvQues.setText(sQues);
+                                funcConfigViewPager();
 
+                                for (int i = 0; i < arrTitle.length; i++) {
+                                    addPage(arrTitle[i], "Ques-" + i, i);
+                                }
 
-                        tvQues.setText(sQues);
-                        funcConfigViewPager();
-
-                        for (int i = 0; i < arrTitle.length; i++){
-                            addPage(arrTitle[i], "Ques-"+i, i);
+                            }else {
+                                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+                            }
+                        }catch (Exception e){
+                            Log.e(TAG, " #Error : "+e, e);
+                            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hide_progressbar();
-                        Toast.makeText(AssessorFeedbackActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                     }
 
                     @Override
@@ -138,7 +159,6 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                     }
                 });
     }
-
 
     private void initView() {
         progressDialog = new SpotsDialog(AssessorFeedbackActivity.this, R.style.Custom);
@@ -169,7 +189,6 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                 if (!first && positionOffset == 0 && positionOffsetPixels == 0){
                     onPageSelected(0);
                     first = false;
-
                 }
             }
             @Override
@@ -185,10 +204,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                 }else{
 //                    showbuttonn.getData(0);
                     System.out.println("not true");
-
                 }
-
-
             }
 
             @Override
@@ -210,7 +226,8 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                Toast.makeText(this, "Back button clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(AssessorFeedbackActivity.this, PracticalStuListActivity.class));
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -225,6 +242,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                 i.putExtra("stu_id", "UKJK003");
 
                 startActivity(i);
+
                 break;
         }
     }
@@ -263,6 +281,30 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     }
     public String getStuId(){
         return stuId;
+    }
+
+    private void showAlertMessage(String title, String msg){
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new AlertDialog.Builder(this)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface  dialogInterface, int i) {
+                        startActivity(new Intent(AssessorFeedbackActivity.this, Batch_instruction.class));
+                        finish();
+                    }
+                })
+                .show();
     }
 
 

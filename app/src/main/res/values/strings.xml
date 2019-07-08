@@ -544,5 +544,8 @@ status of each question using one of the following symbols:</string>
     <string name="stop">Stop</string>
     <string name="permission_request">This sample needs permission for camera and audio recording.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="api_error">\nData not available. \n\nPlease contact to Authorised person.</string>
+    <string name="net_error">\nInternet not available. \n\nPlease check your Settngs.</string>
+
 
 </resources>

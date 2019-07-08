@@ -1,9 +1,12 @@
 package com.vipin.assessortesta.practical_student_list;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +21,9 @@ import android.widget.Toast;
 
 import com.androidnetworking.common.Priority;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.pojo.feedback_stu_list.PracticalStuListResponse;
 import com.vipin.assessortesta.pojo.feedback_stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.practical_student_list.adapter.PracticalStuListRcAdapter;
@@ -36,7 +41,6 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
     private RecyclerView rcNonSelected;
     private android.app.AlertDialog progressDialog;
-
 
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
@@ -59,7 +63,6 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
         }
 
-
         if (sharedpreferences.contains("batch_id")) {
             batchid = sharedpreferences.getString("batch_id", "");
             System.out.println("asessoriddd" + batchid);
@@ -69,6 +72,8 @@ public class PracticalStuListActivity extends AppCompatActivity {
         initView();
         manageView();
 
+
+//        startActivity(new Intent(PracticalStuListActivity.this, AssessorFeedbackActivity.class));
 
     }
 
@@ -104,14 +109,18 @@ public class PracticalStuListActivity extends AppCompatActivity {
                     public void onNext(PracticalStuListResponse response) {
 
                         hide_progressbar();
-                        funcNonSelectedStudent(response);
-
+                        if (response.getStatus() == 1) {
+                            funcNonSelectedStudent(response);
+                        }else {
+                            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hide_progressbar();
-                        Toast.makeText(PracticalStuListActivity.this, "Failed to get", Toast.LENGTH_SHORT).show();
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+//                        Toast.makeText(PracticalStuListActivity.this, "Failed to get", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -171,6 +180,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
                 finish();
                 break;
         }
@@ -186,6 +196,31 @@ public class PracticalStuListActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
     }
+
+    private void showAlertMessage(String title, String msg){
+        new AlertDialog.Builder(PracticalStuListActivity.this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new AlertDialog.Builder(PracticalStuListActivity.this)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
+                        finish();
+                    }
+                })
+                .show();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

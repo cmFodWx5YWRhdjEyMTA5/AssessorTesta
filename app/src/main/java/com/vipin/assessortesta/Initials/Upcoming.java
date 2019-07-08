@@ -70,10 +70,7 @@ public class Upcoming extends Fragment {
 
 
 
-    public Upcoming() {
-
-
-    }
+    public Upcoming() { }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

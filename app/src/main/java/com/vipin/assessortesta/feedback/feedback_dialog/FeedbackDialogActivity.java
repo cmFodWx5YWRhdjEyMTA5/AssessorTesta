@@ -27,7 +27,10 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
+import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.NetworkManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,7 +144,12 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                 break;
                 case R.id.btnSubmit:
                     if (isValid()) {
-                        funcUploadFeedbackApi();
+
+                        if (NetworkManager.getInstance().isOnline(this) == true) {
+                            funcUploadFeedbackApi();
+                        }else {
+                            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+                        }
                     }
                 break;
 
@@ -173,7 +181,7 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                             String msg = response.getString("msg");
 
                             if (respCode == 1) {
-                                new AlertDialog.Builder(FeedbackDialogActivity.this)
+                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.MyDialogTheme)
                                         .setTitle("Success")
                                         .setMessage(msg)
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -185,7 +193,7 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                                         })
                                         .show();
                             }else {
-                                new AlertDialog.Builder(FeedbackDialogActivity.this)
+                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.MyDialogTheme)
                                         .setTitle("Failed")
                                         .setMessage(msg)
                                         .setNegativeButton("Ok", null)
@@ -247,4 +255,13 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
         }
     }
 
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new android.support.v7.app.AlertDialog.Builder(this)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
 }

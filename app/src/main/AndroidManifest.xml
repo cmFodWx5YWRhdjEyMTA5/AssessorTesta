@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/p_logo"
@@ -49,6 +52,11 @@
         android:screenOrientation="portrait"
             />
 
+        <activity
+            android:name=".feedback.feedback_dialog.FeedbackDialogActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UserDialog" />
 
         <activity android:name=".Batch_Student.Assessment_details" />
         <activity android:name=".feedback.AssessorFeedbackActivity"
