@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -80,21 +79,6 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new SpotsDialog(this, R.style.Custom);
 
-        try {
-            if (getIntent().getExtras().getString("que_data") != null) {
-                String sJson = getIntent().getExtras().getString("que_data");
-                position = getIntent().getExtras().getInt("position");
-                Gson gson = new Gson();
-                response = gson.fromJson(sJson, PracticalQuesResponse.class);
-
-            }
-        }catch (Exception e){
-            Log.e("Student Assign", " Err "+e, e);
-        }
-        initView();
-        manageView();
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("user_name")) {
@@ -110,6 +94,19 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
             System.out.println("asessoriddd" + batchid);
         }
 
+        try {
+
+            String sJson = getIntent().getExtras().getString("que_data");
+            position = getIntent().getExtras().getInt("position");
+            Gson gson = new Gson();
+            response = gson.fromJson(sJson, PracticalQuesResponse.class);
+
+    initView();
+    manageView();
+}    catch (Exception e){ e.printStackTrace();}
+
+
+
     }
 
     private void initView() {
@@ -123,19 +120,14 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
         statusMap = new HashMap<>();
 
-        try{
         stuCount = Double.valueOf(response.getTotalStudents());
         quesCount = Double.valueOf(response.getTotalQuestions());
         List<PracticalItem> practicalItemList = response.getPractical();
         PracticalItem practicalItem = practicalItemList.get(position);
 
-            tvQuesNO.setText("Q"+(position+1+"."));
-            tvQues.setText(practicalItem.getQuestion());
-            quesId = practicalItem.getQuestionId();
-
-        }catch (Exception e){
-            Log.e("Student Assign", " Err "+e, e);
-        }
+        tvQuesNO.setText("Q"+(position+1+"."));
+        tvQues.setText(practicalItem.getQuestion());
+        quesId = practicalItem.getQuestionId();
 
         btnProceed.setOnClickListener(this::onClick);
         rcNonSelected.setLayoutManager(new LinearLayoutManager(this));

@@ -51,14 +51,6 @@ public class PracticalStuListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new SpotsDialog(this, R.style.Custom);
 
-        initView();
-        manageView();
-
-
-
-
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("user_name")) {
@@ -74,7 +66,8 @@ public class PracticalStuListActivity extends AppCompatActivity {
         }
 
 
-
+        initView();
+        manageView();
 
 
     }
