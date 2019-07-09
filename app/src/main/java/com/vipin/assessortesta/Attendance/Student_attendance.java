@@ -294,13 +294,6 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
 
 
     }
-
-
-
-
-
-
-
     @Override
     protected int getMenuId() {
         return R.menu.main;
