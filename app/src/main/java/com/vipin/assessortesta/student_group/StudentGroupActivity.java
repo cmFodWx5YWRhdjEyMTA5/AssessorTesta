@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.GridLayoutAnimationController;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -54,8 +55,9 @@ public class StudentGroupActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
     String assessor_id,batchid;
-
-
+    Button btnProceed;
+    static int totalCount = 0;
+    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,9 @@ public class StudentGroupActivity extends AppCompatActivity {
 
     private void initView() {
         rcView = (RecyclerView)findViewById(R.id.rcView);
+        btnProceed = (Button) findViewById(R.id.btnProceed);
+
+
     }
 
     private void manageView() {
@@ -105,6 +110,18 @@ public class StudentGroupActivity extends AppCompatActivity {
         }else {
             showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
         }
+
+        btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count == totalCount) {
+                    startActivity(new Intent(StudentGroupActivity.this, Batch_instruction.class));
+                    finish();
+                }else {
+                    showAlertMessage(R.drawable.ic_complain, "Alert", "\nYou must assign maximum students to each group.");
+                }
+            }
+        });
     }
 
     private void callApiForQueList() {
@@ -217,8 +234,9 @@ public class StudentGroupActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showAlertMessage(String title, String msg){
+    private void showAlertMessage(int icon, String title, String msg){
         new AlertDialog.Builder(StudentGroupActivity.this)
+                .setIcon(icon)
                 .setTitle(title)
                 .setMessage(msg)
                 .setCancelable(false)

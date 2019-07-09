@@ -73,13 +73,17 @@ import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -599,7 +603,9 @@ public class Camera2VideoFragment extends Fragment
             mNextVideoAbsolutePath = getVideoFilePath(getActivity());
         }
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
-        mMediaRecorder.setVideoEncodingBitRate(10000000);
+//        mMediaRecorder.setVideoEncodingBitRate(10000000);
+        mMediaRecorder.setVideoEncodingBitRate(1000000);
+
         mMediaRecorder.setVideoFrameRate(30);
         mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
@@ -774,17 +780,23 @@ public class Camera2VideoFragment extends Fragment
 
     }
 
+
+
+    /**----------API----------*/
     private void callUploadVideApi(File file){
 
         int quesId = ((AssessorFeedbackActivity)getActivity()).getQuesId();
         String stuId = ((AssessorFeedbackActivity)getActivity()).getStuId();
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String requiredDate = df.format(new Date()).toString();
 
 
         show_progressbar();
         AndroidNetworking.upload("https://www.skillassessment.org/sdms/android_connect1/assessor/save_practical_videos.php")
                 .addMultipartFile("student_video",file, "multipart/form-data")
                 .addMultipartParameter("student_id",stuId)
-                .addMultipartParameter("video_time","2019-06-18 05:55:25")
+                .addMultipartParameter("video_time", requiredDate)
                 .addMultipartParameter("assessor_id",assessor_id)
                 .addMultipartParameter("batch_id",batchid)
                 .addMultipartParameter("question_id",""+quesId)
@@ -802,10 +814,20 @@ public class Camera2VideoFragment extends Fragment
                     public void onResponse(JSONObject response) {
                         hide_progressbar();
                         // do anything with response
-                        new AlertDialog.Builder(getActivity())
-                                .setMessage("Success : "+response.toString())
-                                .setPositiveButton("Ok", null)
-                                .show();
+                        try {
+                            if (response.getInt("status") == 1) {
+                                ((AssessorFeedbackActivity)getActivity()).setVideoStatus(true);
+                                new AlertDialog.Builder(getActivity())
+                                        .setIcon(android.R.drawable.ic_dialog_info)
+                                        .setTitle("Info")
+                                        .setMessage("Video has been uploaded succesfully.")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Ok", null)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     @Override
                     public void onError(ANError error) {
@@ -840,4 +862,6 @@ public class Camera2VideoFragment extends Fragment
                 .setNegativeButton("Ok", null)
                 .show();
     }
+
+
 }

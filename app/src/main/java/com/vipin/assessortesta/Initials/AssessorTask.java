@@ -164,8 +164,8 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-//                map.put("user_name", assessor_id);
-                map.put("user_name", "123");
+                map.put("user_name", assessor_id);
+//                map.put("user_name", "123");
 
                 System.out.println("ddd" + map);
                 return map;

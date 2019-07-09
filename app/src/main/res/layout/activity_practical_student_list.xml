@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:padding="@dimen/vertical_margin_small"
     android:orientation="vertical"
-    android:padding="@dimen/horizontal_margin_small"
-    tools:context=".practical_student_assign.StudentAssignActivity">
+    tools:context=".student_group.StudentGroupActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/vertical_margin_small"
+        android:orientation="vertical"
+        android:layout_marginBottom="54dp"
+        >
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcNonSelected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorSmoggyWhite"
-                />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcNonSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSmoggyWhite"
+            />
 
-</LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_marginBottom="@dimen/vertical_margin_small"
+        android:layout_alignParentBottom="true"
+        >
+        <Button
+            android:id="@+id/btnProceed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Proceed"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@color/BBlue"
+            android:layout_gravity="center_horizontal"
+            />
+    </FrameLayout>
+</RelativeLayout>

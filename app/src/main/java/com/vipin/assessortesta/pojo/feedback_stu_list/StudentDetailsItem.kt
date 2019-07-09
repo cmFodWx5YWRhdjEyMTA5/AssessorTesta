@@ -4,8 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class StudentDetailsItem(
 
-	@field:SerializedName("exam_status")
-	val examStatus: Int? = null,
+	@field:SerializedName("exam_feedback_status")
+	val examFeedbackStatus: Int? = null,
+	
+	@field:SerializedName("exam_video_status")
+	val examVideoStatus: Int? = null,
+	
 
 	@field:SerializedName("batch_id")
 	val batchId: Int? = null,

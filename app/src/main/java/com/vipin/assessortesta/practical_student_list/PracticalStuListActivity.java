@@ -27,6 +27,7 @@ import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.pojo.feedback_stu_list.PracticalStuListResponse;
 import com.vipin.assessortesta.pojo.feedback_stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.practical_student_list.adapter.PracticalStuListRcAdapter;
+import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
 import java.util.List;
@@ -45,6 +46,9 @@ public class PracticalStuListActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
     String assessor_id,batchid;
+    Button btnProceed;
+    static int totalCount = 0;
+    static int count = 0;
 
 
     @Override
@@ -72,19 +76,29 @@ public class PracticalStuListActivity extends AppCompatActivity {
         initView();
         manageView();
 
-
-//        startActivity(new Intent(PracticalStuListActivity.this, AssessorFeedbackActivity.class));
-
     }
 
     private void initView() {
         rcNonSelected = (RecyclerView)findViewById(R.id.rcNonSelected);
+        btnProceed = (Button) findViewById(R.id.btnProceed);
     }
 
     private void manageView() {
 
         rcNonSelected.setLayoutManager(new LinearLayoutManager(this));
 
+        btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (count == totalCount) {
+                    Intent i = new Intent(PracticalStuListActivity.this, Batch_instruction.class);
+                    startActivity(i);
+                    finish();
+                }else {
+                    showAlertMessage(R.drawable.ic_complain, "Alert", "\nYou must submit feedback of all the students.");
+                }
+            }
+        });
         callApiForStuList();
     }
 
@@ -134,6 +148,13 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
         if (response.getStatus() == 1) {
 
+            List<StudentDetailsItem> list = response.getStudentDetails();
+            totalCount = list.size();
+            for (int i = 0; i < list.size(); i++){
+                if (list.get(i).getExamFeedbackStatus() == 1 && list.get(i).getExamVideoStatus() == 1){
+                    count += 1;
+                }
+            }
             PracticalStuListRcAdapter adapter = new PracticalStuListRcAdapter(this, response);
             rcNonSelected.setAdapter(adapter);
         }
@@ -197,8 +218,9 @@ public class PracticalStuListActivity extends AppCompatActivity {
         }
     }
 
-    private void showAlertMessage(String title, String msg){
+    private void showAlertMessage(int icon, String title, String msg){
         new AlertDialog.Builder(PracticalStuListActivity.this)
+                .setIcon(icon)
                 .setTitle(title)
                 .setMessage(msg)
                 .setCancelable(false)

@@ -43,7 +43,6 @@ public class PracticalStuListRcAdapter extends RecyclerView.Adapter<PracticalStu
             ivTick = (ImageView) itemView.findViewById(R.id.ivTick);
             tvStudentName = (TextView) itemView.findViewById(R.id.tvStudentName);
             tvStudentId = (TextView) itemView.findViewById(R.id.tvStudentId);
-
         }
     }
 
@@ -61,10 +60,11 @@ public class PracticalStuListRcAdapter extends RecyclerView.Adapter<PracticalStu
         myViewHolder.tvStudentName.setText(itemList.get(i).getName());
         myViewHolder.tvStudentId.setText("ID : "+itemList.get(i).getStudentId());
 
-        int status = itemList.get(i).getExamStatus();
+        int status1 = itemList.get(i).getExamFeedbackStatus();
+        int status2 = itemList.get(i).getExamVideoStatus();
 
         try {
-                if (status == 1) {
+                if (status1 == 1 && status2 == 1) {
                     Drawable d = (Drawable) _context.getResources().getDrawable(R.drawable.ic_check_circle_outline);
                     myViewHolder.ivTick.setImageDrawable(d);
                     myViewHolder.ivTick.setColorFilter(ContextCompat.getColor(_context, R.color.colorExp2), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -79,14 +79,10 @@ public class PracticalStuListRcAdapter extends RecyclerView.Adapter<PracticalStu
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (status == 1) {
 
-                    Toast.makeText(_context, "Feedback already submitted", Toast.LENGTH_SHORT).show();
-                }else {
                     Intent intent = new Intent(_context, AssessorFeedbackActivity.class);
                     intent.putExtra("stu_id", itemList.get(i).getStudentId());
                     _context.startActivity(intent);
-                }
             }
         });
 

@@ -74,6 +74,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     FeedbackResponse feedbackRes;
     int quesId;
     String stuId;
+    boolean videoStatus = false, commentStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +107,9 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         show_progressbar();
         Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_ques_detail.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-//                .addBodyParameter("student_id", stuId)
-                .addBodyParameter("student_id", "P4806738948")
+                .addBodyParameter("student_id", stuId)
+//                .addBodyParameter("student_id", "P4806738948")
 //                .addBodyParameter("student_id", "1145")
-
                 .build()
                 .getObjectObservable(FeedbackResponse.class)
                 .subscribeOn(Schedulers.io())
@@ -171,7 +171,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     }
     private void manageView() {
 
-        tvQues.setText("Read each sentence to find out whether there is any grammatical error in it. The error, if any will be in one part of the sentence.");
+        tvQues.setText("--");
         btnProceed.setOnClickListener(this::onClick);
         tbFeedback.setupWithViewPager(vpFeedback);
 
@@ -237,11 +237,20 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnProceed:
-                Intent i = new Intent(AssessorFeedbackActivity.this, FeedbackDialogActivity.class);
-                i.putExtra("ques_id", ""+quesId);
-                i.putExtra("stu_id", "UKJK003");
+                if (getVideoStatus() == true) {
+                    Intent i = new Intent(AssessorFeedbackActivity.this, FeedbackDialogActivity.class);
+                    i.putExtra("ques_id", "" + quesId);
+                    i.putExtra("stu_id", stuId);
 
-                startActivity(i);
+                    startActivity(i);
+                }else {
+                    new AlertDialog.Builder(this)
+                            .setIcon(R.drawable.ic_complain)
+                            .setTitle("Alert")
+                            .setMessage("\nPlease, upload video before proceeding")
+                            .setNegativeButton("Ok", null)
+                            .show();
+                }
 
                 break;
         }
@@ -307,5 +316,13 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                 .show();
     }
 
+
+    public void setVideoStatus(boolean status){
+        this.videoStatus = status;
+    }
+
+    public boolean getVideoStatus(){
+        return videoStatus;
+    }
 
 }
