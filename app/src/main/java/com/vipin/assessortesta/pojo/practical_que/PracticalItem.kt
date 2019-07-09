@@ -11,5 +11,10 @@ data class PracticalItem(
 	val question: String? = null,
 
 	@field:SerializedName("question_id")
-	val questionId: Int? = null
+	val questionId: Int? = null,
+
+	@field:SerializedName("student_assigned")
+	val studentAssigned: Int? = null
+
+
 )

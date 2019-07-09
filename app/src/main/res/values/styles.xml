@@ -128,6 +128,18 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
-
     <color name="colorTransParent">#00000000</color>
+
+    <!--THEME DIALOG-->
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+    </style>
+
+
+
 </resources>

@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -67,6 +68,9 @@ import com.rx2androidnetworking.Rx2ANRequest;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
+import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
+import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.NetworkManager;
 
 import org.json.JSONObject;
 
@@ -299,8 +303,14 @@ public class Camera2VideoFragment extends Fragment
                 Toast.makeText(getActivity(), "Upload", Toast.LENGTH_SHORT).show();
 
                 try {
-                    File file = new File(sImagePath);
-                    callUploadVideApi(file);
+
+                    if (NetworkManager.getInstance().isOnline(getActivity()) == true) {
+                        File file = new File(sImagePath);
+                        callUploadVideApi(file);
+                    }else {
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+                    }
+
                 }catch (Exception e){
                     Toast.makeText(getActivity(), "Video upload failed", Toast.LENGTH_SHORT).show();
                 }
@@ -826,4 +836,13 @@ public class Camera2VideoFragment extends Fragment
         }
     }
 
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new android.support.v7.app.AlertDialog.Builder(getActivity())
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
 }

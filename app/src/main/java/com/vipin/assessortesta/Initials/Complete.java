@@ -107,7 +107,19 @@ public class Complete extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        lstBatch = new ArrayList<>();
+
+        JSONObject mainJObj = ((AssessorTask)getActivity()).getApiData();
+
+        setData3(mainJObj);
+
+
+
+
+
     }
+
+
 
 
     //Create the cardview
@@ -116,9 +128,59 @@ public class Complete extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lstBatch = new ArrayList<>();
-        getBatches();
 
+//        getBatches();
+
+    }
+
+
+    private void setData3(JSONObject jsonObject){
+        JSONArray jsonArray = null;
+
+        try {
+
+            jsonArray = jsonObject.getJSONArray("completed_batch");
+
+           // if (jsonArray.length() > 0) {
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject c = jsonArray.getJSONObject(i);
+
+                    if (batchid.size() <= jsonArray.length() - 1) {
+                        batchid.add(c.getString("batchid"));
+                    }
+                    if (batchname.size() <= jsonArray.length() - 1) {
+                        batchname.add(c.getString("batch_name"));
+                    }
+                    if (totalstudents.size() <= jsonArray.length() - 1) {
+                        totalstudents.add(c.getString("number_of_students"));
+                    }
+                    if (centername.size() <= jsonArray.length() - 1) {
+                        centername.add(c.getString("exam_center_name"));
+                    }
+                    if (startdate.size() <= jsonArray.length() - 1) {
+                        startdate.add(c.getString("startdate"));
+                    }
+                    if (centerid.size() <= jsonArray.length() - 1) {
+                        centerid.add(c.getString("exam_center_id"));
+                    }
+
+                }
+                RecyclerViewAdpterCompleted recyclerViewAdapter = new
+                        RecyclerViewAdpterCompleted(getContext(), lstBatch);
+
+                myrecyclerview.setAdapter(recyclerViewAdapter);
+
+                for (int i = 0; i <= batchname.size() - 1; i++) {
+                    lstBatch.add(new Complete1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i)));
+                }
+
+//            }else {
+//                Toast.makeText(ctx, "No Complete Data", Toast.LENGTH_SHORT).show();
+//            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -127,97 +189,100 @@ public class Complete extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void getBatches() {
-
-
-      //  progressDialog.show();
-
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
-
-        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("response is" + response);
-                try {
-                    JSONObject jobj = new JSONObject(response);
-                    String status = jobj.getString("status");
-
-                    if (status.equals("1")) {
-
-                        JSONObject jobb = jobj.getJSONObject("batch_details");
-                        JSONArray jsonArray = jobb.getJSONArray("previous_batch");
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject c = jsonArray.getJSONObject(i);
-
-                            if (batchid.size() <= jsonArray.length() - 1) {
-                                batchid.add(c.getString("batchid"));
-                            }
-                            if (batchname.size() <= jsonArray.length() - 1) {
-                                batchname.add(c.getString("batch_name"));
-                            }
-                            if (totalstudents.size() <= jsonArray.length() - 1) {
-                                totalstudents.add(c.getString("number_of_students"));
-                            }
-                            if (centername.size() <= jsonArray.length() - 1) {
-                                centername.add(c.getString("exam_center_name"));
-                            }
-                            if (startdate.size() <= jsonArray.length() - 1) {
-                                startdate.add(c.getString("startdate"));
-                            }
-                            if (centerid.size() <= jsonArray.length() - 1) {
-                                centerid.add(c.getString("exam_center_id"));
-                            }
-
-                        }
-                        RecyclerViewAdpterCompleted recyclerViewAdapter = new
-                                RecyclerViewAdpterCompleted(getContext(), lstBatch);
-
-                           myrecyclerview.setAdapter(recyclerViewAdapter);
-
-                        for (int i = 0; i <= batchname.size() - 1; i++) {
-                            lstBatch.add(new Complete1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i)));
-                        }
-
-                    } else {
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                super.getHeaders();
-                Map<String, String> map = new HashMap<>();
-
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                super.getParams();
-                Map<String, String> map = new HashMap<>();
-                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("user_name", assessor_id);
-                System.out.println("ddd" + map);
-                return map;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MyNetwork.getInstance(getContext()).addToRequestQueue(request);
-    }
+//    private void getBatches() {
+//
+//
+//      //  progressDialog.show();
+//
+//        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
+//
+//        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                System.out.println("response is" + response);
+//                try {
+//                    JSONObject jobj = new JSONObject(response);
+//                    String status = jobj.getString("status");
+//
+//                    if (status.equals("1")) {
+//
+//                        JSONObject jobb = jobj.getJSONObject("batch_details");
+//                        JSONArray jsonArray = jobb.getJSONArray("previous_batch");
+//
+//
+//
+//
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject c = jsonArray.getJSONObject(i);
+//
+//                            if (batchid.size() <= jsonArray.length() - 1) {
+//                                batchid.add(c.getString("batchid"));
+//                            }
+//                            if (batchname.size() <= jsonArray.length() - 1) {
+//                                batchname.add(c.getString("batch_name"));
+//                            }
+//                            if (totalstudents.size() <= jsonArray.length() - 1) {
+//                                totalstudents.add(c.getString("number_of_students"));
+//                            }
+//                            if (centername.size() <= jsonArray.length() - 1) {
+//                                centername.add(c.getString("exam_center_name"));
+//                            }
+//                            if (startdate.size() <= jsonArray.length() - 1) {
+//                                startdate.add(c.getString("startdate"));
+//                            }
+//                            if (centerid.size() <= jsonArray.length() - 1) {
+//                                centerid.add(c.getString("exam_center_id"));
+//                            }
+//
+//                        }
+//                        RecyclerViewAdpterCompleted recyclerViewAdapter = new
+//                                RecyclerViewAdpterCompleted(getContext(), lstBatch);
+//
+//                           myrecyclerview.setAdapter(recyclerViewAdapter);
+//
+//                        for (int i = 0; i <= batchname.size() - 1; i++) {
+//                            lstBatch.add(new Complete1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i)));
+//                        }
+//
+//                    } else {
+//                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+//                    }
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//               // Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                super.getHeaders();
+//                Map<String, String> map = new HashMap<>();
+//
+//                return map;
+//            }
+//
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                super.getParams();
+//                Map<String, String> map = new HashMap<>();
+//                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
+//                map.put("user_name", assessor_id);
+//                System.out.println("ddd" + map);
+//                return map;
+//            }
+//        };
+//        request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        MyNetwork.getInstance(getContext()).addToRequestQueue(request);
+//    }
 
 
 }
