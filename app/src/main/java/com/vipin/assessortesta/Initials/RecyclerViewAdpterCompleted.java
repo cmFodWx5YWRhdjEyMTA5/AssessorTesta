@@ -1,7 +1,9 @@
 package com.vipin.assessortesta.Initials;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,7 +63,14 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if (mData != null) {
+            return mData.size();
+        }else {
+
+
+
+            return 0;
+        }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -92,4 +101,8 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
 
         }
     }
+
+
+
+
 }

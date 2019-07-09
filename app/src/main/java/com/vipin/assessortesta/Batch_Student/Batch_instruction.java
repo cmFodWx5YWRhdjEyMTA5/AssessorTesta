@@ -112,7 +112,7 @@ public class Batch_instruction extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent card2_intent = new Intent(Batch_instruction.this,Batch_detail.class);
-                startActivityForResult(card2_intent, CARD2_REQUESTCODE);
+                startActivity(card2_intent);
 
             }
         });

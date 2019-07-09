@@ -105,7 +105,6 @@ public class Students_list  extends AppCompatActivity {
                     Intent intent1 = new Intent(Students_list.this,Batch_instruction.class);
                     setResult(2, intent1);
                     intent1.putExtra("resultcode",1);
-
                     startActivity(intent1);
                     Students_list.this.finish();
 
@@ -261,8 +260,6 @@ public class Students_list  extends AppCompatActivity {
                 holder.maccountName.setText(jsonObject.getString("name"));
 
 
-
-
                 if (jsonObject.getString("mobile").equals("null") || jsonObject.getString("mobile").equals("")  ) {
 
                     holder.mcontactperson.setText("NA");
@@ -280,6 +277,8 @@ public class Students_list  extends AppCompatActivity {
                 {
                     holder.mlocation.setText(jsonObject.getString("email"));
                 }
+
+
                 holder.mstartDate.setText(jsonObject.getString("tc_name"));
                 holder.mendDate.setText(jsonObject.getString("batch_id"));
                 holder.Attendstatus.setText(jsonObject.getString("student_attendance"));
@@ -289,7 +288,6 @@ public class Students_list  extends AppCompatActivity {
                 String studentid = jsonObject.getString("student_id");
                  studentname = jsonObject.getString("name");
                 String studentname1 = jsonObject.getString("name");
-
 
                 String tcname= jsonObject.getString("tc_name");
 
