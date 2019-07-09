@@ -69,7 +69,7 @@ public class Students_list  extends AppCompatActivity {
 //        ATTENDSTATUS1 = getIntent().getStringExtra("Absent");
 //        //Toast.makeText(getApplicationContext(),""+ATTENDSTATUS1,Toast.LENGTH_LONG).show();
 //
-       progressDialog = new SpotsDialog(Students_list.this, R.style.Custom);
+        progressDialog = new SpotsDialog(Students_list.this, R.style.Custom);
         submit = findViewById(R.id.submit);
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
@@ -104,9 +104,9 @@ public class Students_list  extends AppCompatActivity {
 
                     Intent intent1 = new Intent(Students_list.this,Batch_instruction.class);
                     setResult(2, intent1);
-                    intent1.putExtra("resultcode",1);
+                    intent1.putExtra("resultcode","abc");
                     startActivity(intent1);
-                    Students_list.this.finish();
+                    //Students_list.this.finish();
 
 
 
@@ -202,7 +202,7 @@ public class Students_list  extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         System.out.println("gggg"+response);
                         try {
-                             attendance_status1 = response.getInt("attendance_status");
+                            attendance_status1 = response.getInt("attendance_status");
                             if (response.getInt("status") == 1) {
 
                                 JSONArray jsonArray = response.getJSONArray("student_details");
@@ -286,7 +286,7 @@ public class Students_list  extends AppCompatActivity {
 
 
                 String studentid = jsonObject.getString("student_id");
-                 studentname = jsonObject.getString("name");
+                studentname = jsonObject.getString("name");
                 String studentname1 = jsonObject.getString("name");
 
                 String tcname= jsonObject.getString("tc_name");

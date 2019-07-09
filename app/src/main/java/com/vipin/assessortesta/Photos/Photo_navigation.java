@@ -1,5 +1,7 @@
 package com.vipin.assessortesta.Photos;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -305,14 +307,16 @@ public class Photo_navigation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
+                if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
                         count6 == true && count7 == true && count8 == true && count9 == true && count10 == true) {
 
-                   Intent intent = new Intent();
-                   setResult(1, intent);
-                   Photo_navigation.this.finish();
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    Photo_navigation.this.finish();
 
                 } else {
+
+                    FinishTask_Alert();
 
                     Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
 
@@ -322,6 +326,30 @@ public class Photo_navigation extends AppCompatActivity {
 
 
     }
+
+
+
+    public void FinishTask_Alert(){
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Make Sure Finish All The Task ")
+                .setTitle("Message")
+                .setCancelable(true)
+                .setNegativeButton("OK",new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }}
+
+                ).create();
+
+        alertDialog.show();
+    }
+
 
 
 }

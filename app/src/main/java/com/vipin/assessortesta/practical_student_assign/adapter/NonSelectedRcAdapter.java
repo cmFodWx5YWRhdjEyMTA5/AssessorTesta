@@ -70,7 +70,6 @@ public class NonSelectedRcAdapter  extends RecyclerView.Adapter<NonSelectedRcAda
         }catch (Exception e){
             Log.e("NonSelectAdapter", " #Error : "+e, e);
         }
-
     }
 
     @Override
