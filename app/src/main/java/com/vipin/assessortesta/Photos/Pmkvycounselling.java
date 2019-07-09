@@ -193,7 +193,6 @@ public class Pmkvycounselling extends BaseActivity {
 
                         System.out.print("responsee" + response);
 
-                        Toast.makeText(getApplicationContext(), " not sucesss", Toast.LENGTH_SHORT).show();
 
                     }
 

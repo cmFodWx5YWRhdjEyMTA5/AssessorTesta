@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -299,18 +300,39 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
 
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
 
     @Override
     protected int getMenuId() {
         return R.menu.main;
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(this, Students_list.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Batch_instruction.class));
+        finish();
+    }
+
+
+
+
+
 
     @Override
     protected int getLayoutId() {

@@ -309,7 +309,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface  dialogInterface, int i) {
-                        startActivity(new Intent(AssessorFeedbackActivity.this, Batch_instruction.class));
+                        startActivity(new Intent(AssessorFeedbackActivity.this, PracticalStuListActivity.class));
                         finish();
                     }
                 })
@@ -325,4 +325,10 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
         return videoStatus;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(AssessorFeedbackActivity.this, PracticalStuListActivity.class));
+        finish();
+    }
 }

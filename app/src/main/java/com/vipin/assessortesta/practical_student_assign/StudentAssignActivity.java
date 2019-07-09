@@ -355,6 +355,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(new Intent(this, StudentGroupActivity.class));
         finish();
     }
 

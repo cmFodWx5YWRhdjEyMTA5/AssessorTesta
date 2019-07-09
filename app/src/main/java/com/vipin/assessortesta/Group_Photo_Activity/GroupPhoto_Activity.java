@@ -190,12 +190,10 @@ public class GroupPhoto_Activity extends BaseActivity {
                     //exam_status=jobj.getString("exam_status");
                     System.out.print("responsee" + status);
                     if (status == "1") {
-                        Toast.makeText(getApplicationContext(), "sucesss1", Toast.LENGTH_SHORT).show();
                     } else {
 
                         System.out.print("responsee" + response);
 
-                        Toast.makeText(getApplicationContext(), " not sucesss", Toast.LENGTH_SHORT).show();
 
                     }
 

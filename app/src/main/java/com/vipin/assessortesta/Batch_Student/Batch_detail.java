@@ -70,18 +70,6 @@ public class Batch_detail extends AppCompatActivity {
             callApiforDetail();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         proceed_batchdetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

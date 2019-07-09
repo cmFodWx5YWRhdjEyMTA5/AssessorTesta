@@ -94,6 +94,7 @@
         <activity
             android:name=".Ass_Registration.AssRegActivity"
             android:screenOrientation="portrait"
+            android:label="@string/title_registration"
             android:theme="@style/AppTheme5"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity

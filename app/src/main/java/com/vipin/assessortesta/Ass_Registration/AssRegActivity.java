@@ -70,6 +70,7 @@ import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
 import com.vipin.assessortesta.Barcode_d.SimpleScannerActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Initials.NetworkStateReceiver;
+import com.vipin.assessortesta.Initials.SplashScreen;
 import com.vipin.assessortesta.R;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -590,7 +591,6 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onNext(SscCateResponse sscCateResponse) {
                         System.out.println(sscCateResponse);
-                        Toast.makeText(AssRegActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -2280,7 +2280,6 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
                         try {
                             if (response.getInt( "status") == 1){
-                                Toast.makeText(AssRegActivity.this, "Success-1", Toast.LENGTH_SHORT).show();
                                 submitData2();
                             }else {
                                 String msg = response.getString("msg");
@@ -2411,8 +2410,8 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                                         .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-//                                                startActivity(new Intent(AssRegActivity.this, StudentGroupActivity.class));
-//                                                finish();
+                                                startActivity(new Intent(AssRegActivity.this, SplashScreen.class));
+                                                finish();
                                                 dialog.dismiss();
                                             }
                                         })

@@ -167,7 +167,6 @@ public class Pmkvy_lab extends BaseActivity {
 
                         System.out.print("responsee" + response);
 
-                        Toast.makeText(getApplicationContext(), " not sucesss", Toast.LENGTH_SHORT).show();
 
                     }
 

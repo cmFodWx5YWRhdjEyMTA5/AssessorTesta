@@ -246,6 +246,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
         finish();
     }
 }

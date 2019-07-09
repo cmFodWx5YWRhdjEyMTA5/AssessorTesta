@@ -18,6 +18,7 @@ import com.vipin.assessortesta.Batch_Student.Batch_detail;
 import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
 import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
 public class Photo_navigation extends AppCompatActivity {
 
@@ -331,8 +332,6 @@ public class Photo_navigation extends AppCompatActivity {
 
     public void FinishTask_Alert(){
 
-
-
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setMessage("Make Sure Finish All The Task ")
                 .setTitle("Message")
@@ -349,6 +348,15 @@ public class Photo_navigation extends AppCompatActivity {
 
         alertDialog.show();
     }
+
+
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Batch_instruction.class));
+        finish();
+    }
+
 
 
 

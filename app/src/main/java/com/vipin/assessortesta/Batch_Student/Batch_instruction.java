@@ -205,8 +205,7 @@ public class Batch_instruction extends AppCompatActivity {
         Submit_Final_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
-                        count6 == true){
+                if(count6 == true){
 
                     SendFinalData();
                     exitByBackKey();

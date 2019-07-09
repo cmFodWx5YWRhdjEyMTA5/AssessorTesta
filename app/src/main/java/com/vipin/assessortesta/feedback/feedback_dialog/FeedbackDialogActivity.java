@@ -264,4 +264,11 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                 .setNegativeButton("Ok", null)
                 .show();
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(this, AssessorFeedbackActivity.class));
+        finish();
+    }
 }
