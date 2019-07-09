@@ -8,11 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
-import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
-
 
 public class SplashScreen extends AppCompatActivity {
     Button login;

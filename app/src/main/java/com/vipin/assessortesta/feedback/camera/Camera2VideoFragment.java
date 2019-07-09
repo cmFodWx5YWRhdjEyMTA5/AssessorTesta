@@ -70,6 +70,7 @@ import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
 
 import org.json.JSONObject;
@@ -234,9 +235,6 @@ public class Camera2VideoFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
-
         sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         if (sharedpreferences.contains("user_name")) {
@@ -245,13 +243,10 @@ public class Camera2VideoFragment extends Fragment
 
         }
 
-
         if (sharedpreferences.contains("batch_id")) {
             batchid = sharedpreferences.getString("batch_id", "");
             System.out.println("asessoriddd" + batchid);
         }
-
-
 
             return inflater.inflate(R.layout.fragment_camera2_video, container, false);
     }
@@ -321,7 +316,7 @@ public class Camera2VideoFragment extends Fragment
 
     private void startCameraWithTimer(){
 
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(CommonUtils.VIDEO_TIMER, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     mButtonVideo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause_circle_outline_white_24dp, 0, 0, 0);

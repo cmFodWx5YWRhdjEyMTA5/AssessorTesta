@@ -139,7 +139,7 @@ public class Complete extends Fragment {
 
         try {
 
-            jsonArray = jsonObject.getJSONArray("completed_batch");
+            jsonArray = jsonObject.getJSONArray("previous_batch");
 
            // if (jsonArray.length() > 0) {
 

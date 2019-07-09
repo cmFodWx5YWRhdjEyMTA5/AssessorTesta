@@ -163,6 +163,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     SparseArray<Face> faces;
     String cmp_id;
     CertificateResponse certResponse = null;
+    private String namefromaadhaar_main;
 
 
     @Override
@@ -1419,6 +1420,73 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        try {
+            if (resultCode == 2 && requestCode == 1) {
+                //do something
+                HashMap<String, String> map = new HashMap<>();
+                Bundle extras = data.getExtras();
+                String ss[] = extras.getStringArray("ss");
+                String uid_data=ss[1].replace("encoding=\"UTF-8\"?>\n<PrintLetterBarcodeData ","");
+                ss[1] = uid_data;
+                for (String s : ss) {
+                    String[] sd = s.split("=");
+                    Log.d("dataaa", sd[0]);
+                    Log.d("dataaa", sd[1]);
+                    map.put(sd[0], sd[1]);
+                    //map.put("value", sd[1]);
+                    //Toast.makeText(this,"result"+ss[0]+" "+ss[1],Toast.LENGTH_LONG).show();
+                }
+                System.out.println("dataa is" + map);
+                System.out.println("name is" + map.get("name"));
+                System.out.println("co is" + map.get("co"));
+                System.out.println("gender is" + map.get("gender"));
+                System.out.println("street is" + map.get("street"));
+                System.out.println("dist is" + map.get("dist"));
+                System.out.println("lm is" + map.get("lm"));
+                System.out.println("subdist is" + map.get("subdist"));
+                System.out.println("yob is" + map.get("yob"));
+
+                if (map.get("name")!=null){
+                    namefromaadhaar_main=map.get("name").replace("\"","");
+                    String namee[]=namefromaadhaar_main.split(" ");
+                    input_name.setEnabled(false);
+                    input_last_name.setEnabled(false);
+                    input_name.setText(namee[0]);
+                    input_last_name.setText(namee[1]);
+                }
+
+                if (map.get("uid")!=null){
+                    input_aadhar.setEnabled(false);
+                    input_aadhar.setText(map.get("uid").replace("\"",""));
+
+                }
+
+                if(map.get("pc")!=null){
+                    input_pincode.setText(map.get("pc").replace("/>","").replace("\"",""));
+                    input_pincode.setEnabled(false);
+                }
+                if(map.get("house")!=null){
+                    input_address1.setText(map.get("house").replace("\"",""));
+                    input_address1.setEnabled(false);
+                }
+                if(map.get("lm")!=null){
+                    input_address2.setText(map.get("lm").replace("\"",""));
+                    input_address2.setEnabled(false);
+                }
+                if(map.get("subdist")!=null){
+                    your_city.setText(map.get("subdist").replace("\"",""));
+                    your_city.setEnabled(false);
+                }
+            }else{
+                // Toast.makeText(this,"aaaaa",Toast.LENGTH_LONG).show();
+                //do something else
+            }}catch (Exception e){
+            System.out.println("fffff"+e);
+        }
+
+
+
         try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){
@@ -1652,7 +1720,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                     new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
         } else {
             Intent intent = new Intent(this, SimpleScannerActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, ZBAR_CAMERA_PERMISSION);
         }
     }
 

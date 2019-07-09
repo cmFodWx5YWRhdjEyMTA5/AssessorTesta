@@ -67,12 +67,14 @@ public class SimpleScannerActivity extends BaseScannerActivity implements ZBarSc
 
         if (ss!=null) {
             System.out.println(ss);
-            Intent intent = new Intent(SimpleScannerActivity.this, AssRegActivity.class);
+//            Intent intent = new Intent(SimpleScannerActivity.this, AssRegActivity.class);
+
+            Intent intent = new Intent();
             intent.putExtra("ss", ss);
             setResult(2, intent); //Here 2 result code
-            startActivity(intent);
+//            startActivity(intent);
 
-            //finish();
+            finish();
         }
 
 
