@@ -2,8 +2,10 @@ package com.vipin.assessortesta.student_group;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,8 +34,10 @@ import com.vipin.assessortesta.pojo.practical_que.PracticalItem;
 import com.vipin.assessortesta.pojo.practical_que.PracticalQuesResponse;
 import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 import com.vipin.assessortesta.utils.GridSpacingItemDecoration;
+import com.vipin.assessortesta.utils.NetworkManager;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -95,7 +99,12 @@ public class StudentGroupActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.grid_item_anim);
         GridLayoutAnimationController controller = new GridLayoutAnimationController(animation, .2f, .2f);
         rcView.setLayoutAnimation(controller);
-        callApiForQueList();
+
+        if (NetworkManager.getInstance().isOnline(this) == true) {
+            callApiForQueList();
+        }else {
+            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+        }
     }
 
     private void callApiForQueList() {
@@ -103,22 +112,34 @@ public class StudentGroupActivity extends AppCompatActivity {
         AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_practical_question.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id",batchid)
+//                .addBodyParameter("batch_id", "299")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
                         hide_progressbar();
-//                        Toast.makeText(StudentGroupActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
 
-                        funcConfigApiData(response);
+
+                        try {
+                            if (response.getInt("status") == 1) {
+                                funcConfigApiData(response);
+                            }else {
+                                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+                        }
+
+//                        funcConfigApiData(response);
 
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         hide_progressbar();
-                        Toast.makeText(StudentGroupActivity.this, "Failed to get", Toast.LENGTH_SHORT).show();
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                     }
                 });
     }
@@ -171,7 +192,7 @@ public class StudentGroupActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                startActivity(new Intent(this, StudentAssignActivity.class));
+                startActivity(new Intent(this, Batch_instruction.class));
                 finish();
                 break;
         }
@@ -195,4 +216,29 @@ public class StudentGroupActivity extends AppCompatActivity {
         startActivity(new Intent(this, Batch_instruction.class));
         finish();
     }
+
+    private void showAlertMessage(String title, String msg){
+        new AlertDialog.Builder(StudentGroupActivity.this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new AlertDialog.Builder(StudentGroupActivity.this)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(StudentGroupActivity.this, Batch_instruction.class));
+                        finish();
+                    }
+                })
+                .show();
+    }
+
 }

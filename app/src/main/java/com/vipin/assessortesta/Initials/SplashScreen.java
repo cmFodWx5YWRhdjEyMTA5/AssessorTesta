@@ -8,9 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
-
+import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 
 
 public class SplashScreen extends AppCompatActivity {
@@ -25,7 +26,8 @@ public class SplashScreen extends AppCompatActivity {
         newuserr=findViewById(R.id.newuserr);
 
 //        Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
-//        Intent i = new Intent(SplashScreen.this, StudentGroupActivity.class);
+//        Intent i = new Intent(SplashScreen.this, Batch_instruction.class);
+//        startActivity(i);
 
        newuserr.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -49,4 +51,6 @@ public class SplashScreen extends AppCompatActivity {
 
 
     }
+
+
 }

@@ -28,6 +28,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.pojo.practical_que.PracticalItem;
 import com.vipin.assessortesta.pojo.practical_que.PracticalQuesResponse;
@@ -35,6 +36,7 @@ import com.vipin.assessortesta.pojo.stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.pojo.stu_list.StudentListResponse;
 import com.vipin.assessortesta.practical_student_assign.adapter.NonSelectedRcAdapter;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.NetworkManager;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
 import org.json.JSONArray;
@@ -62,9 +64,8 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
     private android.app.AlertDialog progressDialog;
 
     PracticalQuesResponse response;
-    int position;
+    int position, quesId;
     Map<String, Boolean> statusMap;
-    int quesId;
     Double stuCount, quesCount;
 
     SharedPreferences sharedpreferences;
@@ -87,13 +88,12 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
         }
 
-
-
         if (sharedpreferences.contains("batch_id")) {
             batchid = sharedpreferences.getString("batch_id", "");
             System.out.println("asessoriddd" + batchid);
         }
 
+        initView();
         try {
 
             String sJson = getIntent().getExtras().getString("que_data");
@@ -101,11 +101,8 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
             Gson gson = new Gson();
             response = gson.fromJson(sJson, PracticalQuesResponse.class);
 
-    initView();
     manageView();
 }    catch (Exception e){ e.printStackTrace();}
-
-
 
     }
 
@@ -132,7 +129,11 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         btnProceed.setOnClickListener(this::onClick);
         rcNonSelected.setLayoutManager(new LinearLayoutManager(this));
 
-        callApiForStuList();
+        if (NetworkManager.getInstance().isOnline(StudentAssignActivity.this) == true) {
+            callApiForStuList();
+        }else {
+            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+        }
     }
 
     private void callApiForStuList() {
@@ -154,16 +155,18 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
                     @Override
                     public void onNext(StudentListResponse response) {
-
                         hide_progressbar();
-                        funcNonSelectedStudent(response);
-
+                        if(response.getStatus() == 1) {
+                            funcNonSelectedStudent(response);
+                        }else {
+                            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hide_progressbar();
-                        Toast.makeText(StudentAssignActivity.this, "Failed to get", Toast.LENGTH_SHORT).show();
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                     }
 
                     @Override
@@ -234,6 +237,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                startActivity(new Intent(this, StudentGroupActivity.class));
                 finish();
                 break;
         }
@@ -247,7 +251,12 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                 double limit = stuCount / quesCount;
                 int maxLimit = (int) Math.ceil(limit);
                 if(statusMap.size() <= (maxLimit+1)) {
-                    callApiToSaveData();
+
+                    if (NetworkManager.getInstance().isOnline(StudentAssignActivity.this) == true) {
+                        callApiToSaveData();
+                    }else {
+                        showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.net_error));
+                    }
                 }else {
                     Drawable d = (Drawable)getResources().getDrawable(android.R.drawable.ic_delete);
                     new AlertDialog.Builder(StudentAssignActivity.this)
@@ -257,6 +266,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                             .setNegativeButton("Ok", null)
                             .show();
                 }
+
                 break;
         }
     }
@@ -347,4 +357,29 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         super.onBackPressed();
         finish();
     }
+
+    private void showAlertMessage(String title, String msg){
+        new AlertDialog.Builder(StudentAssignActivity.this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", null)
+                .show();
+    }
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new AlertDialog.Builder(StudentAssignActivity.this)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(StudentAssignActivity.this, StudentGroupActivity.class));
+                        finish();
+                    }
+                })
+                .show();
+    }
+
 }
