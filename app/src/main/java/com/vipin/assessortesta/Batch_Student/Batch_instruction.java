@@ -30,6 +30,8 @@ public class Batch_instruction extends AppCompatActivity {
     private static final int CARD4_REQUESTCODE = 5555;
     private static final int CARD5_REQUESTCODE = 556;
 
+    String datacard2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
