@@ -14,12 +14,14 @@ public class SplashScreen extends AppCompatActivity {
     Button login;
     TextView newuserr;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         login = findViewById(R.id.loginbutton);
         newuserr=findViewById(R.id.newuserr);
+
 
 //        Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
 //        Intent i = new Intent(SplashScreen.this, Batch_instruction.class);
