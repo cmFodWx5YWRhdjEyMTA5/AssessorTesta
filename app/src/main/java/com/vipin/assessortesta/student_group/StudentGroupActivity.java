@@ -101,9 +101,9 @@ public class StudentGroupActivity extends AppCompatActivity {
 
     private void manageView() {
 
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.grid_item_anim);
-        GridLayoutAnimationController controller = new GridLayoutAnimationController(animation, .2f, .2f);
-        rcView.setLayoutAnimation(controller);
+//        Animation animation = AnimationUtils.loadAnimation(this, R.anim.grid_item_anim);
+//        GridLayoutAnimationController controller = new GridLayoutAnimationController(animation, .2f, .2f);
+//        rcView.setLayoutAnimation(controller);
 
         if (NetworkManager.getInstance().isOnline(this) == true) {
             callApiForQueList();

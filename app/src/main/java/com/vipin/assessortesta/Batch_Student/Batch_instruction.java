@@ -23,6 +23,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
 import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
 import com.vipin.assessortesta.Initials.Annexure;
 import com.vipin.assessortesta.Initials.MyNetwork;
@@ -32,13 +37,17 @@ import com.vipin.assessortesta.pojo.feedback.Practical;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 public class Batch_instruction extends AppCompatActivity {
+
     TextView card1_textview1,card2_textview2,card3_textview3,card4_textview4,card5_textview5,card6_textview6;
     CardView card1,card2,card3,card4,card5,card6;
     private static final int CARD6_REQUESTCODE = 100;
@@ -47,12 +56,11 @@ public class Batch_instruction extends AppCompatActivity {
     private static final int CARD3_REQUESTCODE = 2254;
     private static final int CARD4_REQUESTCODE = 5555;
     private static final int CARD5_REQUESTCODE = 556;
-
+    private android.app.AlertDialog progressDialog;
     boolean count1, count2, count3, count4, count5, count6;
-
     String datacard2;
     Button Submit_Final_Button;
-    String status,batchid,username;
+    String status,batchid,username, assessor_id;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
 
@@ -62,6 +70,7 @@ public class Batch_instruction extends AppCompatActivity {
         setContentView(R.layout.activity_batch_instruction);
 
 
+        progressDialog = new SpotsDialog(Batch_instruction.this, R.style.Custom);
         card1 = findViewById(R.id.card1);
         card2 = findViewById(R.id.card2);
         card3 = findViewById(R.id.card3);
@@ -97,6 +106,12 @@ public class Batch_instruction extends AppCompatActivity {
 
         if (sharedpreferences.contains("batch_id")) {
             batchid = sharedpreferences.getString("batch_id", "");
+            System.out.println("asessoriddd" + batchid);
+
+
+        }
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
             System.out.println("asessoriddd" + batchid);
 
 
@@ -232,7 +247,6 @@ public class Batch_instruction extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -310,6 +324,12 @@ public class Batch_instruction extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        callApiForPercent();
+    }
 
     public void FinishTask_Alert(){
 
@@ -414,6 +434,60 @@ public class Batch_instruction extends AppCompatActivity {
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
+    private void callApiForPercent(){
+
+        show_progressbar();
+        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/final_activity_percentage.php")
+                .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
+                .addBodyParameter("batch_id", batchid)
+                .addBodyParameter("assessor_id", assessor_id)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hide_progressbar();
+                        try {
+                            if (response.getInt("status") == 1){
+                                JSONObject jObject = response.getJSONObject("Activity_details");
+                                int annexureMPerc = jObject.getInt("annexure_m_percentage");
+                                int attendancePerc = jObject.getInt("attendance_percentage");
+                                int total_students = jObject.getInt("total_students");
+                                int practicalQuesPerc = jObject.getInt("practical_ques_percentage");
+                                int feedbackPerc = jObject.getInt("feedback_percentage");
+                                int groupPhoto = jObject.getInt("group_photo");
+
+
+
+
+                                card2_textview2.setText(""+attendancePerc+"%");
+                                card3_textview3.setText(""+practicalQuesPerc+"%");
+                                card4_textview4.setText(""+feedbackPerc+"%");
+                                card5_textview5.setText(""+annexureMPerc+"%");
+                                card6_textview6.setText(""+groupPhoto+"%");
+//                                card1_textview1 = findViewById(R.id.card_textview1);
+//                                card2_textview2 = findViewById(R.id.card_textview2);
+//                                card3_textview3 = findViewById(R.id.card_textview3);
+//                                card4_textview4 = findViewById(R.id.card_textview4);
+//                                card5_textview5 = findViewById(R.id.card_textview5);
+//                                card6_textview6 = findViewById(R.id.card_textview6);
+
+                            }else {
+                                Toast.makeText(Batch_instruction.this, "No Data", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        hide_progressbar();
+                        Toast.makeText(Batch_instruction.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 
 
 
@@ -424,6 +498,16 @@ public class Batch_instruction extends AppCompatActivity {
 
 
 
+    public void show_progressbar(){
+        progressDialog.show();
+
+    }
+
+    public void hide_progressbar(){
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
 
 
 

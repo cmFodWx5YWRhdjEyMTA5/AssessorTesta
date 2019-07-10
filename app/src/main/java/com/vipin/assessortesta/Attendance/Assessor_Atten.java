@@ -554,7 +554,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
                             JSONObject jobj = new JSONObject(response);
                             String status= jobj.getString("status");
                             String msg= jobj.getString("msg");
@@ -610,12 +610,12 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                                 @Override
                                 public void onResponse(String response) {
                                         try {
-                                                Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
+//                                                Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
                                                 JSONObject jobj = new JSONObject(response);
                                                 String status= jobj.getString("status");
                                                 String msg= jobj.getString("msg");
                                                 if (status.equals("0")){
-                                                        Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
+//                                                        Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                                                 }
                                                 else if (status.equals("1")){
                                                         Intent ii = new Intent(Assessor_Atten.this, Batch_instruction.class);
