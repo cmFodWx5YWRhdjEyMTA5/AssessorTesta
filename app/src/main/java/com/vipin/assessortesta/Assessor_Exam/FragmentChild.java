@@ -17,11 +17,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.vipin.assessortesta.R;
 
 import java.util.HashMap;
-
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -149,8 +147,14 @@ public class FragmentChild extends Fragment implements View.OnClickListener {
     public void setUserVisibleHint(boolean visible)
     {
         super.setUserVisibleHint(visible);
+
         if (visible && isResumed())
         {
+            System.out.println("Visible Resume");
+            if (dbAutoSave.getDataOfSingleClientstatus(""+pgnn)!=null && dbAutoSave.getStatusDataOfSingleClientstatus(""+pgnn).equals("3")){
+                dbAutoSave.updateDataunanswered(dummystuid,""+pgnn,"0",""+pgnn);
+                System.out.println("Case with 3 status ");
+            }
             onResume();
         }
     }

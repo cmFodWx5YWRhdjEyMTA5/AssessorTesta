@@ -446,30 +446,24 @@ public class Batch_instruction extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         hide_progressbar();
+                        Toast.makeText(Batch_instruction.this, "Success", Toast.LENGTH_SHORT).show();
                         try {
                             if (response.getInt("status") == 1){
                                 JSONObject jObject = response.getJSONObject("Activity_details");
-                                int annexureMPerc = jObject.getInt("annexure_m_percentage");
-                                int attendancePerc = jObject.getInt("attendance_percentage");
-                                int total_students = jObject.getInt("total_students");
-                                int practicalQuesPerc = jObject.getInt("practical_ques_percentage");
-                                int feedbackPerc = jObject.getInt("feedback_percentage");
-                                int groupPhoto = jObject.getInt("group_photo");
+                                int annexureM_PhotoPerc = jObject.optInt("annexure_m_photo_percentage");
+                                int annexureMPerc = jObject.optInt("annexure_m_status_percentage");
 
+                                int attendancePerc = jObject.optInt("attendance_percentage");
+                                int alignStudentPerc = jObject.optInt("align_student_percentage");
+                                int feedbackPerc = jObject.optInt("feedback_percentage");
+                                int groupPhoto = jObject.optInt("group_photo");
 
-
-
+                                card1_textview1.setText(""+annexureM_PhotoPerc+"%");
                                 card2_textview2.setText(""+attendancePerc+"%");
-                                card3_textview3.setText(""+practicalQuesPerc+"%");
+                                card3_textview3.setText(""+alignStudentPerc+"%");
                                 card4_textview4.setText(""+feedbackPerc+"%");
                                 card5_textview5.setText(""+annexureMPerc+"%");
                                 card6_textview6.setText(""+groupPhoto+"%");
-//                                card1_textview1 = findViewById(R.id.card_textview1);
-//                                card2_textview2 = findViewById(R.id.card_textview2);
-//                                card3_textview3 = findViewById(R.id.card_textview3);
-//                                card4_textview4 = findViewById(R.id.card_textview4);
-//                                card5_textview5 = findViewById(R.id.card_textview5);
-//                                card6_textview6 = findViewById(R.id.card_textview6);
 
                             }else {
                                 Toast.makeText(Batch_instruction.this, "No Data", Toast.LENGTH_SHORT).show();
@@ -477,6 +471,7 @@ public class Batch_instruction extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(Batch_instruction.this, "Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
 

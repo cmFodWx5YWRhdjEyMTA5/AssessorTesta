@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,11 +17,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.vipin.assessortesta.R;
 
 import java.util.HashMap;
-
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -79,11 +78,15 @@ public class FragmentChild1 extends Fragment implements View.OnClickListener {
         l2=view.findViewById(R.id.option21);
         l3=view.findViewById(R.id.option31);
         l4=view.findViewById(R.id.option41);
+        View vv1=view.findViewById(R.id.vv11);
+        View vv2=view.findViewById(R.id.vv22);
+        View vv3=view.findViewById(R.id.vv33);
         mfr11=view.findViewById(R.id.markforreviewww1);
         l1.setOnClickListener(this);
         l2.setOnClickListener(this);
         l3.setOnClickListener(this);
         l4.setOnClickListener(this);
+        mfr11.setOnClickListener(this);
         textViewChildName.setText(pgnn+".");
         //textViewChildName.setText(childname+".)");
         t1.setText(quename);
@@ -92,6 +95,21 @@ public class FragmentChild1 extends Fragment implements View.OnClickListener {
         optionc.setText(option3);
         optiond.setText(option4);
 
+        if(TextUtils.isEmpty(option1)){
+            titlea.setVisibility(View.GONE);
+            vv1.setVisibility(View.GONE);
+        }
+        if(TextUtils.isEmpty(option2)){
+            titleb.setVisibility(View.GONE);
+            vv2.setVisibility(View.GONE);
+        }
+        if(TextUtils.isEmpty(option3)){
+            titlec.setVisibility(View.GONE);
+            vv3.setVisibility(View.GONE);
+        }
+        if(TextUtils.isEmpty(option4)){
+            titled.setVisibility(View.GONE);
+        }
 
     }
 
@@ -117,6 +135,11 @@ public class FragmentChild1 extends Fragment implements View.OnClickListener {
         super.setUserVisibleHint(visible);
         if (visible && isResumed())
         {
+            System.out.println("Visible Resume");
+            if (dbAutoSave.getDataOfSingleClientstatus1(""+pgnn)!=null && dbAutoSave.getStatusDataOfSingleClientstatus1(""+pgnn).equals("3")){
+                dbAutoSave.updateDataunanswered1(dummystuid,""+pgnn,"0",""+pgnn);
+                System.out.println("Case with 3 status ");
+            }
             onResume();
         }
     }
@@ -292,11 +315,11 @@ public class FragmentChild1 extends Fragment implements View.OnClickListener {
 
                 // mfr.setBackgroundColor(R.color.yellowdark);
                 mfr11.setText("Marked");
-                if (dbAutoSave.getDataOfSingleClientstatus(Integer.toString(pgnn))!=null){
-                    dbAutoSave.updateDataunanswered(dummystuid,Integer.toString(pgnn),"2",Integer.toString(pgnn));
+                if (dbAutoSave.getDataOfSingleClientstatus1(Integer.toString(pgnn))!=null){
+                    dbAutoSave.updateDataunanswered1(dummystuid,Integer.toString(pgnn),"2",Integer.toString(pgnn));
 
                 }else {
-                    dbAutoSave.insertDataunanswered(dummystuid,Integer.toString(pgnn),"2");
+                    dbAutoSave.insertDataunanswered1(dummystuid,Integer.toString(pgnn),"2");
                 }
                 break;
             default:
