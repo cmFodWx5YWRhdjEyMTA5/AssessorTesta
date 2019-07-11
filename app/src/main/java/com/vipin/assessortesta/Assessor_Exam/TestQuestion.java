@@ -1359,8 +1359,8 @@ public class TestQuestion extends AppCompatActivity {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("batch_id", batchvalue);
-                map.put("language", value);
+                map.put("batch_id", "97");
+                map.put("language", "en");
                 System.out.println("ddd"+map);
                 return map;
             }

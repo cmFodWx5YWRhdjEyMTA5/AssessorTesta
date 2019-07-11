@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:singleLine="false"
-                android:text="On the Other hand, We denounce with righteous indignation and dislike"
+                android:text="Online platform for assessors to conduct hassle free assessments"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="normal|bold" />
