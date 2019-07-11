@@ -25,6 +25,7 @@ import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Photos.Pmkvysignane;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.utils.CommonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,7 +175,7 @@ public class GroupPhoto_selfie_Activity extends BaseActivity {
     private void Sendphoto() {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m.php";
+        String serverURL = CommonUtils.url+"save_annexure_m.php";
 
         System.out.println("geturll" + " " + serverURL);
 

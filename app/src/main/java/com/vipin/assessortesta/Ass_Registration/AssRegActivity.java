@@ -2269,7 +2269,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegistration(JSONObject jsonObject){
        show_progressbar();
 
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data.php")
+        AndroidNetworking.post(CommonUtils.url+"save_assessor_data.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -2327,7 +2327,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegImage(JSONObject jsonObject){
         show_progressbar();
 
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data_image.php")
+        AndroidNetworking.post(CommonUtils.url+"save_assessor_data_image.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -2390,7 +2390,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegImage3(JSONObject jsonObject){
         show_progressbar();
 
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_assessor_data_image.php")
+        AndroidNetworking.post(CommonUtils.url+"save_assessor_data_image.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()

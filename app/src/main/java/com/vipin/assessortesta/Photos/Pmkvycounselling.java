@@ -174,7 +174,7 @@ public class Pmkvycounselling extends BaseActivity {
     private void Sendphoto() {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m.php";
+        String serverURL = CommonUtils.url+"save_annexure_m.php";
 
         System.out.println("geturll" + " " + serverURL);
 

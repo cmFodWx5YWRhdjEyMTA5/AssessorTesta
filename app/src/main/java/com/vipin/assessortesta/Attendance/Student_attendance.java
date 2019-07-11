@@ -603,7 +603,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
     //Address of the centre
     public void getcenteraddress(){
 
-        String serverURL ="https://www.skillassessment.org/sdms/android_connect1/assessor/get_exam_center_details.php";
+        String serverURL =CommonUtils.url+"get_exam_center_details.php";
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -667,7 +667,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
 
         progressDialog.show();
 
-        String serverURL ="https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_attendance.php";
+        String serverURL =CommonUtils.url+"save_student_attendance.php";
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -752,7 +752,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
 
         progressDialog.show();
 
-        String serverURL ="https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_attendance.php";
+        String serverURL =CommonUtils.url+"save_student_attendance.php";
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override

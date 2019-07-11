@@ -38,6 +38,7 @@ import com.vipin.assessortesta.feedback.feedback_dialog.FeedbackDialogActivity;
 import com.vipin.assessortesta.feedback.fragment.FragmentChildFeedback;
 import com.vipin.assessortesta.pojo.feedback.FeedbackResponse;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
 
 import java.io.File;
@@ -105,7 +106,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
 
     private void funcCallApi(){
         show_progressbar();
-        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_ques_detail.php")
+        Rx2AndroidNetworking.post(CommonUtils.url+"get_student_ques_detail.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("student_id", stuId)
 //                .addBodyParameter("student_id", "P4806738948")

@@ -15,6 +15,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.utils.CommonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +85,7 @@ public class Batch_detail extends AppCompatActivity {
 
     private void callApiforDetail(){
         progressDialog.show();
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_batch_details.php")
+        AndroidNetworking.post(CommonUtils.url+"get_batch_details.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("user_name",username)
                 .addBodyParameter("batch_id",batchid)
