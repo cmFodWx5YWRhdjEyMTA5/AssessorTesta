@@ -34,6 +34,7 @@ import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.pojo.practical_que.PracticalItem;
 import com.vipin.assessortesta.pojo.practical_que.PracticalQuesResponse;
 import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.GridSpacingItemDecoration;
 import com.vipin.assessortesta.utils.NetworkManager;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
@@ -126,7 +127,7 @@ public class StudentGroupActivity extends AppCompatActivity {
 
     private void callApiForQueList() {
         show_progressbar();
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_practical_question.php")
+        AndroidNetworking.post(CommonUtils.url+"get_practical_question.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id",batchid)
 //                .addBodyParameter("batch_id", "299")

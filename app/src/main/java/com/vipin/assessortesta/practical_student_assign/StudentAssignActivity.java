@@ -36,6 +36,7 @@ import com.vipin.assessortesta.pojo.stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.pojo.stu_list.StudentListResponse;
 import com.vipin.assessortesta.practical_student_assign.adapter.NonSelectedRcAdapter;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
@@ -138,7 +139,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
     private void callApiForStuList() {
         show_progressbar();
-        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_not_assigned_student.php")
+        Rx2AndroidNetworking.post(CommonUtils.url+"get_not_assigned_student.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("question_id", ""+quesId)
@@ -290,7 +291,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 //        }
 
         show_progressbar();
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_group.php")
+        AndroidNetworking.post(CommonUtils.url+"save_student_group.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("question_id", ""+quesId)

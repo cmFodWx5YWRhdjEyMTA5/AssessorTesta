@@ -361,7 +361,7 @@ public class Batch_instruction extends AppCompatActivity {
     private void SendFinalData() {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/update_batch_status.php";
+        String serverURL = CommonUtils.url+"update_batch_status.php";
 
         System.out.println("geturll" + " " + serverURL);
 

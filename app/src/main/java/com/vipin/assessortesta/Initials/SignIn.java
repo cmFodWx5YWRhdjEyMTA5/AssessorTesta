@@ -210,7 +210,7 @@ public class SignIn extends AppCompatActivity {
         progressDialog.show();
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/login.php";
+        String serverURL = CommonUtils.url+"login.php";
         System.out.println("geturll" + " " + serverURL);
         uname = username.getText().toString();
         pass = password.getText().toString();

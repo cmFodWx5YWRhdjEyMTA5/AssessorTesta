@@ -793,7 +793,7 @@ public class Camera2VideoFragment extends Fragment
 
 
         show_progressbar();
-        AndroidNetworking.upload("https://www.skillassessment.org/sdms/android_connect1/assessor/save_practical_videos.php")
+        AndroidNetworking.upload(CommonUtils.url+"save_practical_videos.php")
                 .addMultipartFile("student_video",file, "multipart/form-data")
                 .addMultipartParameter("student_id",stuId)
                 .addMultipartParameter("video_time", requiredDate)

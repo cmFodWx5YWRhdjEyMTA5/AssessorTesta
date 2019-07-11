@@ -46,7 +46,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     public void send_credentials() {
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/reset_password.php";
+        String serverURL = CommonUtils.url+"reset_password.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override

@@ -161,7 +161,7 @@ public class Upcoming extends Fragment {
 //        progressDialog.show();
 //
 //
-//        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/get_assigned_batch.php";
+//        String serverURL = CommonUtils.url+"get_assigned_batch.php";
 //
 //        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
 //            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

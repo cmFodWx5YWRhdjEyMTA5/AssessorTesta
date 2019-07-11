@@ -151,7 +151,7 @@ public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedC
     private void SendAnnexure() {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/save_annexure_m_status.php";
+        String serverURL = CommonUtils.url+"save_annexure_m_status.php";
 
         System.out.println("geturll" + " " + serverURL);
 

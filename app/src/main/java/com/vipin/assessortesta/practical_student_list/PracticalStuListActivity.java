@@ -28,6 +28,7 @@ import com.vipin.assessortesta.pojo.feedback_stu_list.PracticalStuListResponse;
 import com.vipin.assessortesta.pojo.feedback_stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.practical_student_list.adapter.PracticalStuListRcAdapter;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
 import java.util.List;
@@ -104,7 +105,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
     private void callApiForStuList() {
         show_progressbar();
-        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_student_basic_details.php")
+        Rx2AndroidNetworking.post(CommonUtils.url+"get_student_basic_details.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id",batchid)
                 .addBodyParameter("assessor_id", assessor_id)

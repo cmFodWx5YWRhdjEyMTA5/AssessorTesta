@@ -162,7 +162,7 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
 
     private void funcUploadFeedbackApi() {
         show_progressbar();
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/save_student_feedback.php")
+        AndroidNetworking.post(CommonUtils.url+"save_student_feedback.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("assessor_id",assessor_id)

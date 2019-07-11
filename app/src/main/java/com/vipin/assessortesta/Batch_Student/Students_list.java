@@ -191,7 +191,7 @@ public class Students_list  extends AppCompatActivity {
     private void callApi(){
         progressDialog.show();
 
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/get_students_list_batchwise.php")
+        AndroidNetworking.post(CommonUtils.url+"get_students_list_batchwise.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("assessor_id",username)
                 .addBodyParameter("batch_id",batchid)
