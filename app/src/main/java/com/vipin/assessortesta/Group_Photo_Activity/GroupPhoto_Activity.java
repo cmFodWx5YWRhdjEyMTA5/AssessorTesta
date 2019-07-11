@@ -230,7 +230,7 @@ public class GroupPhoto_Activity extends BaseActivity {
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("assessor_id", assessor_id);
                 map.put("batch_id", batch_id);
-                map.put("annexure_id", "1");
+                map.put("annexure_id", "7");
                 map.put("annexure_image", encoded);
                 return map;
             }

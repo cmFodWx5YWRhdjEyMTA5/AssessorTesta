@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.vipin.assessortesta.R;
-
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,11 +42,15 @@ public class FragmentParent1 extends Fragment {
         spp1=getActivity().getSharedPreferences("mypref", MODE_PRIVATE);
         stuidd1=spp1.getString("userid","");
 
-        CustomAdapter.aa(new GotoQuestion() {
+        CustomAdapter1.aa(new GotoQuestion() {
             @Override
             public void getposition(int a) {
                 viewPager.setCurrentItem(a-1);
                 showbuttonn.dd(true);
+                if (dbAutoSave.getDataOfSingleClientstatus1(""+a)!=null && dbAutoSave.getStatusDataOfSingleClientstatus1(""+a).equals("3")){
+                    dbAutoSave.updateDataunanswered1(stuidd1,""+a,"0",""+a);
+                    System.out.println("Case with 3 status ");
+                }
             }
         });
 
@@ -138,12 +140,12 @@ public class FragmentParent1 extends Fragment {
                                 pp1=viewPager.getCurrentItem()+1;
                                 EE1=Integer.toString(pp1);
                                 System.out.println("On page change"+stuidd1+" "+EE1);
-                                if (dbAutoSave.getDataOfSingleClientstatus1(EE1)!=null){
+                                /*if (dbAutoSave.getDataOfSingleClientstatus1(EE1)!=null){
                                     dbAutoSave.updateDataunanswered1(stuidd1,EE1,"0",EE1);
                                 }else {
                                     dbAutoSave.insertDataunanswered1(stuidd1,EE1,"0");
 
-                                }
+                                }*/
                             }
                         }
                     }

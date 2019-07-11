@@ -299,7 +299,7 @@ public class Camera2VideoFragment extends Fragment
             }
                 break;
             case R.id.llUpload:
-                Toast.makeText(getActivity(), "Upload", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Upload", Toast.LENGTH_SHORT).show();
 
                 try {
 
@@ -703,8 +703,8 @@ public class Camera2VideoFragment extends Fragment
 
         Activity activity = getActivity();
         if (null != activity) {
-            Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath,
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath,
+//                    Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
             sImagePath = mNextVideoAbsolutePath;
         }

@@ -2,7 +2,6 @@ package com.vipin.assessortesta.Assessor_Exam;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,27 +11,49 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
+import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.KeyEvent;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,19 +65,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.androidhiddencamera.CameraConfig;
-import com.androidhiddencamera.CameraError;
-import com.androidhiddencamera.HiddenCameraActivity;
-import com.androidhiddencamera.HiddenCameraUtils;
-import com.androidhiddencamera.config.CameraFacing;
-import com.androidhiddencamera.config.CameraImageFormat;
-import com.androidhiddencamera.config.CameraResolution;
-import com.androidhiddencamera.config.CameraRotation;
 import com.google.gson.Gson;
-import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Initials.SessionManager;
-import com.vipin.assessortesta.Initials.SignIn;
 import com.vipin.assessortesta.R;
-
+import com.vipin.assessortesta.utils.MyNetwork;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,34 +76,101 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.URI;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import dmax.dialog.SpotsDialog;
 
 
-
-public class Testviva extends HiddenCameraActivity {
+public class Testviva extends AppCompatActivity {
     FragmentParent1 fragmentParent;
     TextView textView, finalSubmitbutton, reviewlaterr;
     Cursor cursor, cursor11;
     Toolbar t1;
-    LinearLayout len1;
+    RelativeLayout len1;
     ImageButton imgRight;
     GridView drawer_Right;
     DrawerLayout mdrawerLayout;
     ActionBarDrawerToggle mDrawerToggle1;
     Context con = this;
-    CustomAdapter cl1, cl2;
+    CustomAdapter1 cl1, cl2;
     SessionManager sessionManager;
     String name[];
     String j;
+
+
+
+
+
+    //camera by pk
+
+    private static final String TAG = "AndroidCameraApi";
+    private Button takePictureButton;
+    private TextureView textureView;
+    public static int i = 0;
+    int c=0;
+    String screenshot1;
+    String strDate;
+    final Timer timer = new Timer(false);
+
+
+
+    private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    static {
+        ORIENTATIONS.append(Surface.ROTATION_0, 270);
+        ORIENTATIONS.append(Surface.ROTATION_90, 180);
+        ORIENTATIONS.append(Surface.ROTATION_180, 90);
+        ORIENTATIONS.append(Surface.ROTATION_270, 0);
+
+    }
+
+
+
+    private String cameraId;
+    protected CameraDevice cameraDevice;
+    protected CameraCaptureSession cameraCaptureSessions;
+    protected CaptureRequest captureRequest;
+    protected CaptureRequest.Builder captureRequestBuilder;
+    private Size imageDimension;
+    private ImageReader imageReader;
+    private File file;
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
+    private boolean mFlashSupported;
+    private Handler mBackgroundHandler;
+    private HandlerThread mBackgroundThread;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private NotificationHelper mNotificationHelper;
     private android.app.AlertDialog progressDialog;
-    private static final long START_TIME_IN_MILLIS = 1500000;
+    long START_TIME_IN_MILLIS;
     private static final long START_TIME_IN_MILLISR = 00000;
     private android.os.CountDownTimer CountDownTimer;
     private boolean TimerRunning;
@@ -122,8 +201,8 @@ public class Testviva extends HiddenCameraActivity {
     SetterGetter setterGetter;
     String value, batchvalue, studentid;
     String jsonInString;
-
-    SharedPreferences sp;
+long practical_timeee;
+    SharedPreferences sp,sp1;
     String[] title = {
             "New Delhi",
             "Mumbai",
@@ -155,10 +234,13 @@ public class Testviva extends HiddenCameraActivity {
             "Vishwamitra",
     };
     boolean alreadyExecuted1 = false;
+    boolean alreadyExecuted1_timer = false;
     RelativeLayout parentLayout;
-    int que_count;
+    int que_count,answersofpreviouspage;
     String stringLatitude1,stringLongitude1;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,12 +249,18 @@ public class Testviva extends HiddenCameraActivity {
         getIDs();
         t1 = findViewById(R.id.toolbar);
         setSupportActionBar(t1);
-
+        alreadyExecuted1_timer=false;
         sp = getSharedPreferences("mypref", MODE_PRIVATE);
+        sp1=getSharedPreferences("mypreff", MODE_PRIVATE);
         batchvalue = sp.getString("batchid", "");
         studentid = sp.getString("userid", "");
         stringLatitude1=sp.getString("lat","");
         stringLongitude1=sp.getString("long","");
+        practical_timeee=sp1.getLong("practicaltime",0);
+        if (!alreadyExecuted1_timer){
+            START_TIME_IN_MILLIS=practical_timeee;
+            alreadyExecuted1_timer=true;
+        }
         System.out.println("data in d is"+stringLatitude1+" "+stringLongitude1);
         progressDialog = new SpotsDialog(Testviva.this, R.style.Custom);
         parentlayout = findViewById(R.id.r11);
@@ -193,12 +281,17 @@ public class Testviva extends HiddenCameraActivity {
         setterGetter = new SetterGetter();
         mNotificationHelper = new NotificationHelper(this);
 
-       /* Snackbar snack = Snackbar.make(parentLayout, "Submit Button will be enabled in 2 minutes.Swipe right to move to next question.", 8000);
-        View view = snack.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.RED);
 
-        snack.show();*/
+        //camera change by pk
+
+        timerstop();
+
+
+        textureView = findViewById(R.id.texture);
+        assert textureView != null;
+        textureView.setSurfaceTextureListener(textureListener);
+
+
 
 
 
@@ -219,17 +312,13 @@ public class Testviva extends HiddenCameraActivity {
             System.out.println("ffff" + value);
         }
 
-        final Handler handler2 = new Handler();
-        handler2.postDelayed(new Runnable() {
-                                 @Override
-                                 public void run() {
-                                     takePicture();
-                                 }
-                             },
-                //10000);
-                10000 * 6);
+        cursor = dbAutoSave.getData(studentid);
+        answersofpreviouspage= cursor.getCount();
+        System.out.println("difference is"+answersofpreviouspage);
+
         len1.bringToFront();
         mdrawerLayout.requestLayout();
+
 
         drawer_Right.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -279,25 +368,7 @@ public class Testviva extends HiddenCameraActivity {
             }
         });
 
-        mCameraConfig = new CameraConfig()
-                .getBuilder(this)
-                .setCameraFacing(CameraFacing.FRONT_FACING_CAMERA)
-                .setCameraResolution(CameraResolution.HIGH_RESOLUTION)
-                .setImageFormat(CameraImageFormat.FORMAT_JPEG)
-                .setImageRotation(CameraRotation.ROTATION_270)
-                .build();
 
-
-        //Check for the camera permission for the runtime
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            //Start camera preview
-            startCamera(mCameraConfig);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                    REQ_CODE_CAMERA_PERMISSION);
-        }
 
 
         FragmentParent1.aa(new ShowButton() {
@@ -364,56 +435,530 @@ public class Testviva extends HiddenCameraActivity {
     }
 
 
-    //Thread for clicking proctoring photo
-    private class MyThread extends Thread {
 
+
+
+
+
+
+
+
+
+
+    //camera by pk method
+    public void timerstop()
+    {
+
+        TimerTask timerTask=new TimerTask() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void run() {
+
+                takePicture();
+                c++;
+                System.out.println("cccccc" +c);
+
+
+                if(c==20)
+                {
+
+                    photodelete();
+
+                    System.out.println("chal" +c);
+                    timer.cancel();
+                    //Toast.makeText(getApplicationContext(),"chal gaya",Toast.LENGTH_SHORT).show();
+
+
+
+                }
+
+                if(c>=0&&c<21)
+                {
+                    SaveDetail();
+                    System.out.println("callhua" +c);
+                }
+            }};
+        timer.scheduleAtFixedRate(timerTask,60000, 60000); // 1000 = 1 second.
+
+        System.out.println(timer.purge());
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+    public void photodelete(){
+
+        File target = new File(Environment.getExternalStorageDirectory()+"/"+".jpg");
+        Log.d("target_path", "hello" + Environment.getExternalStorageDirectory()+"/"+".jpg");
+        if (target.exists() && target.isFile() && target.canWrite()) {
+            target.delete();
+            Log.d("d_file", "hello1" + target.getName());
+        }
+
+    }
+
+
+
+    TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            //open your camera here
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                openCamera();
+            }
+        }
 
         @Override
-        public void run() {
-            saveproctoring();
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            // Transform you image captured size according to the surface width and height
+
+
+
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            return false;
+        }
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        }
+
+    };
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+    private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(CameraDevice camera) {
+            //This is called when the camera is open
+            Log.e(TAG, "onOpened");
+            cameraDevice = camera;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                createCameraPreview();
+            }
+        }
+        @Override
+        public void onDisconnected(CameraDevice camera) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cameraDevice.close();
+            }
+        }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onError(CameraDevice camera, int error) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cameraDevice.close();
+            }
+            cameraDevice = null;
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
+    final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+           // Toast.makeText(Testviva.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                createCameraPreview();
+            }
+        }
+    };
+    protected void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("Camera Background");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    protected void stopBackgroundThread() {
+        mBackgroundThread.quitSafely();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void takePicture() {
+        System.out.println("take picture called");
+        if (null == cameraDevice) {
+            Log.e(TAG, "cameraDevice is null");
+            return;
+        }
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+            Size[] jpegSizes = null;
+            if (characteristics != null) {
+                jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+            }
+            int width = 640;
+            int height = 480;
+            if (jpegSizes != null && 0 < jpegSizes.length) {
+                width = jpegSizes[0].getWidth();
+                height = jpegSizes[0].getHeight();
+            }
+            ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 20);
+
+            List<Surface> outputSurfaces = new ArrayList<Surface>(20);
+            outputSurfaces.add(reader.getSurface());
+            outputSurfaces.add(new Surface(textureView.getSurfaceTexture()));
+            final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureBuilder.addTarget(reader.getSurface());
+            captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+            // Orientation
+            int rotation = getWindowManager().getDefaultDisplay().getRotation();
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+
+
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            strDate = dateFormat.format(date);
+
+
+            final File file = new File(Environment.getExternalStorageDirectory() + "/" + strDate + ".jpg");
+
+
+            ImageReader.OnImageAvailableListener readerListener = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                readerListener = new ImageReader.OnImageAvailableListener() {
+                    @Override
+                    public void onImageAvailable(ImageReader reader) {
+                        Image image = null;
+                        try {
+                            image = reader.acquireNextImage();
+                            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                            byte[] bytes = new byte[buffer.capacity()];
+                            buffer.get(bytes);
+                           // save(bytes);
+                            // Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            int currentBitmapWidth = 320;
+                            int currentBitmapHeight = 320;
+                            //input_photograph.setImageBitmap(photo);
+                            int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) currentBitmapWidth / (double) currentBitmapWidth));
+                            Bitmap newbitMap = Bitmap.createScaledBitmap(bitmap, currentBitmapWidth, currentBitmapHeight, true);
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            newbitMap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+                            byte[] byteArray = byteArrayOutputStream.toByteArray();
+                            save(byteArray);
+
+
+                            System.out.println("file size after compression is" +byteArray.length+" and before"+bytes.length);
+                            screenshot1 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                            System.out.println("yyyyyyy" +screenshot1);
+
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            if (image != null) {
+                                image.close();
+                            }
+                        }
+                    }
+
+                    private void save(byte[] bytes) throws IOException {
+                        OutputStream output = null;
+                        try {
+                            output = new FileOutputStream(file);
+                            output.write(bytes);
+                        } finally {
+                            if (null != output) {
+                                output.close();
+                            }
+                        }
+                    }
+                };
+            }
+            reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
+            final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+                   // Toast.makeText(Testviva.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    createCameraPreview();
+                }
+            };
+            cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    try {
+                        session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onConfigureFailed(CameraCaptureSession session) {
+                }
+            }, mBackgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
         }
 
 
     }
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void createCameraPreview() {
+        try {
+            SurfaceTexture texture = textureView.getSurfaceTexture();
+            assert texture != null;
+            texture.setDefaultBufferSize(imageDimension.getWidth(), imageDimension.getHeight());
+            Surface surface = new Surface(texture);
+            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder.addTarget(surface);
+            cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback(){
+                @Override
+                public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+                    //The camera is already closed
+                    if (null == cameraDevice) {
+                        return;
+                    }
+                    // When the session is ready, we start displaying the preview.
+                    cameraCaptureSessions = cameraCaptureSession;
+                    updatePreview();
+                }
+                @Override
+                public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
+                    Toast.makeText(Testviva.this, "Configuration change", Toast.LENGTH_SHORT).show();
+                }
+            }, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void openCamera() {
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        Log.e(TAG, "is camera open");
+        try {
+            cameraId = manager.getCameraIdList()[1];
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
+
+            Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+            if (facing == CameraCharacteristics.LENS_FACING_BACK) {
+                Log.d(TAG, "front-facing mCamera found: " + cameraId);
+                return;
+            }
+
+
+
+
+            StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            assert map != null;
+            imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
+            // Add permission for camera and let user grant the permission
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Testviva.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+
+            }
+
+            manager.openCamera(cameraId, stateCallback, null);
+
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "openCamera X");
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void updatePreview() {
+        if(null == cameraDevice) {
+            Log.e(TAG, "updatePreview error, return");
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+        }
+        try {
+            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void closeCamera() {
+        if (null != cameraDevice) {
+            cameraDevice.close();
+            cameraDevice = null;
+        }
+        if (null != imageReader) {
+            imageReader.close();
+            imageReader = null;
+        }
+    }
     @Override
-    public void onImageCapture(@NonNull File imageFile) {
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        Bitmap bitmap = ImageUtils.getInstant().getCompressedBitmap(imageFile.getAbsolutePath());
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        encodedd1 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        System.out.println("ddddd" + encodedd1);
-        if (encodedd1 != null) {
-            new MyThread().start();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                // close the app
+                Toast.makeText(Testviva.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+                finish();
+            }
         }
-        URI imguri = imageFile.toURI();
-        Toast.makeText(getApplicationContext(), "Proctoring image has been Clicked.", Toast.LENGTH_LONG).show();
     }
 
+
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onCameraError(@CameraError.CameraErrorCodes int errorCode) {
-        switch (errorCode) {
-            case CameraError.ERROR_CAMERA_OPEN_FAILED:
-                Toast.makeText(this, R.string.error_cannot_open, Toast.LENGTH_LONG).show();
-                break;
-            case CameraError.ERROR_IMAGE_WRITE_FAILED:
-                Toast.makeText(this, R.string.error_cannot_write, Toast.LENGTH_LONG).show();
-                break;
-            case CameraError.ERROR_CAMERA_PERMISSION_NOT_AVAILABLE:
-                Toast.makeText(this, R.string.error_cannot_get_permission, Toast.LENGTH_LONG).show();
-                break;
-            case CameraError.ERROR_DOES_NOT_HAVE_OVERDRAW_PERMISSION:
-                HiddenCameraUtils.openDrawOverPermissionSetting(this);
-                break;
-            case CameraError.ERROR_DOES_NOT_HAVE_FRONT_CAMERA:
-                Toast.makeText(this, R.string.error_not_having_camera, Toast.LENGTH_LONG).show();
-                break;
+    protected void onResume() {
+        super.onResume();
+
+        textureView.setVisibility(View.VISIBLE);
+
+        Log.e(TAG, "onResume");
+        startBackgroundThread();
+        if (textureView.isAvailable()) {
+            closeCamera();
+        } else {
+            textureView.setSurfaceTextureListener(textureListener);
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    @Override
+    protected void onPause() {
+        Log.e(TAG, "onPause");
+        textureView.setVisibility(View.GONE);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            closeCamera();
+
+
+        }
+        stopBackgroundThread();
+        super.onPause();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+
+
+
+
+    private void SaveDetail() {
+
+        String serverURL ="https://www.skillassessment.org/sdms/android_connect/save_proctoring.php";
+
+        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jobj = new JSONObject(response);
+                    System.out.println("sss"+response);
+                    String status= jobj.getString("status");
+
+                    //Toast.makeText(getApplicationContext(),"We have Received your query will update soon",Toast.LENGTH_LONG).show();
+                    if (status.equals("1")){
+                        Toast.makeText(getApplicationContext(),"Photo Captured",Toast.LENGTH_SHORT).show();
+                        Log.d("Response",response);
+
+
+
+                    }
+
+                    /*else if (status.equals("0")){
+                        Toast.makeText(getApplicationContext(),jobj.getString("msg"),Toast.LENGTH_LONG).show();
+                        Log.d("Response",response);
+                    }*/
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                System.out.println("aa"+error);
+            }
+        })
+
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                super.getHeaders();
+                Map<String, String> map = new HashMap<>();
+                return map;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                super.getParams();
+                Map<String, String> map = new HashMap<>();
+
+
+
+                if (screenshot1!=null){
+                    map.put("student_image",screenshot1);;}
+                System.out.println("sccccc" +screenshot1);
+                map.put("student_id",studentid);
+                map.put("image_time",strDate);
+                System.out.println("sccccc" +strDate);
+
+
+
+                return map;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Override
@@ -447,6 +992,8 @@ public class Testviva extends HiddenCameraActivity {
             @Override
             public void onClick(View v) {
                 getTotalanswercount();
+                timer.cancel();
+
 
             }
         });
@@ -466,7 +1013,7 @@ public class Testviva extends HiddenCameraActivity {
         cursor = dbAutoSave.getData(studentid);
         int aaaa = cursor.getCount();
         int bbbbb = aa.size();
-        int cccc = que_count + bbbbb;
+        int cccc = answersofpreviouspage + bbbbb;
 
         System.out.println("total saved answers" + aaaa);
         System.out.println("total que count" + bbbbb);
@@ -482,6 +1029,7 @@ public class Testviva extends HiddenCameraActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getalldata();
+
                             if (jsonInString != null) {
                                 Questionlist1();
                             }
@@ -490,12 +1038,13 @@ public class Testviva extends HiddenCameraActivity {
                     }).create();
 
 
+
+
             alertDialog.show();
             TimerRunning = false;
             TimeLeftInMillis = START_TIME_IN_MILLISR;
         }
     }
-
     private void startTimer() {
         EndTime = System.currentTimeMillis() + TimeLeftInMillis;
         CountDownTimer = new CountDownTimer(TimeLeftInMillis, 1000) {
@@ -637,11 +1186,7 @@ public class Testviva extends HiddenCameraActivity {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-    }
 
     @Override
     protected void onRestart() {
@@ -683,8 +1228,8 @@ public class Testviva extends HiddenCameraActivity {
     }
 
     public void getData() {
-        cl1 = new CustomAdapter(aa, con, statuss, questatus, qnooo);
-        cl2 = new CustomAdapter(aa, con, statuss, questatus, qnooo);
+        cl1 = new CustomAdapter1(aa, con, statuss, questatus, qnooo);
+        cl2 = new CustomAdapter1(aa, con, statuss, questatus, qnooo);
         drawer_Right.setAdapter(cl1);
 
     }
@@ -747,8 +1292,13 @@ public class Testviva extends HiddenCameraActivity {
                         }
                         System.out.println("aaaa" + aa);
                         for (int ii = 0; ii <= aa.size() - 1; ii++) {
-                            if (dbAutoSave.getDataOfSingleClientstatus1(qnooo1.get(ii)) == null) {
-                                dbAutoSave.insertDataunanswered1(studentid, qnooo1.get(ii), "3");
+                            if (dbAutoSave.getDataOfSingleClientstatus1(qnooo1.get(ii))==null){
+                                if (ii == 0){
+                                    dbAutoSave.insertDataunanswered1(studentid,qnooo1.get(ii),"0");
+                                }else {
+                                    dbAutoSave.insertDataunanswered1(studentid,qnooo1.get(ii),"3");
+                                }
+
                             }
                             fragmentParent.addPage(aa.get(ii) + "", bb.get(ii), qnooo.get(ii), options1.get(ii), options2.get(ii), options3.get(ii), options4.get(ii));
                         }
@@ -813,7 +1363,7 @@ public class Testviva extends HiddenCameraActivity {
                         Toast.makeText(getApplicationContext(), "You have successfully attempted the Assessment", Toast.LENGTH_LONG).show();
                         dbAutoSave.onDelete();
                         saveLog(studentid,"","Logout",stringLatitude1,stringLongitude1,"");
-                        Intent ii = new Intent(Testviva.this, SignIn.class);
+                        Intent ii = new Intent(Testviva.this, Thankspage.class);
                         startActivity(ii);
 
                     } else {
@@ -860,78 +1410,8 @@ public class Testviva extends HiddenCameraActivity {
 
     }
 
-    //Calling API for saving proctoring image
-    private void saveproctoring() {
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/save_proctoring.php";
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jobj = new JSONObject(response);
-                    System.out.println("detail" + response);
-
-                    String status = jobj.getString("status");
-                    if (status.equals("1")) {
-                        System.out.println("The proctored image is saved");
-                    } else {
-                        System.out.println("err");
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("volleyerr" + error);
-                Toast.makeText(getApplicationContext(), "Error: Please try again Later" + error, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                super.getHeaders();
-                Map<String, String> map = new HashMap<>();
-
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                super.getParams();
-                Map<String, String> map = new HashMap<>();
-                map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("student_image", encodedd1);
-                map.put("student_id", studentid);
-                System.out.println("hhh" + map);
-                return map;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(10000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
-    }
-
-
-    private void clearAppData() {
-        try {
-            // clearing app data
-            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-                ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
-            } else {
-                String packageName = getApplicationContext().getPackageName();
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("pm clear " + packageName);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     // Back press button to stop going back
@@ -971,7 +1451,7 @@ public class Testviva extends HiddenCameraActivity {
     }
 
     private void saveLog(final String fnamee, final String ip, final String activity, final String lat, final String longi,final String cmpid) {
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/save_logs.php";
+        String serverURL = "https://www.skillassessment.org/sdms/android_connect/save_logs.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
