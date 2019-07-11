@@ -196,6 +196,11 @@
             android:theme="@style/AppTheme1" />
 
         <activity
+            android:name=".Assessor_Exam.Testviva"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
+
+        <activity
             android:name=".Attendance.Student_attendance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
@@ -205,6 +210,13 @@
             android:label="@string/assessorattendance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
+
+        <activity
+            android:name=".Assessor_Exam.TestInstruction"
+            android:label="@string/assessorattendance"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme5" />
+
 
         <activity
             android:name=".Initials.SplashScreen"

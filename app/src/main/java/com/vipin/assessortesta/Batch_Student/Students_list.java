@@ -20,18 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.rx2androidnetworking.Rx2AndroidNetworking;
-import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
-import com.vipin.assessortesta.Ass_Registration.pojo.category.SscCateResponse;
 import com.vipin.assessortesta.Attendance.Student_attendance;
-import com.vipin.assessortesta.ExamSection.QuestionViva;
-import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
 
 import org.json.JSONArray;
@@ -39,10 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import dmax.dialog.SpotsDialog;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class Students_list  extends AppCompatActivity {

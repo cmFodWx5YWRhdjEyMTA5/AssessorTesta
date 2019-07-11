@@ -15,7 +15,6 @@ import com.vipin.assessortesta.R;
 
 import java.util.HashMap;
 
-
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -54,6 +53,10 @@ public class FragmentParent extends Fragment {
             public void getposition(int a) {
                 viewPager.setCurrentItem(a-1);
                 showbuttonn.dd(true);
+                if (dbAutoSave.getDataOfSingleClientstatus(""+a)!=null && dbAutoSave.getStatusDataOfSingleClientstatus(""+a).equals("3")){
+                    dbAutoSave.updateDataunanswered(stuidd,""+a,"0",""+a);
+                    System.out.println("Case with 3 status ");
+                }
             }
         });
 
@@ -85,6 +88,7 @@ public class FragmentParent extends Fragment {
         skip=vv.findViewById(R.id.skip);
         adapter = new ViewPagerAdapter(getFragmentManager());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(0);
         pagenoo=viewPager.getCurrentItem();
 
 
@@ -141,22 +145,26 @@ public class FragmentParent extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int i) {
-                System.out.println("page scrolled");
+                System.out.println("page scrolled"+i);
 
                 FragmentChild.aaa(new GetStatusQue() {
                     @Override
                     public void gets(boolean b) {
                         if (!b){
-                            for (int i=1;i<=1;i++){
+                            for (int j=1;j<=1;j++){
                                 pp=viewPager.getCurrentItem()+1;
                                 EE=Integer.toString(pp);
                                 System.out.println("On page change"+stuidd+" "+EE);
-                                if (dbAutoSave.getDataOfSingleClientstatus(EE)!=null){
-                                    dbAutoSave.updateDataunanswered(stuidd,EE,"0",EE);
-                                }else {
-                                    dbAutoSave.insertDataunanswered(stuidd,EE,"0");
+                                System.out.println("Status on page"+EE+"is"+dbAutoSave.getStatusDataOfSingleClientstatus(EE));
 
-                                }
+                              /* if (dbAutoSave.getDataOfSingleClientstatus(EE)!=null && dbAutoSave.getStatusDataOfSingleClientstatus(EE).equals("3")){
+                                    dbAutoSave.updateDataunanswered(stuidd,EE,"0",EE);
+                                    System.out.println("Case with 3 status ");
+                                }*//*else {
+                                    dbAutoSave.insertDataunanswered(stuidd,EE,"0");
+                                    System.out.println("Case with no status ");
+
+                                }*/
                             }
                         }
                     }
