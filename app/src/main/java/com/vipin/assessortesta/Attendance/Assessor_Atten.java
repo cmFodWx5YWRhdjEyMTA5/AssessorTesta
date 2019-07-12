@@ -51,6 +51,7 @@ package com.vipin.assessortesta.Attendance;
         import com.vipin.assessortesta.Initials.MyNetwork;
         import com.vipin.assessortesta.Photos.Photo_navigation;
         import com.vipin.assessortesta.R;
+        import com.vipin.assessortesta.utils.CommonUtils;
 
         import org.json.JSONException;
         import org.json.JSONObject;
@@ -548,7 +549,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         //Address of the centre
             public void getcenteraddress(){
 
-                String serverURL =CommonUtils.url+"get_exam_center_details.php";
+                String serverURL = CommonUtils.url+"get_exam_center_details.php";
 
                 StringRequest stringRequest= new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
                     @Override

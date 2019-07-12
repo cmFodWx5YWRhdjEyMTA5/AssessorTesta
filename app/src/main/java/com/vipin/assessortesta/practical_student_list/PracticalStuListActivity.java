@@ -165,23 +165,11 @@ public class PracticalStuListActivity extends AppCompatActivity {
                     @Override public void onItemClick(View view, int position) {
                         // TODO Handle item click
 
-//                        FrameLayout frameSelectBg = (FrameLayout)view.findViewById(R.id.frameSelectBg);
-//                        ImageView ivTick = (ImageView) view.findViewById(R.id.ivTick);
-//
-//                        List<StudentDetailsItem> itemList = response.getStudentDetails();
-                        /*String stuId = itemList.get(position).getStudentId();
-                        if (ivTick.getTag().equals("None")) {
-                            frameSelectBg.setBackgroundColor(getResources().getColor(R.color.colorSelectBg));
-                            Drawable d = (Drawable)getResources().getDrawable(R.drawable.ic_check_circle_24dp);
-                            ivTick.setImageDrawable(d);
-                            ivTick.setTag("Selected");
-
-                        }else {
-                            frameSelectBg.setBackgroundColor(getResources().getColor(R.color.colorNonSelectBg));
-                            Drawable d = (Drawable)getResources().getDrawable(R.drawable.ic_add_circle_outline_black_24dp);
-                            ivTick.setImageDrawable(d);
-                            ivTick.setTag("None");
-                        }*/
+                        List<StudentDetailsItem> itemList = response.getStudentDetails();
+                        Intent intent = new Intent(PracticalStuListActivity.this, AssessorFeedbackActivity.class);
+                        intent.putExtra("stu_id", itemList.get(position).getStudentId());
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override

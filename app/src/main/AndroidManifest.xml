@@ -62,6 +62,7 @@
         <activity android:name=".feedback.AssessorFeedbackActivity"
             android:label="@string/txt_feedback_title"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme5"
             />
 
@@ -75,6 +76,7 @@
             android:name=".practical_student_list.PracticalStuListActivity"
             android:label="@string/title_practical_exam"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme5" />
         <activity
             android:name=".student_group.StudentGroupActivity"
