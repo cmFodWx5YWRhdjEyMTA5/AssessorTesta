@@ -1557,6 +1557,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             if (requestCode == PAN_CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+                ivUploadPan.setImageResource(R.drawable.checked);
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
@@ -1570,6 +1571,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
             }
             if (requestCode == CAMERA_OTHER_ID_REQUEST && resultCode == Activity.RESULT_OK) {
+                ivUploadOthrId.setImageResource(R.drawable.checked);
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();

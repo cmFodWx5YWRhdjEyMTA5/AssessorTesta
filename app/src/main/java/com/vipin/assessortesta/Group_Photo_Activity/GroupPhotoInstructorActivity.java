@@ -6,19 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.vipin.assessortesta.Batch_Student.Batch_detail;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
-import com.vipin.assessortesta.Photos.Photo_navigation;
-import com.vipin.assessortesta.Photos.Pmkvycounselling;
-import com.vipin.assessortesta.Photos.Pmkvysignane;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 
-public class Group_Photo_Instructor_Activity extends AppCompatActivity {
+public class GroupPhotoInstructorActivity extends AppCompatActivity {
 
 
     private static final int groupphoto = 111;
@@ -34,6 +32,8 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group__photo__instructor_);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         groupphotos = findViewById(R.id.imageview11);
         groupphotoselfies = findViewById(R.id.imageview22);
         button_proceeds = findViewById(R.id.button_proceeds);
@@ -42,7 +42,7 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
         groupphotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Group_Photo_Instructor_Activity.this, GroupPhoto_Activity.class);
+                Intent intent = new Intent(GroupPhotoInstructorActivity.this, GroupPhoto_Activity.class);
                 startActivityForResult(intent, groupphoto);
             }
         });
@@ -51,12 +51,30 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
         groupphotoselfies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Group_Photo_Instructor_Activity.this, GroupPhoto_selfie_Activity.class);
+                Intent intent = new Intent(GroupPhotoInstructorActivity.this, GroupPhoto_selfie_Activity.class);
                 startActivityForResult(intent, groupphotoselfie);
             }
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(this, BatchInstructionActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -106,7 +124,7 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     setResult(6, intent);
-                    Group_Photo_Instructor_Activity.this.finish();
+                    GroupPhotoInstructorActivity.this.finish();
                 } else {
 
                     completeAllTask();
@@ -147,6 +165,13 @@ public class Group_Photo_Instructor_Activity extends AppCompatActivity {
         alertDialog.show();
     }
 
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(this, BatchInstructionActivity.class));
+        finish();
+    }
 
 
 

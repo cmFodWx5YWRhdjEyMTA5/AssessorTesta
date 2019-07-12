@@ -137,10 +137,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-////                    Intent ii=new Intent(getA,Annexure.class);
+////                    Intent ii=new Intent(getA,AnnexureMFormActivity.class);
 ////                    mContext.startActivity(ii);
 //
-//                    v.getContext().startActivity(new Intent(v.getContext(),Annexure.class));
+//                    v.getContext().startActivity(new Intent(v.getContext(),AnnexureMFormActivity.class));
 //
 //                }
 //            });

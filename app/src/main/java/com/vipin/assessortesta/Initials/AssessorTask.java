@@ -2,6 +2,7 @@ package com.vipin.assessortesta.Initials;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
         setContentView(R.layout.activity_assessor_task);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setEnabled(true);
-        toolbar.setTitle("Home");
+        toolbar.setTitle("Batch List");
         tabLayout = findViewById(R.id.tablelayout);
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
@@ -81,8 +83,26 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
+//        super.onBackPressed();
+        exitByBackKey();
+    }
+
+
+    protected void exitByBackKey() {
+
+        new AlertDialog.Builder(this, R.style.DialogTheme)
+                .setIcon(R.drawable.ic_complain)
+                .setTitle("Alert")
+                .setMessage("Are you sure you want to exit")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
     }
 
     private void callWebApi() {

@@ -26,19 +26,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.rx2androidnetworking.Rx2AndroidNetworking;
-import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
-import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
-import com.vipin.assessortesta.Initials.Annexure;
+import com.vipin.assessortesta.Group_Photo_Activity.GroupPhotoInstructorActivity;
+import com.vipin.assessortesta.Initials.AnnexureMFormActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.pojo.feedback.Practical;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,7 +43,7 @@ import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
 
-public class Batch_instruction extends AppCompatActivity {
+public class BatchInstructionActivity extends AppCompatActivity {
 
     TextView card1_textview1,card2_textview2,card3_textview3,card4_textview4,card5_textview5,card6_textview6;
     CardView card1,card2,card3,card4,card5,card6;
@@ -73,7 +69,7 @@ public class Batch_instruction extends AppCompatActivity {
         setContentView(R.layout.activity_batch_instruction);
 
 
-        progressDialog = new SpotsDialog(Batch_instruction.this, R.style.Custom);
+        progressDialog = new SpotsDialog(BatchInstructionActivity.this, R.style.Custom);
         card1 = findViewById(R.id.card1);
         card2 = findViewById(R.id.card2);
         card3 = findViewById(R.id.card3);
@@ -155,7 +151,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card1_intent = new Intent(Batch_instruction.this, Photo_navigation.class);
+                Intent card1_intent = new Intent(BatchInstructionActivity.this, Photo_navigation.class);
                 startActivityForResult(card1_intent, CARD1_REQUESTCODE); }
         });
 
@@ -165,7 +161,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card2_intent = new Intent(Batch_instruction.this,Batch_detail.class);
+                Intent card2_intent = new Intent(BatchInstructionActivity.this, BatchDetailActivity.class);
                 startActivity(card2_intent);
 
             }
@@ -177,7 +173,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card3_intent = new Intent(Batch_instruction.this, StudentGroupActivity.class);
+                Intent card3_intent = new Intent(BatchInstructionActivity.this, StudentGroupActivity.class);
                 startActivityForResult(card3_intent, CARD3_REQUESTCODE);}
         });
 
@@ -187,7 +183,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card4_intent = new Intent(Batch_instruction.this, PracticalStuListActivity.class);
+                Intent card4_intent = new Intent(BatchInstructionActivity.this, PracticalStuListActivity.class);
                 startActivityForResult(card4_intent, CARD4_REQUESTCODE);
             }
         });
@@ -196,7 +192,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card5_intent = new Intent(Batch_instruction.this, Annexure.class);
+                Intent card5_intent = new Intent(BatchInstructionActivity.this, AnnexureMFormActivity.class);
                 startActivityForResult(card5_intent, CARD5_REQUESTCODE);
             }
         });
@@ -205,7 +201,7 @@ public class Batch_instruction extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card6_intent = new Intent(Batch_instruction.this,Group_Photo_Instructor_Activity.class);
+                Intent card6_intent = new Intent(BatchInstructionActivity.this, GroupPhotoInstructorActivity.class);
                 startActivityForResult(card6_intent, CARD6_REQUESTCODE);
 
 
@@ -223,7 +219,7 @@ public class Batch_instruction extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(annexureM_PhotoPerc==100 && annexureMPerc == 100 &&  attendancePerc ==100 && alignStudentPerc == 100 && feedbackPerc ==100 && groupPhoto ==100) {
-                    Toast.makeText(Batch_instruction.this, "Clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BatchInstructionActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
 
                     SendFinalData();
                      //exitByBackKey();
@@ -352,7 +348,7 @@ public class Batch_instruction extends AppCompatActivity {
 
     protected void exitByBackKey() {
 
-        AlertDialog alertbox = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to exit")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
@@ -376,6 +372,33 @@ public class Batch_instruction extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        BackKeyDialog();
+    }
+
+    protected void BackKeyDialog() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent startMain = new Intent(Intent.ACTION_MAIN);
+                        startMain.addCategory(Intent.CATEGORY_HOME);
+                        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(startMain);
+                        finishAffinity();
+                        System.exit(0);
+
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+    }
 
     private void SendFinalData() {
 
@@ -447,7 +470,7 @@ public class Batch_instruction extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         hide_progressbar();
-                        Toast.makeText(Batch_instruction.this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BatchInstructionActivity.this, "Success", Toast.LENGTH_SHORT).show();
                         try {
                             if (response.getInt("status") == 1){
                                 JSONObject jObject = response.getJSONObject("Activity_details");
@@ -467,32 +490,23 @@ public class Batch_instruction extends AppCompatActivity {
                                 card6_textview6.setText(""+groupPhoto+"%");
 
                             }else {
-                                Toast.makeText(Batch_instruction.this, "No Data", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BatchInstructionActivity.this, "No Data", Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(Batch_instruction.this, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BatchInstructionActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(ANError anError) {
                         hide_progressbar();
-                        Toast.makeText(Batch_instruction.this, "Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BatchInstructionActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
-
-
-
-
-
-
-
-
-
 
     public void show_progressbar(){
         progressDialog.show();
@@ -504,6 +518,8 @@ public class Batch_instruction extends AppCompatActivity {
             progressDialog.dismiss();
         }
     }
+
+
 
 
 

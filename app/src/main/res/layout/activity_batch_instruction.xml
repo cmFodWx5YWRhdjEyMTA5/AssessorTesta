@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:weightSum="8"
     android:orientation="vertical"
-    tools:context=".Batch_Student.Batch_instruction">
+    tools:context=".Batch_Student.BatchInstructionActivity">
 
     <ScrollView
         android:layout_width="match_parent"

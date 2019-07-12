@@ -20,6 +20,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -47,12 +49,12 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
-import com.vipin.assessortesta.Batch_Student.Students_list;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
+import com.vipin.assessortesta.Batch_Student.StudentsListActivity;
 import com.vipin.assessortesta.Global.BaseActivity;
-import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 
 import org.json.JSONException;
@@ -68,7 +70,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
 
-public class Student_attendance extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
+public class StudentAttendanceActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
 
@@ -118,6 +120,8 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         studentid = getIntent().getStringExtra("student_id");
         student_name = getIntent().getStringExtra("name");
         Tc_name = getIntent().getStringExtra("tc_name");
@@ -137,7 +141,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
         centrelocation_student = findViewById(R.id.centrelocationn_student);
         currentlocationn_student = findViewById(R.id.locationn_student);
         input_photograph_student = findViewById(R.id.input_photograph_student);
-        progressDialog = new SpotsDialog(Student_attendance.this, R.style.Custom);
+        progressDialog = new SpotsDialog(StudentAttendanceActivity.this, R.style.Custom);
 
 
 
@@ -300,12 +304,11 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
         return R.menu.main;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                startActivity(new Intent(this, Students_list.class));
+                startActivity(new Intent(this, StudentsListActivity.class));
                 finish();
                 break;
         }
@@ -318,8 +321,8 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, Batch_instruction.class));
+//        super.onBackPressed();
+        startActivity(new Intent(this, StudentsListActivity.class));
         finish();
     }
 
@@ -479,7 +482,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Geocoder geocoder;
-        geocoder = new Geocoder(Student_attendance.this);
+        geocoder = new Geocoder(StudentAttendanceActivity.this);
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 &&  ActivityCompat.checkSelfPermission(this,
@@ -576,7 +579,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
                         try {
                             // Show the dialog by calling startResolutionForResult(), and check the result
                             // in onActivityResult().
-                            status.startResolutionForResult(Student_attendance.this, REQUEST_CHECK_SETTINGS);
+                            status.startResolutionForResult(StudentAttendanceActivity.this, REQUEST_CHECK_SETTINGS);
                         } catch (IntentSender.SendIntentException e) {
                             Log.i("TAG", "PendingIntent unable to execute request.");
                         }
@@ -682,7 +685,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
                         Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals("1")){
-                        Intent ii = new Intent(Student_attendance.this, Students_list.class);
+                        Intent ii = new Intent(StudentAttendanceActivity.this, StudentsListActivity.class);
                         ii.putExtra("persent","persent");
 
                         startActivity(ii);
@@ -767,7 +770,7 @@ public class Student_attendance extends BaseActivity implements GoogleApiClient.
                         Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals("1")){
-                        Intent ii = new Intent(Student_attendance.this, Students_list.class);
+                        Intent ii = new Intent(StudentAttendanceActivity.this, StudentsListActivity.class);
                         ii.putExtra("Absent","Absent");
                         startActivity(ii);
 
@@ -903,7 +906,7 @@ protected void AbsentAlertBox() {
                       //  moveTaskToBack(true);
                         save_studentAttenAbsent();
 
-                        Intent intent = new Intent(Student_attendance.this, Students_list.class);
+                        Intent intent = new Intent(StudentAttendanceActivity.this, StudentsListActivity.class);
                         startActivity(intent);
 
                         //finish();

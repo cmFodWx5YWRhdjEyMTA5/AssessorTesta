@@ -602,6 +602,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 cameraDevice.close();
             }
         }
+
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onError(CameraDevice camera, int error) {
@@ -613,8 +614,6 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     };
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-
-
     final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {

@@ -73,13 +73,20 @@
 
     <style name="myDialog" parent="Theme.AppCompat.Dialog">
     </style>
-
         <style name="AppTheme4" parent="Theme.AppCompat.Light.NoActionBar">
             <!-- Customize your theme here. -->
             <item name="colorPrimary">@color/Blue</item>
             <item name="colorPrimaryDark">@color/Blue</item>
             <item name="colorAccent">@color/white</item>
         </style>
+
+        <style name="AppTheme6" parent="Theme.AppCompat.Light.NoActionBar">
+            <!-- Customize your theme here. -->
+            <item name="colorPrimary">@color/Blue</item>
+            <item name="colorPrimaryDark">@color/Blue</item>
+            <item name="colorAccent">@color/colorAccent</item>
+        </style>
+
 
 
 
@@ -131,7 +138,7 @@
     <color name="colorTransParent">#00000000</color>
 
     <!--THEME DIALOG-->
-    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--buttons color-->
         <item name="colorAccent">@color/colorAccent</item>
         <!--title and message color-->

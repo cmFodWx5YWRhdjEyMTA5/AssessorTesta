@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Photos.Pmkvysignane;
@@ -56,6 +59,8 @@ public class GroupPhoto_Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pmkvysignane = findViewById(R.id.groupphotopic);
         clickmessage_pmkvysignane = findViewById(R.id.clicgroupphotopic);
@@ -123,6 +128,24 @@ public class GroupPhoto_Activity extends BaseActivity {
         }
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(this, GroupPhotoInstructorActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -238,4 +261,13 @@ public class GroupPhoto_Activity extends BaseActivity {
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(this, GroupPhotoInstructorActivity.class));
+        finish();
+    }
+
+
 }

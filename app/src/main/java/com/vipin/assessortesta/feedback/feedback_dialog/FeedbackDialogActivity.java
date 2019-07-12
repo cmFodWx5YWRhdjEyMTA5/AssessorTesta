@@ -182,7 +182,7 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                             String msg = response.getString("msg");
 
                             if (respCode == 1) {
-                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.MyDialogTheme)
+                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.DialogTheme)
                                         .setTitle("Success")
                                         .setMessage(msg)
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -194,7 +194,7 @@ public class FeedbackDialogActivity extends Activity implements View.OnClickList
                                         })
                                         .show();
                             }else {
-                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.MyDialogTheme)
+                                new AlertDialog.Builder(FeedbackDialogActivity.this, R.style.DialogTheme)
                                         .setTitle("Failed")
                                         .setMessage(msg)
                                         .setNegativeButton("Ok", null)

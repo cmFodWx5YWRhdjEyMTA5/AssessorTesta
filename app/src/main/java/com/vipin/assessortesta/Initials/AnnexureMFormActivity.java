@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -19,8 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
-import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
 
@@ -30,7 +32,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class AnnexureMFormActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
 
 
@@ -45,15 +47,12 @@ public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedC
     final String mypreference = "mypref";
     String assessor_id,batchid;
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_annexure);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         annexureData = new JSONObject();
         rgroup1 = findViewById(R.id.rgroup1);
@@ -129,7 +128,7 @@ public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedC
 
                         Intent intent = new Intent();
                         setResult(5, intent);
-                        Annexure.this.finish();
+                        AnnexureMFormActivity.this.finish();
 
 
                     } else {
@@ -147,6 +146,23 @@ public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedC
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(this, BatchInstructionActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     private void SendAnnexure() {
@@ -447,5 +463,13 @@ public class Annexure extends AppCompatActivity implements RadioGroup.OnCheckedC
                     Toast.makeText(this, "Wrong Selection", Toast.LENGTH_SHORT).show();
                     break;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        startActivity(new Intent(this, BatchInstructionActivity.class));
+        finish();
     }
 }

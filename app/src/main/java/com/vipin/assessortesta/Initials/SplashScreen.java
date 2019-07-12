@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 
 public class SplashScreen extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
 //        Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
-//        Intent i = new Intent(SplashScreen.this, Batch_instruction.class);
+//        Intent i = new Intent(SplashScreen.this, BatchInstructionActivity.class);
 //        startActivity(i);
 
        newuserr.setOnClickListener(new View.OnClickListener() {

@@ -11,14 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.vipin.assessortesta.Batch_Student.Batch_detail;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
-import com.vipin.assessortesta.Batch_Student.Students_list;
-import com.vipin.assessortesta.Batch_Student.Batch_detail;
-import com.vipin.assessortesta.Group_Photo_Activity.Group_Photo_Instructor_Activity;
-import com.vipin.assessortesta.Initials.SignIn;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.student_group.StudentGroupActivity;
 
 public class Photo_navigation extends AppCompatActivity {
 
@@ -353,7 +347,7 @@ public class Photo_navigation extends AppCompatActivity {
 
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, Batch_instruction.class));
+        startActivity(new Intent(this, BatchInstructionActivity.class));
         finish();
     }
 
