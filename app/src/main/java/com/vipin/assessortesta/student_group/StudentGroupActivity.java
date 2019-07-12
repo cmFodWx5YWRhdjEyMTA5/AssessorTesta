@@ -1,6 +1,5 @@
 package com.vipin.assessortesta.student_group;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,29 +8,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.GridLayoutAnimationController;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.rx2androidnetworking.Rx2AndroidNetworking;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
-import com.vipin.assessortesta.Global.BaseActivity;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.pojo.practical_que.PracticalItem;
 import com.vipin.assessortesta.pojo.practical_que.PracticalQuesResponse;
 import com.vipin.assessortesta.practical_student_assign.StudentAssignActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
@@ -42,11 +32,7 @@ import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import dmax.dialog.SpotsDialog;
-
-import static com.vipin.assessortesta.utils.RecyclerItemClickListener.*;
 
 public class StudentGroupActivity extends AppCompatActivity {
 
@@ -116,7 +102,7 @@ public class StudentGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count == totalCount) {
-                    startActivity(new Intent(StudentGroupActivity.this, Batch_instruction.class));
+                    startActivity(new Intent(StudentGroupActivity.this, BatchInstructionActivity.class));
                     finish();
                 }else {
                     showAlertMessage(R.drawable.ic_complain, "Alert", "\nYou must assign maximum students to each group.");
@@ -210,7 +196,7 @@ public class StudentGroupActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                startActivity(new Intent(this, Batch_instruction.class));
+                startActivity(new Intent(this, BatchInstructionActivity.class));
                 finish();
                 break;
         }
@@ -231,7 +217,7 @@ public class StudentGroupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, Batch_instruction.class));
+        startActivity(new Intent(this, BatchInstructionActivity.class));
         finish();
     }
 
@@ -253,7 +239,7 @@ public class StudentGroupActivity extends AppCompatActivity {
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(StudentGroupActivity.this, Batch_instruction.class));
+                        startActivity(new Intent(StudentGroupActivity.this, BatchInstructionActivity.class));
                         finish();
                     }
                 })

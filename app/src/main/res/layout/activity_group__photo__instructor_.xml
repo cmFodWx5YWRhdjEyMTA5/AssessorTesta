@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Group_Photo_Activity.Group_Photo_Instructor_Activity">
+    tools:context=".Group_Photo_Activity.GroupPhotoInstructorActivity">
 
 
     <ScrollView

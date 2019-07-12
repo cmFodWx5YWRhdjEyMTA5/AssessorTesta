@@ -79,7 +79,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="26dp"
                 android:text="New User? Sign Up."
                 android:id="@+id/newuserr"
                 android:layout_gravity="center"

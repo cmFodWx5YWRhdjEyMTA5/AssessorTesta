@@ -39,15 +39,15 @@
             android:label="Annexure(M)"
             android:theme="@style/AppTheme5"
             />
-        <activity android:name=".Group_Photo_Activity.Group_Photo_Instructor_Activity"
+        <activity android:name=".Group_Photo_Activity.GroupPhotoInstructorActivity"
             android:label="Annexure(M)"
             android:theme="@style/AppTheme5"
             android:screenOrientation="portrait"
             />
 
 
-        <activity android:name=".Batch_Student.Batch_instruction"
-        android:label="@string/assessorattendance"
+        <activity android:name=".Batch_Student.BatchInstructionActivity"
+        android:label="@string/titleBatch"
         android:theme="@style/AppTheme5"
         android:screenOrientation="portrait"
             />
@@ -103,13 +103,15 @@
             android:theme="@style/AppTheme5"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Batch_Student.Students_list"
+            android:name=".Batch_Student.StudentsListActivity"
             android:label="List of Students"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
         <activity
-            android:name=".Batch_Student.Batch_detail"
+            android:name=".Batch_Student.BatchDetailActivity"
             android:label="Batch Detail"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
 
@@ -170,7 +172,7 @@
             android:label="Annexure(M)"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
-        <activity android:name=".Initials.Annexure"
+        <activity android:name=".Initials.AnnexureMFormActivity"
             android:label="Annexure(M)"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5"/>
@@ -203,8 +205,9 @@
             android:theme="@style/AppTheme1" />
 
         <activity
-            android:name=".Attendance.Student_attendance"
+            android:name=".Attendance.StudentAttendanceActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme5" />
 
         <activity

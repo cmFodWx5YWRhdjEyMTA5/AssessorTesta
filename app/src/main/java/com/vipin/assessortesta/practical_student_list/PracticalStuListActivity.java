@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,19 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.androidnetworking.common.Priority;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
+import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.pojo.feedback_stu_list.PracticalStuListResponse;
 import com.vipin.assessortesta.pojo.feedback_stu_list.StudentDetailsItem;
 import com.vipin.assessortesta.practical_student_list.adapter.PracticalStuListRcAdapter;
-import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
@@ -92,7 +87,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (count == totalCount) {
-                    Intent i = new Intent(PracticalStuListActivity.this, Batch_instruction.class);
+                    Intent i = new Intent(PracticalStuListActivity.this, BatchInstructionActivity.class);
                     startActivity(i);
                     finish();
                 }else {
@@ -190,7 +185,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
+                startActivity(new Intent(PracticalStuListActivity.this, BatchInstructionActivity.class));
                 finish();
                 break;
         }
@@ -225,7 +220,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
+                        startActivity(new Intent(PracticalStuListActivity.this, BatchInstructionActivity.class));
                         finish();
                     }
                 })
@@ -235,7 +230,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(PracticalStuListActivity.this, Batch_instruction.class));
+        startActivity(new Intent(PracticalStuListActivity.this, BatchInstructionActivity.class));
         finish();
     }
 }

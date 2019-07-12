@@ -1,16 +1,7 @@
 package com.vipin.assessortesta.feedback;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Camera;
-import android.media.MediaRecorder;
-import android.net.Uri;
-import android.os.CountDownTimer;
-import android.os.Environment;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -20,16 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rx2androidnetworking.Rx2AndroidNetworking;
-import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
-import com.vipin.assessortesta.Batch_Student.Batch_instruction;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.adapter.FeedbackVpAdapter;
 import com.vipin.assessortesta.feedback.camera.Camera2VideoFragment;
@@ -41,23 +27,11 @@ import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import dmax.dialog.SpotsDialog;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class AssessorFeedbackActivity extends AppCompatActivity implements View.OnClickListener {
 

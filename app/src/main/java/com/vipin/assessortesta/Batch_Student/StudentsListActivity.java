@@ -15,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.vipin.assessortesta.Attendance.Student_attendance;
+import com.vipin.assessortesta.Attendance.StudentAttendanceActivity;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 
 import org.json.JSONArray;
@@ -36,7 +39,7 @@ import org.json.JSONObject;
 import dmax.dialog.SpotsDialog;
 
 
-public class Students_list  extends AppCompatActivity {
+public class StudentsListActivity extends AppCompatActivity {
     RecyclerView meet_rc;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
@@ -47,20 +50,20 @@ public class Students_list  extends AppCompatActivity {
 
 
 
-    final Context myContext = Students_list.this;
+    final Context myContext = StudentsListActivity.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students_list);
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 //        ATTENDSTATUS = getIntent().getStringExtra("persent");
 //      //  Toast.makeText(getApplicationContext(),""+ATTENDSTATUS,Toast.LENGTH_LONG).show();
 //        ATTENDSTATUS1 = getIntent().getStringExtra("Absent");
 //        //Toast.makeText(getApplicationContext(),""+ATTENDSTATUS1,Toast.LENGTH_LONG).show();
 //
-        progressDialog = new SpotsDialog(Students_list.this, R.style.Custom);
+        progressDialog = new SpotsDialog(StudentsListActivity.this, R.style.Custom);
         submit = findViewById(R.id.submit);
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
@@ -93,11 +96,11 @@ public class Students_list  extends AppCompatActivity {
                 else
                 {
 
-                    Intent intent1 = new Intent(Students_list.this,Batch_instruction.class);
+                    Intent intent1 = new Intent(StudentsListActivity.this, BatchInstructionActivity.class);
                     setResult(2, intent1);
                     intent1.putExtra("resultcode","abc");
                     startActivity(intent1);
-                    //Students_list.this.finish();
+                    //StudentsListActivity.this.finish();
 
 
 
@@ -114,23 +117,30 @@ public class Students_list  extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public void onBackPressed() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(this, BatchDetailActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
 //        super.onBackPressed();
-//        if (progressDialog.isShowing()) {
-//            progressDialog.dismiss();
-//        }
-//    }
-
-
-
-
-
-
-
-
-
-
+        startActivity(new Intent(this, BatchDetailActivity.class));
+        finish();
+    }
 
     public void MarkAllAttendence(){
 
@@ -287,7 +297,7 @@ public class Students_list  extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent ii=new Intent(Students_list.this, Student_attendance.class);
+                        Intent ii=new Intent(StudentsListActivity.this, StudentAttendanceActivity.class);
                         ii.putExtra("student_id", studentid);
                         ii.putExtra("tc_name",tcname );
                         ii.putExtra("name",studentname1 );
