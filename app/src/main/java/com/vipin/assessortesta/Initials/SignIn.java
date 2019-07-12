@@ -24,8 +24,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.vipin.assessortesta.Assessor_Exam.TestInstruction;
-import com.vipin.assessortesta.Assessor_Exam.TestQuestion;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.utils.CommonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +42,7 @@ public class SignIn extends AppCompatActivity {
     EditText username, password;
     String uname, pass;
     String status;
+    String batchidd;
     SessionManager sessionManager;
     String id, name, user_name,exam_status;
     SharedPreferences sharedpreferences;
@@ -210,7 +211,7 @@ public class SignIn extends AppCompatActivity {
         progressDialog.show();
 
 
-        String serverURL = CommonUtils.url+"login.php";
+        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/login.php";
         System.out.println("geturll" + " " + serverURL);
         uname = username.getText().toString();
         pass = password.getText().toString();
@@ -232,6 +233,7 @@ public class SignIn extends AppCompatActivity {
                             name = jsonObject.getString("name");
                             id = jsonObject.getString("id");
                             user_name = jsonObject.getString("user_name");
+                            batchidd=jsonObject.getString("batch_id");
                             exam_status = jsonObject.getString("exam_status");
 
 
@@ -241,6 +243,7 @@ public class SignIn extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedpreferences.edit();
                             editor.putString("Name", name);
                             editor.putString("user_name", user_name);
+                            editor.putString("batchid",batchidd);
                             editor.apply();
 
 

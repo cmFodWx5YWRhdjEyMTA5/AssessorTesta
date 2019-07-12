@@ -60,7 +60,7 @@ batch (check any 5 forms)\n
     <string name="anx20">Posters of PMKVY displayed in Counseling room ?\n</string>
     <string name="anx21">Posters of PMKVY displayed in Classroom ?\n</string>
     <string name="anx22">PMKVY signage displayed outside the Center ?\n</string>
-
+    <string name="line22">2.<b>All the questions are mandatory.You need to answer all the questions in order to proceed.</b> </string>
 
     <string name="inst1">Pmkvy Signane</string>
     <string name="inst2">PMKVY poster(Counseling room)</string>
@@ -87,7 +87,7 @@ batch (check any 5 forms)\n
     <style name="text_h5" parent="@style/wrap_wrap_black1">
         <item name="android:textSize">14.0dip</item>
     </style>
-
+    <string name="line13">9  Dont quit the application in between exam else the exam will not be submitted</string>
     <string name="scanner_activity">ZBar Scanner - Full Activity</string>
     <string name="scanner_fragment_activity">ZBar Scanner - Full Fragment Activity</string>
     <string name="simple_scanner_activity">ZBar Scanner - Simple Activity</string>

@@ -76,6 +76,7 @@ import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.vipin.assessortesta.utils.AlertDialogPayment;
 import com.vipin.assessortesta.utils.AwesomeValidation;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.VerhoeffAlgorithm;
 
 import org.json.JSONArray;
@@ -967,7 +968,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void Bankdetails() {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_bank.php";
+        String serverURL = CommonUtils.url +"get_bank.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1021,7 +1022,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
         };
@@ -1032,7 +1033,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     //State List
     private void Statedetails() {
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_state.php";
+        String serverURL = CommonUtils.url +"get_state.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1088,7 +1089,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
         };
@@ -1100,7 +1101,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void DistrictDetails(final String districtidd) {
 
 
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_district.php";
+        String serverURL = CommonUtils.url +"get_district.php";
         show_progressbar();
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1166,6 +1167,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("state_id",districtidd);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
         };
@@ -1181,7 +1183,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         pd.setCanceledOnTouchOutside(false);
         pd.show();
 */
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_employer.php";
+        String serverURL = CommonUtils.url +"get_employer.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1244,7 +1246,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
         };
@@ -1254,7 +1256,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     //Sector_list
     private void Sectorlist(final String Sectorvalue) {
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_sector.php";
+        String serverURL = CommonUtils.url +"get_sector.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1311,6 +1313,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("company_id",Sectorvalue);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
         };
@@ -1320,7 +1323,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     //Jobrole Api Call
     private void getJobroleList(final String sscid) {
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/get_jobrole.php";
+        String serverURL = CommonUtils.url +"get_jobrole.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1389,6 +1392,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("company_id",sscid);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 System.out.println("aaaaaa"+map);
                 return map;
             }

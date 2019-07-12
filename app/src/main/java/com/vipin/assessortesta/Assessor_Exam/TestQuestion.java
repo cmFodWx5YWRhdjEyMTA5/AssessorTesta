@@ -70,6 +70,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.vipin.assessortesta.Initials.SessionManager;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.MyNetwork;
 
 import org.json.JSONArray;
@@ -908,7 +909,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
     private void SaveDetail() {
 
-        String serverURL ="https://www.skillassessment.org/sdms/android_connect/save_proctoring.php";
+        String serverURL =CommonUtils.serverURL2_saveproctoring;
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -965,6 +966,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
 
                 if (screenshot1!=null){
+                    map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                     map.put("student_image",screenshot1);
                     map.put("student_id",studentid);
                     map.put("image_time",strDate);
@@ -1042,7 +1044,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
     private void Questionlist1() {
         progressDialog.show();
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/save_answers.php";
+        String serverURL = CommonUtils.serverURL_saveanswer;
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1095,6 +1097,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("JSON", jsonInString);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 System.out.println("ddd" + map);
                 return map;
             }
@@ -1219,7 +1222,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     private void Questionlist() {
 
         progressDialog.show();
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/batch_questions.php";
+        String serverURL = CommonUtils.serverURL_batchquestions;
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1303,6 +1306,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("batch_id", "97");
                 map.put("language", "en");
                 System.out.println("ddd"+map);
@@ -1493,7 +1497,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void saveLog(final String fnamee, final String ip, final String activity, final String lat, final String longi,final String cmpid) {
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect/save_logs.php";
+        String serverURL = CommonUtils.serverURL_savelog;
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1532,6 +1536,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("username",fnamee);
                 map.put("ip",ip);
                 map.put("company_id",cmpid);
