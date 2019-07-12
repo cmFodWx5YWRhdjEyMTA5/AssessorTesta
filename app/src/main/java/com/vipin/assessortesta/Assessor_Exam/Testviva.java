@@ -1340,7 +1340,7 @@ long practical_timeee;
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("batch_id", "97");
+                map.put("batch_id","97");
                 map.put("language", "en");
                 System.out.println("ddd" + map);
                 return map;

@@ -156,44 +156,41 @@ public class TestInstruction extends AppCompatActivity {
         String serverURL = CommonUtils.serverURL_batchlanguage;
 
 
-        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
+        StringRequest request = new StringRequest(Request.Method.POST, serverURL, response -> {
+            try {
 
-                    JSONObject jobj = new JSONObject(response);
-                    String status= jobj.getString("status");
-                    exam_status=jobj.getString("exam_status");
-                    theory_time=jobj.getLong("theory_time");
-                    practical_time=jobj.getLong("practical_time");
-                    System.out.println("theoruy"+theory_time+"  "+"practical time"+practical_time);
-                    if (status.equals("1")){
-                        JSONArray jsonArray=jobj.getJSONArray("language");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject c = jsonArray.getJSONObject(i);
-                            languageid = c.getString("language_code");
-                            language = c.getString("name");
-                            hm.put(language, languageid);
-                            if (listItems.size()<=1){
-                                listItems.add(language);
-                            }
-
+                JSONObject jobj = new JSONObject(response);
+                String status= jobj.getString("status");
+                exam_status=jobj.getString("exam_status");
+                theory_time=jobj.getLong("theory_time");
+                practical_time=jobj.getLong("practical_time");
+                System.out.println("theoruy"+theory_time+"  "+"practical time"+practical_time);
+                if (status.equals("1")){
+                    JSONArray jsonArray=jobj.getJSONArray("language");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject c = jsonArray.getJSONObject(i);
+                        languageid = c.getString("language_code");
+                        language = c.getString("name");
+                        hm.put(language, languageid);
+                        if (listItems.size()<=1){
+                            listItems.add(language);
                         }
-                        showDialog();
 
                     }
-                    else {
-                        Toast.makeText(getApplicationContext(),"Failed to fetch Language Details",Toast.LENGTH_LONG).show();
-                    }
+                    showDialog();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
+                else {
+                    Toast.makeText(getApplicationContext(),"Failed to fetch Language Details",Toast.LENGTH_LONG).show();
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -219,7 +216,7 @@ public class TestInstruction extends AppCompatActivity {
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("batch_id","97");
+                map.put("batch_id",Sectorvalue);
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 return map;
             }
