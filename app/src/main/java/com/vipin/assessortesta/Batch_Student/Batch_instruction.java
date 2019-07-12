@@ -65,6 +65,8 @@ public class Batch_instruction extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
 
+    int annexureM_PhotoPerc, annexureMPerc,attendancePerc,alignStudentPerc,feedbackPerc,groupPhoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +98,8 @@ public class Batch_instruction extends AppCompatActivity {
             if(datacard2.equals("abc"))
             {
                 card2_textview2.setText("100%");
-                card2.setEnabled(false);
+
+
                 count2 = true;
             }
         }
@@ -215,23 +218,18 @@ public class Batch_instruction extends AppCompatActivity {
 
 
 
-
-
-
         Submit_Final_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(count6 == true){
+
+                if(annexureM_PhotoPerc==100 && annexureMPerc == 100 &&  attendancePerc ==100 && alignStudentPerc == 100 && feedbackPerc ==100 && groupPhoto ==100) {
+                    Toast.makeText(Batch_instruction.this, "Clicked", Toast.LENGTH_SHORT).show();
 
                     SendFinalData();
-                    exitByBackKey();
-
-
-                }
-                else
+                     //exitByBackKey();
+                }else
                 {
                     FinishTask_Alert();
-
                 }
             }
         });
@@ -260,7 +258,7 @@ public class Batch_instruction extends AppCompatActivity {
         if (requestCode == CARD1_REQUESTCODE) {
 
             if (resultCode == 1) {
-                card1.setClickable(false);
+
                 card1_textview1.setText("100%");
                 count1 = true;
             }
@@ -270,7 +268,7 @@ public class Batch_instruction extends AppCompatActivity {
 //        if (requestCode == CARD2_REQUESTCODE) {
 //
 //            if (resultCode == 2) {
-//                card2.setClickable(false);
+//
 //                card2_textview2.setText("100%");
 //            }
 //
@@ -279,7 +277,7 @@ public class Batch_instruction extends AppCompatActivity {
         if (requestCode == CARD3_REQUESTCODE) {
 
             if (resultCode == 3) {
-                card3.setClickable(false);
+
                 card3_textview3.setText("100%");
                 count3 = true;
             }
@@ -291,7 +289,7 @@ public class Batch_instruction extends AppCompatActivity {
         if (requestCode == CARD4_REQUESTCODE) {
 
             if (resultCode == 4) {
-                card1.setClickable(false);
+
                 card1_textview1.setText("100%");
                 count4 = true;
             }
@@ -302,7 +300,7 @@ public class Batch_instruction extends AppCompatActivity {
         if (requestCode == CARD5_REQUESTCODE) {
 
             if (resultCode == 5) {
-                card5.setClickable(false);
+
                 card5_textview5.setText("100%");
                 count5 = true;
             }
@@ -318,7 +316,7 @@ public class Batch_instruction extends AppCompatActivity {
         if (requestCode == CARD6_REQUESTCODE) {
 
             if (resultCode == 6) {
-                card6.setClickable(false);
+
                 card6_textview6.setText("100%");
                 count6 = true;
             }
@@ -397,6 +395,8 @@ public class Batch_instruction extends AppCompatActivity {
                     //exam_status=jobj.getString("exam_status");
                     System.out.print("responsee" + status);
 
+                    exitByBackKey();
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -451,13 +451,13 @@ public class Batch_instruction extends AppCompatActivity {
                         try {
                             if (response.getInt("status") == 1){
                                 JSONObject jObject = response.getJSONObject("Activity_details");
-                                int annexureM_PhotoPerc = jObject.optInt("annexure_m_photo_percentage");
-                                int annexureMPerc = jObject.optInt("annexure_m_status_percentage");
 
-                                int attendancePerc = jObject.optInt("attendance_percentage");
-                                int alignStudentPerc = jObject.optInt("align_student_percentage");
-                                int feedbackPerc = jObject.optInt("feedback_percentage");
-                                int groupPhoto = jObject.optInt("group_photo");
+                                 annexureM_PhotoPerc = jObject.optInt("annexure_m_photo_percentage");
+                                 annexureMPerc = jObject.optInt("annexure_m_status_percentage");
+                                 attendancePerc = jObject.optInt("attendance_percentage");
+                                 alignStudentPerc = jObject.optInt("align_student_percentage");
+                                 feedbackPerc = jObject.optInt("feedback_percentage");
+                                 groupPhoto = jObject.optInt("group_photo");
 
                                 card1_textview1.setText(""+annexureM_PhotoPerc+"%");
                                 card2_textview2.setText(""+attendancePerc+"%");

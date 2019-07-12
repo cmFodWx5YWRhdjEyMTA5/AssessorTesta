@@ -76,16 +76,6 @@ public class PracticalStuListRcAdapter extends RecyclerView.Adapter<PracticalStu
             Log.e("NonSelectAdapter", " #Error : "+e, e);
         }
 
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                    Intent intent = new Intent(_context, AssessorFeedbackActivity.class);
-                    intent.putExtra("stu_id", itemList.get(i).getStudentId());
-                    _context.startActivity(intent);
-            }
-        });
-
     }
 
     @Override
