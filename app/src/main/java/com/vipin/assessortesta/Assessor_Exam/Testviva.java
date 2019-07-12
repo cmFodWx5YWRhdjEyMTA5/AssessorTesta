@@ -965,7 +965,7 @@ long practical_timeee;
     protected void onStart() {
         super.onStart();
         // Toast.makeText(getApplicationContext(),"on start running",Toast.LENGTH_LONG).show();
-        SharedPreferences prefs = getSharedPreferences("pref", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("prefstimer", MODE_PRIVATE);
         TimeLeftInMillis = prefs.getLong("millisLeft", START_TIME_IN_MILLIS);
         TimerRunning = prefs.getBoolean("timerRunning", false);
 
@@ -1337,8 +1337,8 @@ long practical_timeee;
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("batch_id", batchvalue);
-                map.put("language", value);
+                map.put("batch_id", "97");
+                map.put("language", "en");
                 System.out.println("ddd" + map);
                 return map;
             }

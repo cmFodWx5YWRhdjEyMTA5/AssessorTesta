@@ -1,6 +1,7 @@
 package com.vipin.assessortesta.Assessor_Exam;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,9 @@ public class TestInstruction extends AppCompatActivity {
         startTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs = getSharedPreferences("prefstimer", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear().apply();
                 Intent x = new Intent(TestInstruction.this, TestQuestion.class);
                 startActivity(x);
                 finish();
