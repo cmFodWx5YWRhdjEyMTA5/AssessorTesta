@@ -83,7 +83,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
     TextView centrelocation, currentlocationn;
     List<Address> addresses;
     Geocoder geocoder;
-    CircleImageView input_photograph, input_photograph2;
+    CircleImageView input_photograph_assessor, input_photograph_assessor1;
     TextView input_photograph22, input_photograph1;
     String centeridd;
     GoogleApiClient mGoogleApiClient;
@@ -107,7 +107,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         setContentView(getLayoutId());
 
         uploadphotoo = findViewById(R.id.uploadphoto1);
-        input_photograph2 = findViewById(R.id.input_photograph2);
+        input_photograph_assessor1 = findViewById(R.id.input_photograph_assessor1);
         input_photograph1 = findViewById(R.id.input_photograph1);
         input_photograph22 = findViewById(R.id.input_photograph22);
         uploadid = findViewById(R.id.inputidproof);
@@ -116,7 +116,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         atten = findViewById(R.id.markattendance);
         centrelocation = findViewById(R.id.centrelocationn);
         currentlocationn = findViewById(R.id.locationn);
-        input_photograph = findViewById(R.id.input_photograph);
+        input_photograph_assessor = findViewById(R.id.input_photograph_assessor);
         progressDialog = new SpotsDialog(Assessor_Atten.this, R.style.Custom);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(Assessor_Atten.this);
@@ -131,10 +131,10 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         System.out.println("xxxxxxx" + Batchid + " eee" + exam_date + " eee" + batch_name);
 
 
-        input_photograph2.setOnClickListener(new View.OnClickListener() {
+        input_photograph_assessor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                captureevent();
+                captureevent1();
             }
         });
 
@@ -152,10 +152,10 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
             }
         });
 
-        input_photograph.setOnClickListener(new View.OnClickListener() {
+        input_photograph_assessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                captureevent1();
+                captureevent();
             }
         });
 
@@ -291,12 +291,12 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                     return;
                 }
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                input_photograph.setImageBitmap(photo);
+                input_photograph_assessor.setImageBitmap(photo);
                 //submit_pmkvybooklet.setVisibility(View.VISIBLE);
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
-                int ivWidth = input_photograph.getWidth();
-                int ivHeight = input_photograph.getHeight();
+                int ivWidth = input_photograph_assessor.getWidth();
+                int ivHeight = input_photograph_assessor.getHeight();
                 int newWidth = ivWidth;
                 int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) ivWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, newWidth, newHeight, true);
@@ -309,7 +309,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
                 //mySwipeRefreshLayout.setRefreshing(false);
-                input_photograph2.setImageBitmap(photo);
+                input_photograph_assessor1.setImageBitmap(photo);
                 int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) currentBitmapWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, currentBitmapWidth, newHeight, true);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
