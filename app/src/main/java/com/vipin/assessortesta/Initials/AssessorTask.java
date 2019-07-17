@@ -3,16 +3,26 @@ package com.vipin.assessortesta.Initials;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,7 +44,8 @@ import java.util.Map;
 import dmax.dialog.SpotsDialog;
 
 public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragmentInteractionListener, Complete.OnFragmentInteractionListener,
-        Overdue.OnFragmentInteractionListener {
+        Overdue.OnFragmentInteractionListener ,NavigationView.OnNavigationItemSelectedListener
+{
 
     Toolbar toolbar;
     JSONObject mainJObject;
@@ -42,23 +53,46 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     final String mypreference = "mypref";
     String assessor_id;
     TabLayout tabLayout;
+
+
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToogle;
+    int itemid;
+
+
+
     private android.app.AlertDialog progressDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_assessor_task);
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setEnabled(true);
-        toolbar.setTitle("Batch List");
+//       toolbar = findViewById(R.id.toolbar);
+//        toolbar.setEnabled(true);
+//       toolbar.setTitle("Batch List");
         tabLayout = findViewById(R.id.tablelayout);
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
         tabLayout.addTab(tabLayout.newTab().setText("OverDue"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        mDrawerLayout= findViewById(R.id.drawer);
+        NavigationView  navigationView= findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView headertext = header.findViewById(R.id.textview2);
+
+
+
         progressDialog = new SpotsDialog(AssessorTask.this, R.style.Custom);
+
+
+
+
 
         callWebApi();
 
@@ -67,12 +101,78 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
         if (sharedpreferences.contains("user_name")) {
             assessor_id = sharedpreferences.getString("user_name", "");
+            headertext.setText(sharedpreferences.getString("user_name", ""));
+
             System.out.println("asessoriddd" + assessor_id);
 
         }
 
 
+
+        mToogle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Batch List");
+
+
+
     }
+
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        itemid=item.getItemId();
+        switch (itemid)
+
+        {
+
+            case R.id.logout:
+
+
+
+                            Intent j = new Intent(AssessorTask.this,SplashScreen.class);
+                            startActivity(j);
+                            finish();
+                break;
+
+
+              default:
+          break;
+
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToogle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -202,4 +302,40 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     }
 
 
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        itemid=item.getItemId();
+//        switch (itemid)
+//
+//        {
+//            case R.id.changepasw:
+//
+//                Intent D = new Intent(SecondActivity.this,Doctor.class);
+//                startActivity(D);
+//                break;
+//
+//            case R.id.logout:
+//
+//                Intent k = new Intent(AssessorTask.this,.class);
+//                startActivity(k);
+//                onBackPressed();
+//                break;
+//            case R.id.help:
+//                Toast.makeText(getApplicationContext(),"fffffddddd",Toast.LENGTH_LONG).show();
+//                break;
+//            default:
+//
+//                break;
+//
+//        }
+//        mDrawerLayout.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
+
+
+
+
 }
+
+

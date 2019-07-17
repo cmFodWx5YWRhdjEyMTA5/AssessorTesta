@@ -244,6 +244,7 @@ public class SignIn extends AppCompatActivity {
                             editor.putString("Name", name);
                             editor.putString("user_name", user_name);
                             editor.putString("batchid",batchidd);
+
                             editor.apply();
 
 

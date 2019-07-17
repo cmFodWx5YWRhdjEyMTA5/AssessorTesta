@@ -90,7 +90,17 @@
 
 
 
-        <style name="my_shadow">
+    <style name="Apptheme8" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Blue</item>
+        <item name="colorPrimaryDark">@color/Blue</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+
+
+
+
+    <style name="my_shadow">
             <item name="android:shadowDx">0.0</item>
             <item name="android:shadowDy">-1.0</item>
             <item name="android:shadowRadius">1.0</item>

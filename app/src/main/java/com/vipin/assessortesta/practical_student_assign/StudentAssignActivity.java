@@ -83,7 +83,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
 
         }
 
-        if (sharedpreferences.contains("batch_id")) {
+        if (sharedpreferences.contains("c")) {
             batchid = sharedpreferences.getString("batch_id", "");
             System.out.println("asessoriddd" + batchid);
         }
