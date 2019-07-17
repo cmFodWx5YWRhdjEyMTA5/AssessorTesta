@@ -57,7 +57,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
-    int itemid;
+    int itemid,ii;
 
 
 
