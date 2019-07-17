@@ -19,6 +19,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -68,8 +70,16 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     private void initView() {
 //        ivLogout = findViewById(R.id.ivLogout);
 
+
         mDrawerLayout = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        mToogle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Batch List");
+
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
         headertext = header.findViewById(R.id.textview2);
@@ -95,19 +105,18 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
             callWebApi();
         }
-
-/*        ivLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", "\nDo you want to logout?");
-            }
-        });*/
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_logout, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -133,6 +142,11 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
         if (mToogle.onOptionsItemSelected(item)) {
             return true;
         }
+
+        if (item.getItemId() == R.id.idLogout){
+            showAlertMessageWithBack(R.drawable.ic_complain, "Alert", "\nDo you want to logout?");
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

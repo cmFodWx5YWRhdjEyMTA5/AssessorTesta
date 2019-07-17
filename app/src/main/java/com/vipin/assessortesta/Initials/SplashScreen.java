@@ -32,6 +32,10 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
 
         prefs = new PrefsManager(this);
 
+//        prefs.putString("batch_id", "354");
+//        Intent z = new Intent(this, BatchInstructionActivity.class);
+//        startActivity(z);
+
         initView();
         manageView();
 

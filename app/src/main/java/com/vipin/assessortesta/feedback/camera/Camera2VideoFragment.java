@@ -289,13 +289,20 @@ public class Camera2VideoFragment extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.video: {
-                if (mIsRecordingVideo) {
+                String s= mButtonVideo.getText().toString().trim();
+                if (s.equalsIgnoreCase("Record")){
+                    startRecordingVideo();
+                    startCameraWithTimer();
+                }else {
+                    Toast.makeText(getActivity(), "You can not stop in between recording.", Toast.LENGTH_SHORT).show();
+                }
+                /*if (mIsRecordingVideo) {
                     stopRecordingVideo();
                     countDownTimer.cancel();
                 } else {
                     startRecordingVideo();
                     startCameraWithTimer();
-                }
+                }*/
             }
                 break;
             case R.id.llUpload:
@@ -694,22 +701,26 @@ public class Camera2VideoFragment extends Fragment
     }
 
     private void stopRecordingVideo() {
-        // UI
-        mIsRecordingVideo = false;
-        mButtonVideo.setText(R.string.record);
-        // Stop recording
-        mMediaRecorder.stop();
-        mMediaRecorder.reset();
+        try {
+            // UI
+            mIsRecordingVideo = false;
+            mButtonVideo.setText(R.string.record);
+            // Stop recording
+            mMediaRecorder.stop();
+            mMediaRecorder.reset();
 
-        Activity activity = getActivity();
-        if (null != activity) {
+            Activity activity = getActivity();
+            if (null != activity) {
 //            Toast.makeText(activity, "Video saved: " + mNextVideoAbsolutePath,
 //                    Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
-            sImagePath = mNextVideoAbsolutePath;
+                Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
+                sImagePath = mNextVideoAbsolutePath;
+            }
+            mNextVideoAbsolutePath = null;
+            startPreview();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        mNextVideoAbsolutePath = null;
-        startPreview();
     }
 
     /**

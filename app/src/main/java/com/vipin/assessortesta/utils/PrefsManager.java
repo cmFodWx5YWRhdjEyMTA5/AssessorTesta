@@ -8,7 +8,7 @@ public class PrefsManager {
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     public PrefsManager(Context context){
-        sharedPref = context.getSharedPreferences(PrefsManager.class.getSimpleName(), Context.MODE_PRIVATE);
+        sharedPref = context.getSharedPreferences("mypref", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
     }
 

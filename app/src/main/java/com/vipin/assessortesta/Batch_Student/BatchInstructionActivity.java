@@ -30,7 +30,7 @@ import com.vipin.assessortesta.Group_Photo_Activity.GroupPhotoInstructorActivity
 import com.vipin.assessortesta.Initials.AnnexureMFormActivity;
 import com.vipin.assessortesta.Initials.AssessorTask;
 import com.vipin.assessortesta.Initials.MyNetwork;
-import com.vipin.assessortesta.Photos.Photo_navigation;
+import com.vipin.assessortesta.Photos.AnnexureMphotosActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
@@ -152,7 +152,7 @@ public class BatchInstructionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent card1_intent = new Intent(BatchInstructionActivity.this, Photo_navigation.class);
+                Intent card1_intent = new Intent(BatchInstructionActivity.this, AnnexureMphotosActivity.class);
                 startActivityForResult(card1_intent, CARD1_REQUESTCODE); }
         });
 

@@ -207,6 +207,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
 
         if (sharedpreferences.contains("user_name")) {
             username = sharedpreferences.getString("user_name", "");
+
             System.out.println("asessoriddd" + username);
 
         }
@@ -216,6 +217,7 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
             @Override
             public void onClick(View v) {
                 if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
+
                     //do what you want to do...
                     System.out.println("distance between these points is" + distance(lat1, lng1, lat2, lng2));
                 } else {
@@ -229,24 +231,12 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
 
                     Toast.makeText(getApplicationContext(), "Photo mandotary", Toast.LENGTH_LONG).show();
                 } else {
-
-
                     save_Assessoratten();
                 }
 
             }
         });
-
-
     }
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.main, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     protected int getMenuId() {
@@ -635,8 +625,6 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
-
-
             }
         }) {
             @Override

@@ -146,6 +146,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
 
             List<StudentDetailsItem> list = response.getStudentDetails();
             totalCount = list.size();
+            count = 0;
             for (int i = 0; i < list.size(); i++){
                 if (list.get(i).getExamFeedbackStatus() == 1 && list.get(i).getExamVideoStatus() == 1){
                     count += 1;
