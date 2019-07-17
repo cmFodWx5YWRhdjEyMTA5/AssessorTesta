@@ -175,7 +175,7 @@
             android:theme="@style/AppTheme5"/>
         <activity
             android:name=".Initials.AssessorTask"
-            android:theme="@style/AppTheme4"
+            android:theme="@style/Apptheme8"
             android:screenOrientation="portrait"
             />
 

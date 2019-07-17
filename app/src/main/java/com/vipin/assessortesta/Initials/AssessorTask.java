@@ -8,59 +8,48 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
-import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.PrefsManager;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
 
 public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragmentInteractionListener, Complete.OnFragmentInteractionListener,
-        Overdue.OnFragmentInteractionListener ,NavigationView.OnNavigationItemSelectedListener
-{
+        Overdue.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
+    final String mypreference = "mypref";
     Toolbar toolbar;
     JSONObject mainJObject;
     SharedPreferences sharedpreferences;
-    final String mypreference = "mypref";
     String assessor_id = null;
     TabLayout tabLayout;
-
-
+    int itemid, ii;
+    PrefsManager prefs;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
-    int itemid,ii;
-
+    private TextView headertext;
 
 
     private android.app.AlertDialog progressDialog;
@@ -69,45 +58,37 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         setContentView(R.layout.activity_assessor_task);
-//       toolbar = findViewById(R.id.toolbar);
-//        toolbar.setEnabled(true);
-//       toolbar.setTitle("Batch List");
+        prefs = new PrefsManager(this);
+
+        initView();
+        manageView();
+    }
+
+    private void initView() {
+//        ivLogout = findViewById(R.id.ivLogout);
+
+        mDrawerLayout = findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        headertext = header.findViewById(R.id.textview2);
+
         tabLayout = findViewById(R.id.tablelayout);
+
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
         tabLayout.addTab(tabLayout.newTab().setText("OverDue"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        mDrawerLayout= findViewById(R.id.drawer);
-        NavigationView  navigationView= findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View header = navigationView.getHeaderView(0);
-        TextView headertext = header.findViewById(R.id.textview2);
-
-
-
         progressDialog = new SpotsDialog(AssessorTask.this, R.style.Custom);
+    }
 
-
-
-
-
-        callWebApi();
     private void manageView() {
-
 
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        if (sharedpreferences.contains("user_name")) {
-            assessor_id = sharedpreferences.getString("user_name", "");
-            headertext.setText(sharedpreferences.getString("user_name", ""));
-
-            System.out.println("asessoriddd" + assessor_id);
         if (prefs.getString("user_name") != null) {
             assessor_id = prefs.getString("user_name");
 //            System.out.println("asessoriddd" + assessor_id);
@@ -115,39 +96,32 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
             callWebApi();
         }
 
+/*        ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", "\nDo you want to logout?");
+            }
+        });*/
+    }
 
-        mToogle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-        mDrawerLayout.addDrawerListener(mToogle);
-        mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Batch List");
-
-
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        itemid=item.getItemId();
-        switch (itemid)
-
-        {
-
+        itemid = item.getItemId();
+        switch (itemid) {
             case R.id.logout:
-
-
-
-                            Intent j = new Intent(AssessorTask.this,SplashScreen.class);
-                            startActivity(j);
-                            finish();
+                Intent j = new Intent(AssessorTask.this, SplashScreen.class);
+                startActivity(j);
+                finish();
                 break;
-
-
-              default:
-          break;
+            default:
+                break;
 
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -156,42 +130,17 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mToogle.onOptionsItemSelected(item)){
+        if (mToogle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         exitByBackKey();
     }
 
@@ -213,14 +162,14 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
     }
 
-    private void callWebApi(){
+    private void callWebApi() {
 
         progressDialog.show();
-        String serverURL = CommonUtils.url+"get_assigned_batch.php";
+        String serverURL = CommonUtils.url + "get_assigned_batch.php";
 
         AndroidNetworking.post(serverURL)
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
-                .addBodyParameter("user_name",assessor_id.trim())
+                .addBodyParameter("user_name", assessor_id.trim())
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -265,7 +214,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
                             e.printStackTrace();
                         }
 
-                }
+                    }
 
                     @Override
                     public void onError(ANError anError) {
@@ -276,11 +225,11 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
                 });
     }
 
-    public JSONObject getApiData(){
+    public JSONObject getApiData() {
         return mainJObject;
     }
 
-    private void showAlertMessageWithBack(int icon, String title, String msg){
+    private void showAlertMessageWithBack(int icon, String title, String msg) {
         new AlertDialog.Builder(this, R.style.DialogTheme)
                 .setIcon(icon)
                 .setTitle(title)
