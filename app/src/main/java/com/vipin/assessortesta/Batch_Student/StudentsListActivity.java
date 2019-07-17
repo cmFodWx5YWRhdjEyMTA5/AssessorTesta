@@ -65,7 +65,10 @@ public class StudentsListActivity extends AppCompatActivity {
 //
         progressDialog = new SpotsDialog(StudentsListActivity.this, R.style.Custom);
         submit = findViewById(R.id.submit);
-
+        meet_rc = (RecyclerView) findViewById(R.id.meet_rc);
+        if(batchid!=null) {
+            callApi();
+        }
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
 
@@ -174,19 +177,27 @@ public class StudentsListActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        meet_rc = (RecyclerView) findViewById(R.id.meet_rc);
+       /* meet_rc = (RecyclerView) findViewById(R.id.meet_rc);
 
         if(batchid!=null) {
             callApi();
+        }*/
+
+
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(batchid!=null) {
+            callApi();
         }
-
-
-
-
-
-
-
-
     }
 
     private void callApi(){

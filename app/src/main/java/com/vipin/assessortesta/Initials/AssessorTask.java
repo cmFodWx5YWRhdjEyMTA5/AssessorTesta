@@ -46,7 +46,8 @@ import java.util.Map;
 import dmax.dialog.SpotsDialog;
 
 public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragmentInteractionListener, Complete.OnFragmentInteractionListener,
-        Overdue.OnFragmentInteractionListener {
+        Overdue.OnFragmentInteractionListener ,NavigationView.OnNavigationItemSelectedListener
+{
 
     Toolbar toolbar;
     JSONObject mainJObject;
@@ -54,45 +55,59 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     final String mypreference = "mypref";
     String assessor_id = null;
     TabLayout tabLayout;
-    private ImageView ivLogout;
+
+
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToogle;
+    int itemid,ii;
+
+
+
     private android.app.AlertDialog progressDialog;
-    private PrefsManager prefs;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_assessor_task);
-
-        prefs = new PrefsManager(this);
-
-        initView();
-        manageView();
-
-    }
-
-    private void initView() {
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setEnabled(true);
-        toolbar.setTitle("Batch List");
-
-        ivLogout = findViewById(R.id.ivLogout);
+//       toolbar = findViewById(R.id.toolbar);
+//        toolbar.setEnabled(true);
+//       toolbar.setTitle("Batch List");
         tabLayout = findViewById(R.id.tablelayout);
-
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
         tabLayout.addTab(tabLayout.newTab().setText("OverDue"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        mDrawerLayout= findViewById(R.id.drawer);
+        NavigationView  navigationView= findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView headertext = header.findViewById(R.id.textview2);
+
+
+
         progressDialog = new SpotsDialog(AssessorTask.this, R.style.Custom);
 
-    }
 
+
+
+
+        callWebApi();
     private void manageView() {
+
 
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
+        if (sharedpreferences.contains("user_name")) {
+            assessor_id = sharedpreferences.getString("user_name", "");
+            headertext.setText(sharedpreferences.getString("user_name", ""));
+
+            System.out.println("asessoriddd" + assessor_id);
         if (prefs.getString("user_name") != null) {
             assessor_id = prefs.getString("user_name");
 //            System.out.println("asessoriddd" + assessor_id);
@@ -100,14 +115,72 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
             callWebApi();
         }
 
-        ivLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", "\nDo you want to logout?");
-            }
-        });
+
+        mToogle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Batch List");
+
+
+
     }
+
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        itemid=item.getItemId();
+        switch (itemid)
+
+        {
+
+            case R.id.logout:
+
+
+
+                            Intent j = new Intent(AssessorTask.this,SplashScreen.class);
+                            startActivity(j);
+                            finish();
+                break;
+
+
+              default:
+          break;
+
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToogle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -121,6 +194,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 //        super.onBackPressed();
         exitByBackKey();
     }
+
 
     protected void exitByBackKey() {
 
@@ -224,3 +298,5 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     }
 
 }
+
+

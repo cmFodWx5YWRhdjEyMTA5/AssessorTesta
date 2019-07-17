@@ -252,6 +252,16 @@ public class StudentAttendanceActivity extends BaseActivity implements GoogleApi
 
 
 
+        if (sharedpreferences.contains("center_id")) {
+            centeridd = sharedpreferences.getString("center_id", "");
+
+
+            System.out.println("zzzzzzzzzz" + centeridd);
+
+        }
+
+
+
 
 
 
@@ -677,19 +687,17 @@ public class StudentAttendanceActivity extends BaseActivity implements GoogleApi
             @Override
             public void onResponse(String response) {
                 try {
-                    Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(),"Center location is"+response,Toast.LENGTH_LONG).show();
                     JSONObject jobj = new JSONObject(response);
                     String status= jobj.getString("status");
                     String msg= jobj.getString("msg");
                     if (status.equals("0")){
-                        Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
+                     //   Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals("1")){
                         Intent ii = new Intent(StudentAttendanceActivity.this, StudentsListActivity.class);
-                        ii.putExtra("persent","persent");
-
                         startActivity(ii);
-
+                         finish();
 
                     }
                 } catch (JSONException e) {
@@ -767,13 +775,13 @@ public class StudentAttendanceActivity extends BaseActivity implements GoogleApi
                     String status= jobj.getString("status");
                     String msg= jobj.getString("msg");
                     if (status.equals("0")){
-                        Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(),"response"+msg,Toast.LENGTH_LONG).show();
                     }
                     else if (status.equals("1")){
                         Intent ii = new Intent(StudentAttendanceActivity.this, StudentsListActivity.class);
                         ii.putExtra("Absent","Absent");
                         startActivity(ii);
-
+                        finish();
 
                     }
                 } catch (JSONException e) {
@@ -871,7 +879,7 @@ public class StudentAttendanceActivity extends BaseActivity implements GoogleApi
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
         double dist = earthRadius * c;
-        Toast.makeText(getApplicationContext(),"distance is"+dist,Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),"distance is"+dist,Toast.LENGTH_LONG).show();
         return dist; // output distance, in MILES
     }
 

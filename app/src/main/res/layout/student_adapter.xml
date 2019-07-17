@@ -109,6 +109,9 @@
                     android:text="Batch Name"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+
 
 
                     />
@@ -124,6 +127,8 @@
                     android:text="Total Student"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:ellipsize="end"
+                    android:singleLine="true"
 
                     />
                 <TextView
@@ -135,6 +140,8 @@
                     android:text="Assessment Date"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:ellipsize="end"
+                    android:singleLine="true"
 
                     />
                 <TextView
@@ -146,6 +153,8 @@
                     android:text="Tc Name"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:ellipsize="end"
+                    android:singleLine="true"
 
                     />
 
@@ -158,6 +167,8 @@
                     android:text="Tc Name"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    android:ellipsize="end"
+                    android:singleLine="true"
 
                     />
 
@@ -172,6 +183,8 @@
                     android:theme="@style/accountnameStyle"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     />
 
 

@@ -553,4 +553,18 @@ status of each question using one of the following symbols:</string>
     <string name="titleBatchList">Batch List</string>
 
 
+
+
+    <string name="open">Batch List</string>
+    <string name="close">Batch List</string>
+
+
+
+
+
+
+
+
+
+
 </resources>

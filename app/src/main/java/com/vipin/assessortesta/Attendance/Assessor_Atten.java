@@ -131,6 +131,10 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         System.out.println("xxxxxxx" + Batchid + " eee" + exam_date + " eee" + batch_name);
 
 
+
+
+
+
         input_photograph_assessor1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +200,8 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         editor.putString("exam_date", exam_date);
         editor.putString("batch_name", batch_name);
         editor.putString("batch_id", Batchid);
+        editor.putString("center_id", centeridd);
+
         editor.commit();
 
 
