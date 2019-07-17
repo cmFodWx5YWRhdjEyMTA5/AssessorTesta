@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
 import com.vipin.assessortesta.Assessor_Exam.TestInstruction;
+import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
@@ -61,6 +62,7 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
 //                finish();
             }
         }
+
     }
 
     @Override

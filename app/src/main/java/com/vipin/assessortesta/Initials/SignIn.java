@@ -184,21 +184,17 @@ public class SignIn extends AppCompatActivity {
         progressDialog.show();
 
         String serverURL = CommonUtils.serverURL_login;
-//        System.out.println("geturll" + " " + serverURL);
         uname = username.getText().toString();
         pass = password.getText().toString();
-//        System.out.println("uname" + " " + uname + "  " + pass);
+
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jobj = new JSONObject(response);
                     status = jobj.getString("status");
-                    //exam_status=jobj.getString("exam_status");
 
                     if (status.equals("1")) {
-
-
                         JSONObject jsonObject = jobj.getJSONObject("assessor_details");
                         for (int i = 0; i < jsonObject.length(); i++) {
 
@@ -208,35 +204,13 @@ public class SignIn extends AppCompatActivity {
                             batchidd=jsonObject.getString("batch_id");
                             exam_status = jsonObject.getString("exam_status");
 
-
                             prefs.putString(PrefConstants.PREF_ID, id);
                             prefs.putString(PrefConstants.PREF_NAME, name);
                             prefs.putString(PrefConstants.PREF_USERNAME, user_name);
                             prefs.putString(PrefConstants.BATCH_ID, batchidd);
                             prefs.putString(PrefConstants.EXAM_STATUS, exam_status);
 
-/*
-
-
-
-                            sessionManager.setPreferences(getApplicationContext(), "status", "1");
-
-
-
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("Name", name);
-                            editor.putString("user_name", user_name);
-                            editor.putString("batchid",batchidd);
-                            editor.apply();
-*/
-
-
                         }
-
-
-
-
-
 
                         if(exam_status.equals("Approved") ) {
 
@@ -246,22 +220,17 @@ public class SignIn extends AppCompatActivity {
                         }
                         else if (exam_status.equals("Not Approved") ){
                             NotApproved();
-
-
                         }
 
                         else if (exam_status.equals("Result Awaited") )
                         {
                             ResultAwaited();
-
                         }
                         else
                         {
-
                             Intent x = new Intent(SignIn.this, TestInstruction.class);
                             startActivity(x);
                             finish();
-
                         }
 
 
@@ -338,13 +307,6 @@ public class SignIn extends AppCompatActivity {
         super.onBackPressed();
         finishAffinity();
     }
-
-
-
-
-
-
-
 
 
 }

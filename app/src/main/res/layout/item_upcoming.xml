@@ -143,13 +143,6 @@
 
             </LinearLayout>
 
-
-
-
-
-
-
-
             </LinearLayout>
 
             <Button
@@ -162,6 +155,8 @@
                 android:background="@color/colorExp3"
                 android:visibility="gone"
                 />
+
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

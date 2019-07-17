@@ -27,6 +27,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
 import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
@@ -49,7 +52,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     JSONObject mainJObject;
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
-    String assessor_id;
+    String assessor_id = null;
     TabLayout tabLayout;
     private ImageView ivLogout;
     private android.app.AlertDialog progressDialog;
@@ -86,14 +89,15 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     }
 
     private void manageView() {
-        callWebApi();
+
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        if (sharedpreferences.contains("user_name")) {
-            assessor_id = sharedpreferences.getString("user_name", "");
-            System.out.println("asessoriddd" + assessor_id);
+        if (prefs.getString("user_name") != null) {
+            assessor_id = prefs.getString("user_name");
+//            System.out.println("asessoriddd" + assessor_id);
 
+            callWebApi();
         }
 
         ivLogout.setOnClickListener(new View.OnClickListener() {
@@ -135,95 +139,67 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
     }
 
-    private void callWebApi() {
-
+    private void callWebApi(){
 
         progressDialog.show();
-
         String serverURL = CommonUtils.url+"get_assigned_batch.php";
 
-        StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("response is" + response);
-                try {
-                    JSONObject jobj = new JSONObject(response);
-                    String status = jobj.getString("status");
+        AndroidNetworking.post(serverURL)
+                .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
+                .addBodyParameter("user_name",assessor_id.trim())
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject jobj) {
 
-                    if (status.equals("1")) {
-                        mainJObject = jobj.getJSONObject("batch_details");
+                        progressDialog.dismiss();
+                        try {
+//                            JSONObject jobj = new JSONObject(response);
+                            int status = jobj.getInt("status");
 
-                        final ViewPager viewPager = findViewById(R.id.pager);
-                        final PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+                            if (status == 1) {
+                                mainJObject = jobj.getJSONObject("batch_details");
 
-                        viewPager.setAdapter(adapter);
-                        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                                final ViewPager viewPager = findViewById(R.id.pager);
+                                final PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
-                        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-                            @Override
-                            public void onTabSelected(TabLayout.Tab tab) {
+                                viewPager.setAdapter(adapter);
+                                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-                                viewPager.setCurrentItem(tab.getPosition());
+                                tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+                                    @Override
+                                    public void onTabSelected(TabLayout.Tab tab) {
 
+                                        viewPager.setCurrentItem(tab.getPosition());
+                                    }
+
+                                    @Override
+                                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                                    }
+
+                                    @Override
+                                    public void onTabReselected(TabLayout.Tab tab) {
+
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(AssessorTask.this, "Error", Toast.LENGTH_LONG).show();
                             }
 
-                            @Override
-                            public void onTabUnselected(TabLayout.Tab tab) {
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                            }
+                }
 
-                            @Override
-                            public void onTabReselected(TabLayout.Tab tab) {
+                    @Override
+                    public void onError(ANError anError) {
 
-                            }
-                        });
-
-
-
-                    } else {
-                        Toast.makeText(AssessorTask.this, "Error", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(AssessorTask.this, "Failed to connect server", Toast.LENGTH_SHORT).show();
                     }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                // Toast.makeText(getContext(), "Error: Please try again Later", Toast.LENGTH_LONG).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                super.getHeaders();
-                Map<String, String> map = new HashMap<>();
-
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                super.getParams();
-                Map<String, String> map = new HashMap<>();
-                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("user_name", assessor_id);
-//                map.put("user_name", "123");
-
-                System.out.println("ddd" + map);
-                return map;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
+                });
     }
 
     public JSONObject getApiData(){
