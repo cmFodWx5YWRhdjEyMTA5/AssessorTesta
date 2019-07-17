@@ -1490,7 +1490,6 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         }
 
 
-
         try {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 if(data.getExtras()==null || (data.getExtras().get("data")==null ||  !(data.getExtras().get("data") instanceof Bitmap))){

@@ -1,6 +1,6 @@
 package com.vipin.assessortesta.Initials;
 
-public class Upcoming1 {
+public class UpcomingModel {
 
     private String Batchname;
     private String Totalstudent;
@@ -9,14 +9,21 @@ public class Upcoming1 {
     private String Centeridd;
     private String Batchid;
 
-    public Upcoming1(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd, String batchid) {
+    public int getProgressPerc() {
+        return progressPerc;
+    }
+
+    private int progressPerc;
+
+
+    public UpcomingModel(String batchname, String totalstudent, String assessmentdate, String tcName, String centeridd, String batchid, int progressPerc) {
         Batchname = batchname;
         Totalstudent = totalstudent;
         Assessmentdate = assessmentdate;
         TcName = tcName;
         Centeridd = centeridd;
         Batchid = batchid;
-        System.out.println("batchname is" + Batchname);
+        this.progressPerc= progressPerc;
     }
 
     public String getBatchname() {

@@ -28,6 +28,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.Group_Photo_Activity.GroupPhotoInstructorActivity;
 import com.vipin.assessortesta.Initials.AnnexureMFormActivity;
+import com.vipin.assessortesta.Initials.AssessorTask;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Photos.Photo_navigation;
 import com.vipin.assessortesta.R;
@@ -375,8 +376,8 @@ public class BatchInstructionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        BackKeyDialog();
+        startActivity(new Intent(this, AssessorTask.class));
+        finish();
     }
 
     protected void BackKeyDialog() {
