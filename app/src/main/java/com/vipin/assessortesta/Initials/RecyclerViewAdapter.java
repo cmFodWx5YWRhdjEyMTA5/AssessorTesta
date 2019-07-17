@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,44 +21,31 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
-
-
     Context mContext;
     //list of data
-    List<Upcoming1>mData;
+    List<UpcomingModel>mData;
    CardView cardviewupcoming;
     String batchidd;
     SharedPreferences sharedpreferences;
     final String mybatch = "myybatch";
     final String mypreference = "mypref";
 
-
-
-    //constructor of recyclerview for upcoming Batch
-
-    public RecyclerViewAdapter(Context mContext, List<Upcoming1> mData) {
+    public RecyclerViewAdapter(Context mContext, List<UpcomingModel> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
-
-
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View v;
-
-        //adding the layout
-        v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,null,false);
+        v= LayoutInflater.from(mContext).inflate(R.layout.item_upcoming,viewGroup,false);
         cardviewupcoming=v.findViewById(R.id.cardviewupcoming);
 
         MyViewHolder vholder = new MyViewHolder(v);
 
-        System.out.println("batch"+mData.get(i).getBatchname());
         return vholder;
-
-
     }
 
     @Override
@@ -87,16 +75,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-
-
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("ccc", mData.get(position).getBatchid());
         editor.apply();
 
+        int progressPerc = mData.get(position).getProgressPerc();
 
-
-
-
+        if (progressPerc > 0){
+            holder.btnResume.setText(""+progressPerc+"%");
+            holder.btnResume.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -108,19 +96,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-
         //Declare the variable
-
         private TextView batchname,batchname_header;
         private TextView  totalstudent,totalstudent_header ;
         private TextView assessmentda,assessmentda_header;
         private TextView tcname,tcname_header;
+        private Button btnResume;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-
-              //add the id
 
             batchname = itemView.findViewById(R.id.batchnameid_upcoming);
             totalstudent=itemView.findViewById(R.id.totalstudentid_upcoming);
@@ -131,29 +115,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             totalstudent_header=itemView.findViewById(R.id.totalstudent_upcoming);
             assessmentda_header=itemView.findViewById(R.id.assessment_upcoming);
             tcname_header=itemView.findViewById(R.id.tcname_upcoming);
-
-
-////
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent ii=new Intent(getA,AnnexureMFormActivity.class);
-////                    mContext.startActivity(ii);
-//
-//                    v.getContext().startActivity(new Intent(v.getContext(),AnnexureMFormActivity.class));
-//
-//                }
-//            });
-
-
-
-
-
-
-
+            btnResume = itemView.findViewById(R.id.btnResume);
 
         }
     }
-
-
 }

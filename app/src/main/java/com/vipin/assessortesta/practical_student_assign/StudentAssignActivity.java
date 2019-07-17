@@ -152,7 +152,12 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                     public void onNext(StudentListResponse response) {
                         hide_progressbar();
                         if(response.getStatus() == 1) {
-                            funcNonSelectedStudent(response);
+                            List<StudentDetailsItem> itemList = response.getStudentDetails();
+                            if (itemList.size() > 0) {
+                                funcNonSelectedStudent(response);
+                            }else {
+                                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_assign_msg));
+                            }
                         }else {
                             showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                         }
@@ -279,10 +284,6 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        String[] arr = new String[list.size()];
-//        for (int i = 0; i < list.size(); i++){
-//            arr[i] = list.get(i);
-//        }
 
         show_progressbar();
         AndroidNetworking.post(CommonUtils.url+"save_student_group.php")
@@ -303,6 +304,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                             if (status == 1){
 
                                 new AlertDialog.Builder(StudentAssignActivity.this)
+                                        .setIcon(android.R.drawable.ic_dialog_info)
                                         .setTitle("Info")
                                         .setMessage("Success")
                                         .setCancelable(false)

@@ -102,8 +102,6 @@ public class BatchDetailActivity extends AppCompatActivity {
     }
 
 
-
-
     private void callApiforDetail(){
         progressDialog.show();
         AndroidNetworking.post(CommonUtils.url+"get_batch_details.php")

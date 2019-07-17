@@ -26,6 +26,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.vipin.assessortesta.Assessor_Exam.TestInstruction;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
+import com.vipin.assessortesta.utils.PrefConstants;
+import com.vipin.assessortesta.utils.PrefsManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,31 +45,24 @@ public class SignIn extends AppCompatActivity {
     String uname, pass;
     String status;
     String batchidd;
-    SessionManager sessionManager;
+//    SessionManager sessionManager;
     String id, name, user_name,exam_status;
-    SharedPreferences sharedpreferences;
+//    SharedPreferences sharedpreferences;
     String encode, decode;
-    final String mypreference = "mypref";
+//    final String mypreference = "mypref";
     private android.app.AlertDialog progressDialog;
+    private PrefsManager prefs;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        username = findViewById(R.id.emailEditText);
-        password = findViewById(R.id.passwordEditText);
 
-        encode = Base64.encodeToString("RadiantInfonetSaltKey".getBytes(), Base64.DEFAULT);
-        System.out.print("encoded" + encode);
-        System.out.print("decode" + decode);
-        sessionManager = new SessionManager();
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        prefs = new PrefsManager(SignIn.this);
 
-        forgotpassword = findViewById(R.id.forgotpassword);
-        login = findViewById(R.id.loginbutton);
-        progressDialog = new SpotsDialog(SignIn.this, R.style.Custom);
-
+        initView();
+        manageView();
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,23 +71,6 @@ public class SignIn extends AppCompatActivity {
                 startActivity(j);
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +92,24 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void initView() {
+        username = findViewById(R.id.emailEditText);
+        password = findViewById(R.id.passwordEditText);
+
+//        encode = Base64.encodeToString("RadiantInfonetSaltKey".getBytes(), Base64.DEFAULT);
+//        System.out.print("encoded" + encode);
+//        System.out.print("decode" + decode);
+//        sessionManager = new SessionManager();
+//        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        forgotpassword = findViewById(R.id.forgotpassword);
+        login = findViewById(R.id.loginbutton);
+        progressDialog = new SpotsDialog(SignIn.this, R.style.Custom);
+    }
+
+    private void manageView() {
     }
 
 
@@ -141,16 +136,12 @@ public class SignIn extends AppCompatActivity {
     }
 
 
-
-
-
-
     public void NotApproved(){
 
 
 
         AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setMessage("Your Account Is Still Under Process Kindly Check After Some Time ")
+                .setMessage("Your Account Is Still Under Process Kindly Check After Some Time.")
                 .setTitle("Message")
                 .setCancelable(true)
                 .setNegativeButton("OK",new DialogInterface.OnClickListener()
@@ -165,8 +156,6 @@ public class SignIn extends AppCompatActivity {
 
         alertDialog.show();
     }
-
-
 
 
     public void ResultAwaited(){
@@ -190,32 +179,15 @@ public class SignIn extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void sendDataServer() {
 
         progressDialog.show();
 
-
-        String serverURL = "https://www.skillassessment.org/sdms/android_connect1/assessor/login.php";
-        System.out.println("geturll" + " " + serverURL);
+        String serverURL = CommonUtils.serverURL_login;
+//        System.out.println("geturll" + " " + serverURL);
         uname = username.getText().toString();
         pass = password.getText().toString();
-        System.out.println("uname" + " " + uname + "  " + pass);
+//        System.out.println("uname" + " " + uname + "  " + pass);
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -237,14 +209,26 @@ public class SignIn extends AppCompatActivity {
                             exam_status = jsonObject.getString("exam_status");
 
 
-                            System.out.print("name-" + exam_status);
+                            prefs.putString(PrefConstants.PREF_ID, id);
+                            prefs.putString(PrefConstants.PREF_NAME, name);
+                            prefs.putString(PrefConstants.PREF_USERNAME, user_name);
+                            prefs.putString(PrefConstants.BATCH_ID, batchidd);
+                            prefs.putString(PrefConstants.EXAM_STATUS, exam_status);
+
+/*
+
+
 
                             sessionManager.setPreferences(getApplicationContext(), "status", "1");
+
+
+
                             SharedPreferences.Editor editor = sharedpreferences.edit();
                             editor.putString("Name", name);
                             editor.putString("user_name", user_name);
                             editor.putString("batchid",batchidd);
                             editor.apply();
+*/
 
 
                         }
@@ -255,7 +239,6 @@ public class SignIn extends AppCompatActivity {
 
 
                         if(exam_status.equals("Approved") ) {
-
 
                             Intent z = new Intent(SignIn.this, AssessorTask.class);
                             startActivity(z);

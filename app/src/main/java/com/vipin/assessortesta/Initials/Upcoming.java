@@ -3,26 +3,15 @@ package com.vipin.assessortesta.Initials;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.vipin.assessortesta.R;
 
@@ -31,11 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import dmax.dialog.SpotsDialog;
 
 //
 ///**
@@ -54,6 +39,7 @@ public class Upcoming extends Fragment {
     ArrayList<String> centername=new ArrayList<>();
     ArrayList<String> centerid=new ArrayList<>();
     ArrayList<String> startdate=new ArrayList<>();
+
     LinearLayout upcomingfragment;
 
     Context ctx;
@@ -65,9 +51,7 @@ public class Upcoming extends Fragment {
     View v;
     ShimmerFrameLayout c;
     private RecyclerView myrecyclerview;
-    private List<Upcoming1> lstBatch = new ArrayList<>();;
-   // private android.app.AlertDialog progressDialog;
-
+    private List<UpcomingModel> lstBatch = new ArrayList<>();
 
 
     public Upcoming() { }
@@ -81,7 +65,6 @@ public class Upcoming extends Fragment {
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-
         JSONObject mainJObj = ((AssessorTask)getActivity()).getApiData();
         setData1(mainJObj);
 
@@ -89,17 +72,6 @@ public class Upcoming extends Fragment {
         return v;
 
     }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-     //   progressDialog = new SpotsDialog(getActivity(), R.style.Custom);
-
-    }
-
-
 
 
     private void setData1(JSONObject jsonObject){
@@ -111,24 +83,24 @@ public class Upcoming extends Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject c = jsonArray.getJSONObject(i);
 
-                if (batchid.size() <= jsonArray.length() - 1) {
-                    batchid.add(c.getString("batchid"));
-                }
-                if (batchname.size() <= jsonArray.length() - 1) {
-                    batchname.add(c.getString("batch_name"));
-                }
-                if (totalstudents.size() <= jsonArray.length() - 1) {
-                    totalstudents.add(c.getString("number_of_students"));
-                }
-                if (centername.size() <= jsonArray.length() - 1) {
-                    centername.add(c.getString("exam_center_name"));
-                }
-                if (startdate.size() <= jsonArray.length() - 1) {
-                    startdate.add(c.getString("startdate"));
-                }
-                if (centerid.size() <= jsonArray.length() - 1) {
-                    centerid.add(c.getString("exam_center_id"));
-                }
+                String batchId = c.getString("batchid");
+                String batchName = c.getString("batch_name");
+                String numOfStudents = c.getString("number_of_students");
+                String examCenterName = c.getString("exam_center_name");
+                String startDate = c.getString("startdate");
+                String examCenterId = c.getString("exam_center_id");
+
+                int feedbackPerc = c.getInt("feedback_percentage");
+                int alignStudentPerc = c.getInt("align_student_percentage");
+                int annexureMPhotoPerc = c.getInt("annexure_m_photo_percentage");
+                int annexureMStatusPerc = c.getInt("annexure_m_status_percentage");
+                int groupPhoto = c.getInt("group_photo");
+                int attendancePerc = c.getInt("attendance_percentage");
+
+
+                int perc = (feedbackPerc + alignStudentPerc + annexureMPhotoPerc + annexureMStatusPerc + groupPhoto + attendancePerc)/6;
+
+                lstBatch.add(new UpcomingModel(batchName, numOfStudents, startDate, examCenterName, examCenterId, batchId, perc));
 
             }
             RecyclerViewAdapter recyclerViewAdapter = new
@@ -136,10 +108,10 @@ public class Upcoming extends Fragment {
             myrecyclerview.setAdapter(recyclerViewAdapter);
 
             myrecyclerview.setAdapter(recyclerViewAdapter);
-
+/*
             for (int i = 0; i <= batchname.size() - 1; i++) {
-                lstBatch.add(new Upcoming1(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i),batchid.get(i)));
-            }
+                lstBatch.add(new UpcomingModel(batchname.get(i), totalstudents.get(i), startdate.get(i), centername.get(i), centerid.get(i),batchid.get(i)));
+            }*/
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -213,7 +185,7 @@ public class Upcoming extends Fragment {
 //                        myrecyclerview.setAdapter(recyclerViewAdapter);
 //
 //                        for (int i =0;i<=batchname.size()-1; i++ ){
-//                            lstBatch.add(new Upcoming1(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i),batchid.get(i)));
+//                            lstBatch.add(new UpcomingModel(batchname.get(i),totalstudents.get(i), startdate.get(i),centername.get(i), centerid.get(i),batchid.get(i)));
 //                        }
 ////c.stopShimmer();
 //                    } else {

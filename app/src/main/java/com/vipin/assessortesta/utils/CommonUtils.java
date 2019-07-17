@@ -9,6 +9,10 @@ public interface CommonUtils {
      String url2="https://www.skillassessment.org/sdms/android_connect1/assessor/exam/";
 
      String MAIN_URL = CommonUtils.url2;
+     String MAIN_URL_EXCEPT_EXAM = CommonUtils.url;
+
+    String serverURL_login = MAIN_URL_EXCEPT_EXAM+"login.php";
+
 
     String serverURL_batchquestions = MAIN_URL+"batch_questions.php";
     String serverURL2_saveproctoring = MAIN_URL+"save_proctoring.php";

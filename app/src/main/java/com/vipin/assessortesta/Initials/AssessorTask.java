@@ -3,6 +3,7 @@ package com.vipin.assessortesta.Initials;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +14,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +28,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.vipin.assessortesta.R;
+import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
+import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
+import com.vipin.assessortesta.utils.PrefsManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,17 +51,31 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
     final String mypreference = "mypref";
     String assessor_id;
     TabLayout tabLayout;
+    private ImageView ivLogout;
     private android.app.AlertDialog progressDialog;
+    private PrefsManager prefs;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessor_task);
+
+        prefs = new PrefsManager(this);
+
+        initView();
+        manageView();
+
+    }
+
+    private void initView() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setEnabled(true);
         toolbar.setTitle("Batch List");
+
+        ivLogout = findViewById(R.id.ivLogout);
         tabLayout = findViewById(R.id.tablelayout);
+
         tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
         tabLayout.addTab(tabLayout.newTab().setText("Complete"));
         tabLayout.addTab(tabLayout.newTab().setText("OverDue"));
@@ -60,8 +83,10 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
         progressDialog = new SpotsDialog(AssessorTask.this, R.style.Custom);
 
-        callWebApi();
+    }
 
+    private void manageView() {
+        callWebApi();
 
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
@@ -71,7 +96,13 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
         }
 
+        ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", "\nDo you want to logout?");
+            }
+        });
     }
 
     @Override
@@ -86,7 +117,6 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 //        super.onBackPressed();
         exitByBackKey();
     }
-
 
     protected void exitByBackKey() {
 
@@ -196,10 +226,25 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-
     public JSONObject getApiData(){
         return mainJObject;
     }
 
+    private void showAlertMessageWithBack(int icon, String title, String msg){
+        new AlertDialog.Builder(this, R.style.DialogTheme)
+                .setIcon(icon)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        prefs.removeAll();
+                        startActivity(new Intent(AssessorTask.this, SplashScreen.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
 }
