@@ -34,6 +34,7 @@ import com.vipin.assessortesta.practical_student_assign.adapter.NonSelectedRcAda
 import com.vipin.assessortesta.student_group.StudentGroupActivity;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.NetworkManager;
+import com.vipin.assessortesta.utils.PrefsManager;
 import com.vipin.assessortesta.utils.RecyclerItemClickListener;
 
 import org.json.JSONArray;
@@ -63,9 +64,11 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
     Map<String, Boolean> statusMap;
     Double stuCount, quesCount;
 
-    SharedPreferences sharedpreferences;
+    //    SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
     String assessor_id,batchid;
+    private PrefsManager prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +78,15 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressDialog = new SpotsDialog(this, R.style.Custom);
 
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        prefs = new PrefsManager(this);
+//        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        if (sharedpreferences.contains("user_name")) {
-            assessor_id = sharedpreferences.getString("user_name", "");
-            System.out.println("asessoriddd" + assessor_id);
-
+        if (prefs.getString("user_name") != null) {
+            assessor_id = prefs.getString("user_name");
         }
 
-        if (sharedpreferences.contains("batch_id")) {
-            batchid = sharedpreferences.getString("batch_id", "");
-            System.out.println("asessoriddd" + batchid);
+        if (prefs.getString("batch_id") != null) {
+            batchid = prefs.getString("batch_id");
         }
 
         initView();
@@ -96,8 +97,8 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
             Gson gson = new Gson();
             response = gson.fromJson(sJson, PracticalQuesResponse.class);
 
-    manageView();
-}    catch (Exception e){ e.printStackTrace();}
+            manageView();
+        }    catch (Exception e){ e.printStackTrace();}
 
     }
 
@@ -152,7 +153,12 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                     public void onNext(StudentListResponse response) {
                         hide_progressbar();
                         if(response.getStatus() == 1) {
-                            funcNonSelectedStudent(response);
+                            List<StudentDetailsItem> itemList = response.getStudentDetails();
+                            if (itemList.size() > 0) {
+                                funcNonSelectedStudent(response);
+                            }else {
+                                showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_assign_msg));
+                            }
                         }else {
                             showAlertMessageWithBack(R.drawable.ic_complain, "Alert", getResources().getString(R.string.api_error));
                         }
@@ -279,10 +285,6 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        String[] arr = new String[list.size()];
-//        for (int i = 0; i < list.size(); i++){
-//            arr[i] = list.get(i);
-//        }
 
         show_progressbar();
             AndroidNetworking.post(CommonUtils.url+"save_student_group.php")
@@ -303,6 +305,7 @@ public class StudentAssignActivity extends AppCompatActivity implements View.OnC
                             if (status == 1){
 
                                 new AlertDialog.Builder(StudentAssignActivity.this)
+                                        .setIcon(android.R.drawable.ic_dialog_info)
                                         .setTitle("Info")
                                         .setMessage("Success")
                                         .setCancelable(false)

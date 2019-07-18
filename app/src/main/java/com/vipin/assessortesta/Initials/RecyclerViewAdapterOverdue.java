@@ -18,7 +18,6 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
     //list of data
     List<Overdue1> mData;
 
-
     public RecyclerViewAdapterOverdue(Context mContext, List<Overdue1> mData) {
         this.mContext = mContext;
         this.mData = mData;
@@ -82,7 +81,6 @@ public class RecyclerViewAdapterOverdue extends RecyclerView.Adapter<RecyclerVie
             totalstudent = itemView.findViewById(R.id.totalstudentid_due);
             assessmentda = itemView.findViewById(R.id.assessmentid_due);
             tcname = itemView.findViewById(R.id.tcnameid_due);
-
 
             batchname_header = itemView.findViewById(R.id.batchname2);
             totalstudent_header = itemView.findViewById(R.id.totalstudent2);

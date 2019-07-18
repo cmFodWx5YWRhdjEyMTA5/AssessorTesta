@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
 
-public class Photo_navigation extends AppCompatActivity {
+public class AnnexureMphotosActivity extends AppCompatActivity {
 
     private static final int pmsign = 100;
     private static final int counsiii = 52;
@@ -58,7 +58,7 @@ public class Photo_navigation extends AppCompatActivity {
         tvsignane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Pmkvysignane.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Pmkvysignane.class);
                 startActivityForResult(intent, pmsign);
             }
         });
@@ -67,7 +67,7 @@ public class Photo_navigation extends AppCompatActivity {
         counsilling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Pmkvycounselling.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Pmkvycounselling.class);
                 startActivityForResult(intent, counsiii);
             }
         });
@@ -76,7 +76,7 @@ public class Photo_navigation extends AppCompatActivity {
         bookletpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this,Booklet_pic.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this,Booklet_pic.class);
                 startActivityForResult(intent,booklet);
             }
         });
@@ -85,7 +85,7 @@ public class Photo_navigation extends AppCompatActivity {
         enrolment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Enrolmentform_Pic.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Enrolmentform_Pic.class);
                 startActivityForResult(intent, enrolmentt);
             }
         });
@@ -94,7 +94,7 @@ public class Photo_navigation extends AppCompatActivity {
         attendence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Attendancepic.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Attendancepic.class);
                 startActivityForResult(intent, attendencee);
             }
         });
@@ -103,7 +103,7 @@ public class Photo_navigation extends AppCompatActivity {
         feedbackform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Feedbackformpic.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Feedbackformpic.class);
                 startActivityForResult(intent, feedback);
             }
         });
@@ -112,7 +112,7 @@ public class Photo_navigation extends AppCompatActivity {
         infrapic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Infrapic.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Infrapic.class);
                 startActivityForResult(intent, infra);
             }
         });
@@ -121,7 +121,7 @@ public class Photo_navigation extends AppCompatActivity {
         classroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Pmkvy_classroom.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Pmkvy_classroom.class);
                 startActivityForResult(intent, classs);
             }
         });
@@ -130,7 +130,7 @@ public class Photo_navigation extends AppCompatActivity {
         labpic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Labpics.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Labpics.class);
                 startActivityForResult(intent, labpicc);
             }
         });
@@ -139,7 +139,7 @@ public class Photo_navigation extends AppCompatActivity {
         pmkvylab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Photo_navigation.this, Pmkvy_lab.class);
+                Intent intent = new Intent(AnnexureMphotosActivity.this, Pmkvy_lab.class);
                 startActivityForResult(intent, pmkvlab);
             }
         });
@@ -307,7 +307,7 @@ public class Photo_navigation extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     setResult(1, intent);
-                    Photo_navigation.this.finish();
+                    AnnexureMphotosActivity.this.finish();
 
                 } else {
 

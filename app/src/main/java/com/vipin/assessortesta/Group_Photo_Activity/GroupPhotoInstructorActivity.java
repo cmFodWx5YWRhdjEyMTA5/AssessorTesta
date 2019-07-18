@@ -142,8 +142,6 @@ public class GroupPhotoInstructorActivity extends AppCompatActivity {
     }
 
 
-
-
     public void completeAllTask(){
 
 

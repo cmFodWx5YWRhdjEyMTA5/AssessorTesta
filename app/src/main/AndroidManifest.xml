@@ -82,10 +82,7 @@
             android:name=".student_group.StudentGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme5" />
-          <activity  android:name=".ExamSection.QuestionViva"
-            android:theme="@style/AppTheme5"
-              android:screenOrientation="portrait"
-              />
+
         <activity
             android:name=".Barcode_d.SimpleScannerActivity"
             android:label="@string/app_name"
@@ -178,7 +175,7 @@
             android:theme="@style/AppTheme5"/>
         <activity
             android:name=".Initials.AssessorTask"
-            android:theme="@style/AppTheme4"
+            android:theme="@style/Apptheme8"
             android:screenOrientation="portrait"
             />
 
