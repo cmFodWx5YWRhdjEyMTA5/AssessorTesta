@@ -164,6 +164,7 @@ public class PracticalStuListActivity extends AppCompatActivity {
                         List<StudentDetailsItem> itemList = response.getStudentDetails();
                         Intent intent = new Intent(PracticalStuListActivity.this, AssessorFeedbackActivity.class);
                         intent.putExtra("stu_id", itemList.get(position).getStudentId());
+                        intent.putExtra("video_status", itemList.get(position).getExamVideoStatus());
                         startActivity(intent);
                         finish();
                     }

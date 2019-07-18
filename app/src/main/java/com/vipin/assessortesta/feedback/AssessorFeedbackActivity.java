@@ -47,7 +47,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     private static FeedbackShowButton showbuttonn;
     String[] arrTitle = {"Excellent", "Very Good", "Good", "Poor"};
     FeedbackResponse feedbackRes;
-    int quesId;
+    int quesId, intVideoStatus = 0;
     String stuId;
     boolean videoStatus = false, commentStatus = false;
 
@@ -65,6 +65,8 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
 
         try{
             stuId = getIntent().getExtras().getString("stu_id");
+            intVideoStatus = getIntent().getExtras().getInt("video_status");
+
         }catch (Exception e){}
 
         initView();
@@ -212,7 +214,7 @@ public class AssessorFeedbackActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnProceed:
-                if (getVideoStatus() == true) {
+                if (getVideoStatus() == true || intVideoStatus == 1) {
                     Intent i = new Intent(AssessorFeedbackActivity.this, FeedbackDialogActivity.class);
                     i.putExtra("ques_id", "" + quesId);
                     i.putExtra("stu_id", stuId);

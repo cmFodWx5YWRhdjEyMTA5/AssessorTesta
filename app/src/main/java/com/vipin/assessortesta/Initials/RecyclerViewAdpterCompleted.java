@@ -50,7 +50,7 @@ public class RecyclerViewAdpterCompleted extends RecyclerView.Adapter<RecyclerVi
 
         holder.batchname_header.setText("Batch Name");
         holder.totalstudent_header.setText("Total Students");
-        holder.assessmentda_header.setText("Assessment Data");
+        holder.assessmentda_header.setText("Assessment Date");
         holder.tcname_header.setText("Tc Name");
 
         holder.batchname.setText(mData.get(position).getBatchname());

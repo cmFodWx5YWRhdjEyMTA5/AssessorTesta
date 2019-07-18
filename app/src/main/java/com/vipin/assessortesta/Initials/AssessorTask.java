@@ -31,6 +31,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
+import com.vipin.assessortesta.utils.PrefConstants;
 import com.vipin.assessortesta.utils.PrefsManager;
 
 import org.json.JSONException;
@@ -105,6 +106,21 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
 
             callWebApi();
         }
+
+
+        if (prefs.getString(PrefConstants.PREF_NAME) != null) {
+            headertext.setText(prefs.getString(PrefConstants.PREF_NAME));
+//            System.out.println("asessoriddd" + assessor_id);
+
+
+
+
+        }
+
+
+
+
+
     }
 
     @Override
@@ -125,6 +141,7 @@ public class AssessorTask extends AppCompatActivity implements Upcoming.OnFragme
         itemid = item.getItemId();
         switch (itemid) {
             case R.id.logout:
+                prefs.removeAll();
                 Intent j = new Intent(AssessorTask.this, SplashScreen.class);
                 startActivity(j);
                 finish();

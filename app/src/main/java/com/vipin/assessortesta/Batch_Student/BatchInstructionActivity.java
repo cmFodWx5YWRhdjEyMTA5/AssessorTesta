@@ -153,6 +153,7 @@ public class BatchInstructionActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent card1_intent = new Intent(BatchInstructionActivity.this, AnnexureMphotosActivity.class);
+                card1_intent.putExtra("percentage_of_photo",annexureM_PhotoPerc);
                 startActivityForResult(card1_intent, CARD1_REQUESTCODE); }
         });
 
@@ -203,6 +204,7 @@ public class BatchInstructionActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent card6_intent = new Intent(BatchInstructionActivity.this, GroupPhotoInstructorActivity.class);
+                card6_intent.putExtra("percentage_of_photo_group",groupPhoto);
                 startActivityForResult(card6_intent, CARD6_REQUESTCODE);
 
 
@@ -350,17 +352,18 @@ public class BatchInstructionActivity extends AppCompatActivity {
     protected void exitByBackKey() {
 
         new AlertDialog.Builder(this)
-                .setMessage("Are you sure you want to exit")
+                .setMessage("Are you sure you want to Submit all the details of this batch.")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
                     // do something when the button is clicked
                     public void onClick(DialogInterface arg0, int arg1) {
-                        moveTaskToBack(true);
+                        // moveTaskToBack(true);
                         //finish();
 
                         //close();
 
-
+                        Intent ii=new Intent(BatchInstructionActivity.this,AssessorTask.class);
+                        startActivity(ii);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,6 +54,7 @@ public class GroupPhoto_Activity extends BaseActivity {
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
     String assessor_id, batch_id;
+    int perc3;
 
 
     @Override
@@ -61,6 +63,15 @@ public class GroupPhoto_Activity extends BaseActivity {
         setContentView(getLayoutId());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        try {
+            perc3 = getIntent().getExtras().getInt("percentage_of_photo_group");
+        }catch (Exception e){
+            Log.e("GroupPhoto", "#Error : "+e, e);
+        }
+
+
 
         pmkvysignane = findViewById(R.id.groupphotopic);
         clickmessage_pmkvysignane = findViewById(R.id.clicgroupphotopic);
@@ -265,7 +276,10 @@ public class GroupPhoto_Activity extends BaseActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        startActivity(new Intent(this, GroupPhotoInstructorActivity.class));
+        Intent i = new Intent(this, GroupPhotoInstructorActivity.class);
+        i.putExtra("percentage_of_photo_group",perc3);
+        startActivity(i);
+
         finish();
     }
 

@@ -33,6 +33,7 @@ public class AnnexureMphotosActivity extends AppCompatActivity {
     boolean count1, count2, count3, count4, count5, count6, count7, count8, count9, count10;
 
     Button submitb;
+    int perc1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class AnnexureMphotosActivity extends AppCompatActivity {
         pmkvylab = findViewById(R.id.imageview10);
 
         button_proceed = findViewById(R.id.button_proceed1);
+
+
+
+
+
+
 
 
 
@@ -145,7 +152,40 @@ public class AnnexureMphotosActivity extends AppCompatActivity {
         });
 
 
-    }
+
+
+        perc1 =getIntent().getExtras().getInt("percentage_of_photo");
+        System.out.println("percentage_of_photopppppppp"+perc1);
+
+
+
+            precentageCount();
+
+
+
+
+        button_proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
+                        count6 == true && count7 == true && count8 == true && count9 == true && count10 == true  || perc1==100) {
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    AnnexureMphotosActivity.this.finish();
+
+                } else {
+
+                    FinishTask_Alert();
+
+                    Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+ }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, @Nullable Intent data) {
@@ -298,26 +338,7 @@ public class AnnexureMphotosActivity extends AppCompatActivity {
         }
 
 
-        button_proceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (count1 == true && count2 == true && count3 == true && count4 == true && count5 == true &&
-                        count6 == true && count7 == true && count8 == true && count9 == true && count10 == true) {
-
-                    Intent intent = new Intent();
-                    setResult(1, intent);
-                    AnnexureMphotosActivity.this.finish();
-
-                } else {
-
-                    FinishTask_Alert();
-
-                    Toast.makeText(getApplicationContext(), "please attempt all the task", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
 
 
     }
@@ -342,6 +363,39 @@ public class AnnexureMphotosActivity extends AppCompatActivity {
 
         alertDialog.show();
     }
+
+
+
+
+
+
+
+
+    public void precentageCount()
+    {
+
+        if(perc1==100)
+        {
+            tvsignane.setImageResource(R.drawable.checked);
+            counsilling.setImageResource(R.drawable.checked);
+            bookletpic.setImageResource(R.drawable.checked);
+            enrolment.setImageResource(R.drawable.checked);
+            attendence.setImageResource(R.drawable.checked);
+            feedbackform.setImageResource(R.drawable.checked);
+            infrapic.setImageResource(R.drawable.checked);
+            classroom.setImageResource(R.drawable.checked);
+            labpic.setImageResource(R.drawable.checked);
+            pmkvylab.setImageResource(R.drawable.checked);
+ }
+}
+
+
+
+
+
+
+
+
 
 
 

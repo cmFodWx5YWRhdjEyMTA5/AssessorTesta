@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,6 +53,7 @@ public class GroupPhoto_selfie_Activity extends BaseActivity {
     SharedPreferences sharedpreferences;
     final String mypreference = "mypref";
     String assessor_id, batch_id;
+    int perc4;
 
 
 
@@ -62,6 +64,16 @@ public class GroupPhoto_selfie_Activity extends BaseActivity {
         pmkvysignane = findViewById(R.id.groupphotopicselfie);
         clickmessage_pmkvysignane = findViewById(R.id.clicgroupphotopicselfie);
         submit_pmkvysignane = findViewById(R.id.nextbutton_groupphotopicselfie);
+
+
+
+        try {
+            perc4 = getIntent().getExtras().getInt("percentage_of_photo_group");
+        }catch (Exception e){
+            Log.e("GroupPhoto", "#Error : "+e, e);
+        }
+
+
 
 
         //click drawble right of textview
@@ -262,8 +274,13 @@ public class GroupPhoto_selfie_Activity extends BaseActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        startActivity(new Intent(this, GroupPhotoInstructorActivity.class));
-        finish();
+
+        Intent ii = new Intent(this, GroupPhotoInstructorActivity.class);
+        ii.putExtra("percentage_of_photo_group",perc4);
+        startActivity(ii);
+
+
+
     }
 
 

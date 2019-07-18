@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
@@ -27,11 +30,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     CardView cardviewupcoming;
     String batchidd;
     SharedPreferences sharedpreferences;
+    String strDate;
 
     public RecyclerViewAdapter(Context mContext, List<UpcomingModel> mData) {
         this.mContext = mContext;
         this.mData = mData;
+
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        strDate = sdf.format(c.getTime());
+        System.out.print(strDate + " " +" lkjlglkjg");
+
+
+
+
+
     }
+
 
     @NonNull
     @Override
@@ -52,7 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //bind the data add in holder
         holder.batchname_header.setText("Batch Name");
         holder.totalstudent_header.setText("Total Students");
-        holder.assessmentda_header.setText("Assessment Data");
+        holder.assessmentda_header.setText("Assessment Date");
         holder.tcname_header.setText("Tc Name");
         holder.batchname.setText(mData.get(position).getBatchname());
         holder.totalstudent.setText(mData.get(position).getTotalstudent());
@@ -62,20 +78,40 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         cardviewupcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "data is" + mData.get(position).getcenterid(), Toast.LENGTH_SHORT).show();
-                Intent ii = new Intent(mContext, Assessor_Atten.class);
-                ii.putExtra("centerid", mData.get(position).getcenterid());
-                ii.putExtra("Batchid", mData.get(position).getBatchid());
-                ii.putExtra("exam_date", mData.get(position).getAssessmentdate());
-                ii.putExtra("batch_name", mData.get(position).getBatchname());
 
-                mContext.startActivity(ii);
+                if (!mData.get(position).getBatchname().trim().equalsIgnoreCase("NA")) {
+
+
+                    if (mData.get(position).getAssessmentdate().trim().equalsIgnoreCase(strDate)) {
+
+                        Toast.makeText(mContext, "data is" + mData.get(position).getcenterid(), Toast.LENGTH_SHORT).show();
+                        Intent ii = new Intent(mContext, Assessor_Atten.class);
+                        ii.putExtra("centerid", mData.get(position).getcenterid());
+                        ii.putExtra("Batchid", mData.get(position).getBatchid());
+                        ii.putExtra("exam_date", mData.get(position).getAssessmentdate());
+                        ii.putExtra("batch_name", mData.get(position).getBatchname());
+
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("ccc", mData.get(position).getBatchid());
+                        editor.apply();
+
+                        mContext.startActivity(ii);
+                    }
+                    else
+                    {
+
+                        Toast.makeText(mContext, "The Batch you are choosing is of Different date.", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }else {
+                    Toast.makeText(mContext, "No batch assigned currently.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("ccc", mData.get(position).getBatchid());
-        editor.apply();
+
 
         int progressPerc = mData.get(position).getProgressPerc();
 
@@ -83,6 +119,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.btnResume.setText("" + progressPerc + "%");
             holder.btnResume.setVisibility(View.VISIBLE);
         }
+
+
+
+
+
 
     }
 
@@ -111,10 +152,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             batchname_header = itemView.findViewById(R.id.batchname_upcoming);
             totalstudent_header = itemView.findViewById(R.id.totalstudent_upcoming);
-            assessmentda_header = itemView.findViewById(R.id.assessment_upcoming);
+            assessmentda_header = itemView.findViewById(R.id.assessment_upcoming1);
             tcname_header = itemView.findViewById(R.id.tcname_upcoming);
             btnResume = itemView.findViewById(R.id.btnResume);
-
         }
     }
 }

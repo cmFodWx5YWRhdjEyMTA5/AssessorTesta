@@ -216,7 +216,7 @@ public class StudentGroupActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         startActivity(new Intent(this, BatchInstructionActivity.class));
         finish();
     }
