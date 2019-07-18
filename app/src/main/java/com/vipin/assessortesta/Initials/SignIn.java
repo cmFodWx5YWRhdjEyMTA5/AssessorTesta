@@ -171,8 +171,6 @@ public class SignIn extends AppCompatActivity {
 
     public void ResultAwaited(){
 
-
-
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setMessage("Your Examination Result Is Pending.After successfull completion you will get notification.")
                 .setTitle("Message")
