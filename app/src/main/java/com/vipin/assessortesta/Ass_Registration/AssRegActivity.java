@@ -1520,7 +1520,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
                 int currentBitmapWidth = photo.getWidth();
                 int currentBitmapHeight = photo.getHeight();
-                //input_photograph.setImageBitmap(photo);
+                input_photograph.setImageBitmap(photo);
                 int newHeight = (int) Math.floor((double) currentBitmapHeight * ((double) currentBitmapWidth / (double) currentBitmapWidth));
                 Bitmap newbitMap = Bitmap.createScaledBitmap(photo, currentBitmapWidth, newHeight, true);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -1658,14 +1658,14 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 //                getQualificationList();
                 break;
             case R.id.input_photograph:
-                Intent ii1=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
-                startActivityForResult(ii1,1);
-                   // funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+               /* Intent ii1=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
+                startActivityForResult(ii1,1);*/
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
                 break;
                 case R.id.input_photograph1:
-                    Intent ii=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
-                    startActivityForResult(ii,1);
-                    //funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+                    /*Intent ii=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
+                    startActivityForResult(ii,1);*/
+                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
                 break;
                 case R.id.input_photograph_aadhar:
                     funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_AADHAR_REQUEST);
@@ -2414,6 +2414,8 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
+
     private void callApiForRegImage3(JSONObject jsonObject){
         show_progressbar();
 
@@ -2465,8 +2467,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                         hide_progressbar();
                         Toast.makeText(AssRegActivity.this, "Failed-3", Toast.LENGTH_SHORT).show();
                     }
-                })
-        ;
+                });
     }
 
 
