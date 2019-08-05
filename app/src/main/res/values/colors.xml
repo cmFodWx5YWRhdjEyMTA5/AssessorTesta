@@ -45,7 +45,7 @@
     <color name="colorNonSelectBg">#90a4ae</color>
     <color name="colorSelectBg">#8bc34a</color>
 
-
+    <color name="green">#47c10c</color>
 
     <array name="arr_group_color">
         <item>@color/colors1</item>

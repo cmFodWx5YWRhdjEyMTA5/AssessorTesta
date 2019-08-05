@@ -14,8 +14,6 @@ import com.vipin.assessortesta.Assessor_Exam.TestInstruction;
 import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.R;
-import com.vipin.assessortesta.feedback.AssessorFeedbackActivity;
-import com.vipin.assessortesta.practical_student_list.PracticalStuListActivity;
 import com.vipin.assessortesta.utils.PrefConstants;
 import com.vipin.assessortesta.utils.PrefsManager;
 
@@ -60,11 +58,11 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
                 startActivity(z);
                 finish();
             }
-            else {
-                Intent z = new Intent(this, SignIn.class);
-                startActivity(z);
-//                finish();
-            }
+//            else {
+//                Intent z = new Intent(this, SignIn.class);
+//                startActivity(z);
+////                finish();
+//            }
         }
 
     }
@@ -73,11 +71,11 @@ public class SplashScreen extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.loginbutton:
-                Intent i = new Intent(SplashScreen.this, AssRegActivity.class);
+                Intent i = new Intent(SplashScreen.this, SignIn.class);
                 startActivity(i);
                 break;
             case R.id.newuserr:
-                Intent i1 = new Intent(SplashScreen.this, SignIn.class);
+                Intent i1 = new Intent(SplashScreen.this, AssRegActivity.class);
                 startActivity(i1);
                 break;
         }

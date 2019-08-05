@@ -12,6 +12,8 @@ import com.vipin.assessortesta.R;
 
 import java.util.ArrayList;
 
+
+
 public class CustomAdapter1 extends BaseAdapter {
     String result[];
     Context con;

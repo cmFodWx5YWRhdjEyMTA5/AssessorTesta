@@ -21,6 +21,8 @@ import com.vipin.assessortesta.R;
 
 import java.util.HashMap;
 
+
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -62,7 +64,7 @@ public class FragmentChild extends Fragment implements View.OnClickListener {
         getIDs(view);
         setEvents();
         idd=dbAutoSave.getDataOfSingleClient(query);
-        dummystuid=sp.getString("userid","");
+        dummystuid=sp.getString("user_name","");
         getoptiona=optiona.getText().toString();
         getoptionb=optionb.getText().toString();
         getoptionc=optionc.getText().toString();

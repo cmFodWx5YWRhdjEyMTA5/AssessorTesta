@@ -66,10 +66,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.androidhiddencamera.CameraConfig;
 import com.google.gson.Gson;
-import com.vipin.assessortesta.Initials.SessionManager;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.MyNetwork;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,6 +98,7 @@ import java.util.TimerTask;
 import dmax.dialog.SpotsDialog;
 
 
+
 public class Testviva extends AppCompatActivity {
     FragmentParent1 fragmentParent;
     TextView textView, finalSubmitbutton, reviewlaterr;
@@ -110,7 +111,6 @@ public class Testviva extends AppCompatActivity {
     ActionBarDrawerToggle mDrawerToggle1;
     Context con = this;
     CustomAdapter1 cl1, cl2;
-    SessionManager sessionManager;
     String name[];
     String j;
 
@@ -274,7 +274,6 @@ long practical_timeee;
         options.add(title3);
         options.add(title4);
         employeeList = new ArrayList<>();
-        sessionManager = new SessionManager();
         dbAutoSave = new DbAutoSave(getApplicationContext());
         // Toast.makeText(getApplicationContext(),"on create running",Toast.LENGTH_LONG).show();
         mDatabase = openOrCreateDatabase(DbAutoSave.DATABASE_NAME, MODE_PRIVATE, null);
@@ -874,7 +873,7 @@ long practical_timeee;
 
     private void SaveDetail() {
 
-        String serverURL = CommonUtils.serverURL2_saveproctoring;
+        String serverURL =CommonUtils.url2+"save_proctoring.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -930,9 +929,9 @@ long practical_timeee;
                 if (screenshot1!=null){
                     map.put("student_image",screenshot1);;}
                 System.out.println("sccccc" +screenshot1);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("student_id",studentid);
                 map.put("image_time",strDate);
-                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 System.out.println("sccccc" +strDate);
 
 
@@ -967,7 +966,7 @@ long practical_timeee;
     protected void onStart() {
         super.onStart();
         // Toast.makeText(getApplicationContext(),"on start running",Toast.LENGTH_LONG).show();
-        SharedPreferences prefs = getSharedPreferences("prefstimer", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("pref", MODE_PRIVATE);
         TimeLeftInMillis = prefs.getLong("millisLeft", START_TIME_IN_MILLIS);
         TimerRunning = prefs.getBoolean("timerRunning", false);
 
@@ -1035,7 +1034,7 @@ long practical_timeee;
                             if (jsonInString != null) {
                                 Questionlist1();
                             }
-                            sessionManager.setPreferences(getApplicationContext(), "vipin", "0");
+
                         }
                     }).create();
 
@@ -1139,7 +1138,6 @@ long practical_timeee;
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getalldata();
-                        sessionManager.setPreferences(getApplicationContext(), "vipin", "0");
                         if (jsonInString != null) {
                             Questionlist1();
                         }
@@ -1248,7 +1246,7 @@ long practical_timeee;
     //Fetching Questions
     private void Questionlist() {
         progressDialog.show();
-        String serverURL = CommonUtils.serverURL_batchquestions;
+        String serverURL = CommonUtils.url2+"batch_questions.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1340,8 +1338,8 @@ long practical_timeee;
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("batch_id","97");
-                map.put("language", "en");
+                map.put("batch_id", batchvalue);
+                map.put("language", value);
                 System.out.println("ddd" + map);
                 return map;
             }
@@ -1354,7 +1352,7 @@ long practical_timeee;
     //Saving all the answers of exam conducted
     private void Questionlist1() {
         progressDialog.show();
-        String serverURL = CommonUtils.serverURL_saveanswer;
+        String serverURL = CommonUtils.url2+"save_answers.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1403,8 +1401,8 @@ long practical_timeee;
                 super.getParams();
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
-                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 map.put("JSON", jsonInString);
+                map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 System.out.println("ddd" + map);
                 return map;
             }
@@ -1455,7 +1453,7 @@ long practical_timeee;
     }
 
     private void saveLog(final String fnamee, final String ip, final String activity, final String lat, final String longi,final String cmpid) {
-        String serverURL = CommonUtils.serverURL_savelog;
+        String serverURL = CommonUtils.url2+"save_logs.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {

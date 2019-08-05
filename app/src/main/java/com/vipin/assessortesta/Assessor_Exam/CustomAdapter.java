@@ -1,7 +1,6 @@
 package com.vipin.assessortesta.Assessor_Exam;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
 import com.vipin.assessortesta.R;
 
 import java.util.ArrayList;
+
 
 
 public class CustomAdapter extends BaseAdapter{

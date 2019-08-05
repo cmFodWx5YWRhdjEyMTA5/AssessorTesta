@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -67,7 +68,9 @@ import com.vipin.assessortesta.Ass_Registration.pojo.category.SscCateResponse;
 import com.vipin.assessortesta.Ass_Registration.pojo.category.SscItem;
 import com.vipin.assessortesta.Ass_Registration.pojo.certificate.CertificateResponse;
 import com.vipin.assessortesta.Ass_Registration.pojo.certificate.JobrolesItem;
+import com.vipin.assessortesta.Attendance.Assessor_Atten;
 import com.vipin.assessortesta.Barcode_d.SimpleScannerActivity;
+import com.vipin.assessortesta.Initials.Eye_blinkActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.Initials.NetworkStateReceiver;
 import com.vipin.assessortesta.Initials.SplashScreen;
@@ -101,6 +104,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.vipin.assessortesta.utils.CommonUtils.MAIN_URL;
+
 
 public class AssRegActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -578,7 +584,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void callSscCategory(){
-        Rx2AndroidNetworking.get("https://www.skillassessment.org/sdms/android_connect1/get_ssc.php")
+        Rx2AndroidNetworking.get(MAIN_URL+"get_ssc.php")
                 .build()
                 .getObjectObservable(SscCateResponse.class)
                 .subscribeOn(Schedulers.io())
@@ -968,7 +974,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void Bankdetails() {
 
 
-        String serverURL = CommonUtils.url +"get_bank.php";
+        String serverURL = MAIN_URL+"get_bank.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1033,7 +1039,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     //State List
     private void Statedetails() {
 
-        String serverURL = CommonUtils.url +"get_state.php";
+        String serverURL = MAIN_URL +"get_state.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1041,7 +1047,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
                 try {
                     JSONObject jobj = new JSONObject(response);
-
+                    System.out.println("rr"+response);
                     String status= jobj.getString("status");
                     if (status.equals("1")){
                         JSONArray jsonArray=jobj.getJSONArray("state");
@@ -1101,7 +1107,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void DistrictDetails(final String districtidd) {
 
 
-        String serverURL = CommonUtils.url +"get_district.php";
+        String serverURL = MAIN_URL +"get_district.php";
         show_progressbar();
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1183,7 +1189,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
         pd.setCanceledOnTouchOutside(false);
         pd.show();
 */
-        String serverURL = CommonUtils.url +"get_employer.php";
+        String serverURL = MAIN_URL +"get_employer.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1256,7 +1262,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     //Sector_list
     private void Sectorlist(final String Sectorvalue) {
-        String serverURL = CommonUtils.url +"get_sector.php";
+        String serverURL = MAIN_URL +"get_sector.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1323,7 +1329,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     //Jobrole Api Call
     private void getJobroleList(final String sscid) {
-        String serverURL = CommonUtils.url +"get_jobrole.php";
+        String serverURL = MAIN_URL +"get_jobrole.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1426,6 +1432,19 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         try {
+
+            if (resultCode == 3 && requestCode == 1 ){
+                Bundle extras1 = data.getExtras();
+                String byteArray = extras1.getString("ss");
+                System.out.println("the path is"+byteArray);
+                File file = new File(byteArray);
+                if(file.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    input_photograph.setImageBitmap(myBitmap);
+                }
+            }
+
             if (resultCode == 2 && requestCode == 1) {
                 //do something
                 HashMap<String, String> map = new HashMap<>();
@@ -1639,10 +1658,14 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 //                getQualificationList();
                 break;
             case R.id.input_photograph:
-                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+                Intent ii1=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
+                startActivityForResult(ii1,1);
+                   // funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
                 break;
                 case R.id.input_photograph1:
-                    funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
+                    Intent ii=new Intent(AssRegActivity.this, Eye_blinkActivity.class);
+                    startActivityForResult(ii,1);
+                    //funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_REQUEST);
                 break;
                 case R.id.input_photograph_aadhar:
                     funcStartCamera(MY_CAMERA_PERMISSION_CODE, CAMERA_AADHAR_REQUEST);
@@ -1756,7 +1779,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     /*API CALL*/
     private void callApiForSscCategory(){
 
-        Rx2AndroidNetworking.get("https://www.skillassessment.org/sdms/android_connect1/get_ssc.php")
+        Rx2AndroidNetworking.get(MAIN_URL+"get_ssc.php")
                 .build()
                 .getObjectObservable(SscCateResponse.class)
                 .subscribeOn(Schedulers.io())
@@ -1822,7 +1845,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     private void callApiForSscCertName(String id){
 
-        Rx2AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/get_jobrole_sscwise.php")
+        Rx2AndroidNetworking.post(MAIN_URL+"get_jobrole_sscwise.php")
                 .addUrlEncodeFormBodyParameter("ssc_id", id)
                 .build()
                 .getObjectObservable(CertificateResponse.class)
@@ -2274,7 +2297,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegistration(JSONObject jsonObject){
        show_progressbar();
 
-        AndroidNetworking.post(CommonUtils.url+"save_assessor_data.php")
+        AndroidNetworking.post(MAIN_URL+"save_assessor_data.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -2332,7 +2355,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegImage(JSONObject jsonObject){
         show_progressbar();
 
-        AndroidNetworking.post(CommonUtils.url+"save_assessor_data_image.php")
+        AndroidNetworking.post(MAIN_URL+"save_assessor_data_image.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -2395,7 +2418,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
     private void callApiForRegImage3(JSONObject jsonObject){
         show_progressbar();
 
-        AndroidNetworking.post(CommonUtils.url+"save_assessor_data_image.php")
+        AndroidNetworking.post(MAIN_URL+"save_assessor_data_image.php")
                 .addJSONObjectBody(jsonObject)
                 .setPriority(Priority.HIGH)
                 .build()

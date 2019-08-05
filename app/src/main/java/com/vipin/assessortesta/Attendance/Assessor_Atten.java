@@ -9,6 +9,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -51,6 +52,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.vipin.assessortesta.Batch_Student.BatchInstructionActivity;
 import com.vipin.assessortesta.Global.BaseActivity;
 import com.vipin.assessortesta.Initials.AssessorTask;
+import com.vipin.assessortesta.Initials.Eye_blinkActivity;
 import com.vipin.assessortesta.Initials.MyNetwork;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
@@ -59,6 +61,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,7 +149,9 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
         input_photograph1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                captureevent();
+                //captureevent();
+                Intent ii=new Intent(Assessor_Atten.this, Eye_blinkActivity.class);
+                startActivityForResult(ii,1);
             }
         });
 
@@ -279,6 +285,29 @@ public class Assessor_Atten extends BaseActivity implements GoogleApiClient.Conn
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
+
+            if (resultCode == 3 && requestCode == 1 ){
+                Bundle extras = data.getExtras();
+                String byteArray = extras.getString("ss");
+                System.out.println("the path is"+byteArray);
+                File file = new File(byteArray);
+                if(file.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                    input_photograph_assessor.setImageBitmap(myBitmap);
+                }
+               /* ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+
+                FileOutputStream fout = new FileOutputStream(file);
+                fout.write(ostream.toByteArray());
+                byte[] byteArray1 = ostream.toByteArray();
+                String imageEncoded = Base64.encodeToString(byteArray1, Base64.DEFAULT);
+                System.out.println("the path is"+imageEncoded);
+                fout.close();
+                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray1, 0, byteArray1.length);
+                input_photograph_assessor.setImageBitmap(bmp);*/
+            }
 
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 if (data.getExtras() == null || (data.getExtras().get("data") == null || !(data.getExtras().get("data") instanceof Bitmap))) {

@@ -65,7 +65,7 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), SendInNotificationID)
                 .setContentTitle(title)
                 .setContentText("the timer has " +timerNotify +" minutes" +timerinSec +" second left")
-                .setSmallIcon(R.drawable.radiant_logo)
+                .setSmallIcon(R.drawable.logo)
                 .setAutoCancel(true);
               //  .setContentIntent(resultPendingIntent);
 

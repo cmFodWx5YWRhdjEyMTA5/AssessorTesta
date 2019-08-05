@@ -2,9 +2,6 @@ package com.vipin.assessortesta.Assessor_Exam;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +36,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -68,10 +66,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.vipin.assessortesta.Initials.SessionManager;
 import com.vipin.assessortesta.R;
 import com.vipin.assessortesta.utils.CommonUtils;
 import com.vipin.assessortesta.utils.MyNetwork;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,7 +97,8 @@ import java.util.TimerTask;
 
 import dmax.dialog.SpotsDialog;
 
-public class TestQuestion extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback  {
+
+public class TestQuestion extends AppCompatActivity {
 
     FragmentParent fragmentParent;
     TextView textView,finalSubmitbutton;
@@ -113,20 +112,13 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     Context con=this;
     CustomAdapter cl1,cl2;
     String  encodedd;
-
-    private static final int REQUEST_VIDEO_PERMISSIONS = 1;
-
-    private static final String[] VIDEO_PERMISSIONS = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-    };
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private static final int CAMERA_REQUEST = 1888;
 
 
     //camera by pk
 
-
     private static final String TAG = "AndroidCameraApi";
-    private static final String FRAGMENT_DIALOG = "dialog";
     private Button takePictureButton;
     private TextureView textureView;
     public static int i = 0;
@@ -141,7 +133,6 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         ORIENTATIONS.append(Surface.ROTATION_90, 180);
         ORIENTATIONS.append(Surface.ROTATION_180, 90);
         ORIENTATIONS.append(Surface.ROTATION_270, 0);
-
     }
 
 
@@ -169,7 +160,6 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     private long TimeLeftInMillis;
     private long EndTime;
     RelativeLayout parentLayout;
-    SessionManager sessionManager;
     ArrayList<String> studentidlist;
     ArrayList<String> questioniddd;
     ArrayList<String> answeredoptionn;
@@ -244,39 +234,11 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_question);
-
-        initView();
-
-        if (!hasPermissionsGranted(VIDEO_PERMISSIONS)) {
-            requestVideoPermissions();
-        }else {
-            manageView();
-        }
-
-
-
-    }
-
-    private void initView() {
-        setSupportActionBar(t1);
+        getIDs();
         t1=findViewById(R.id.toolbar);
-        textureView = findViewById(R.id.texture);
-        progressDialog = new SpotsDialog(TestQuestion.this, R.style.Custom);
-
-        fragmentParent = (FragmentParent) this.getSupportFragmentManager().findFragmentById(R.id.fragmentParent);
-        View vv=findViewById(R.id.count_down_strip);
-        textView=vv.findViewById(R.id.timer);
-        finalSubmitbutton=vv.findViewById(R.id.finish);
-        drawer_Right=findViewById(R.id.drawer_right);
-        imgRight=findViewById(R.id.imgRight);
-        parentLayout=findViewById(R.id.r1);
-        len=findViewById(R.id.len1);
-        mdrawerLayout=findViewById(R.id.activity_main1);
-        mdrawerLayout.addDrawerListener(mDrawerToggle);
-    }
-
-    private void manageView() {
+        setSupportActionBar(t1);
         alreadyExecuted_timer=false;
+        progressDialog = new SpotsDialog(TestQuestion.this, R.style.Custom);
         sp=getSharedPreferences("mypref", MODE_PRIVATE);
         sp1=getSharedPreferences("mypreff", MODE_PRIVATE);
         batchvalue=sp.getString("batchid","");
@@ -294,8 +256,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             alreadyExecuted_timer=true;
         }
         START_TIME_IN_MILLIS=theory_time;
-        studentid=sp.getString("userid","");
-        sessionManager = new SessionManager();
+        studentid=sp.getString("user_name","");
         studentidlist=new ArrayList<>();
         questioniddd=new ArrayList<>();
         answeredoptionn =new ArrayList<>();
@@ -310,13 +271,29 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         setterGetter =new SetterGetter();
         mNotificationHelper = new NotificationHelper(this);
 
+        if (android.os.Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_CAMERA_PERMISSION_CODE);
+            } else {
 
+
+
+            }
+        }
+        else {
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
 
 
         //camera change by pk
 
         timerstop();
 
+
+        textureView = findViewById(R.id.texture);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
         // assert takePictureButton != null;
@@ -327,8 +304,25 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         }
 
+
+        perm = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        perm1= ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO);
+        if (perm != PackageManager.PERMISSION_GRANTED || perm1 != PackageManager.PERMISSION_GRANTED ) {
+            requestPermissions(permission, 7882);
+
+        }
+
+
+
         len.bringToFront();
         mdrawerLayout.requestLayout();
+
+       /* CustomAdapter.aa(new GotoQuestion() {
+            @Override
+            public void getposition(int a) {
+                mdrawerLayout.closeDrawers();
+            }
+        });*/
 
         drawer_Right.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -378,6 +372,9 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
+
+
+
         FragmentParent.aa(new ShowButton() {
             @Override
             public void getData(int a) {
@@ -397,7 +394,12 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             }
         });
 
+
         mdrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+
+
+
 
         if(!isOnline()){
 
@@ -433,84 +435,12 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
 
 
-        value=sp1.getString("languagev","");
-        System.out.println("value issss"+value);
-//Toast.makeText(getApplicationContext(),"on start running",Toast.LENGTH_LONG).show();
-
-        SharedPreferences prefs = getSharedPreferences("prefstimer", MODE_PRIVATE);
-        TimeLeftInMillis = prefs.getLong("millisLeft", START_TIME_IN_MILLIS);
-        TimerRunning = prefs.getBoolean("timerRunning", false);
-
-        updateCountDownText();
-        updateButtons();
-        resetTimer();
-
-        if (TimerRunning) {
-            EndTime = prefs.getLong("endTime", 0);
-            TimeLeftInMillis = EndTime - System.currentTimeMillis();
-
-            if (TimeLeftInMillis < 0) {
-                TimeLeftInMillis = 0;
-                TimerRunning = false;
-                updateCountDownText();
-                updateButtons();
-            } else {
-                startTimer();
-            }
-        }
-        startTimer();
-
-
-
-
-
-
-        finalSubmitbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("exam status is"+exam_statuss);
-                if (exam_statuss.equals("both")) {
-
-                    getAnswerscount();
-                    timer.cancel();
-
-
-                    TimerRunning = false;
-                    TimeLeftInMillis = START_TIME_IN_MILLISR;
-
-
-
-
-                }else if (exam_statuss.equals("theory")){
-                    getTotalanswercount();
-
-                }
-
-            }
-        });
-
-
-
-
-        if(!alreadyExecuted) {
-            Questionlist();
-        }
-
-
-
-        textureView.setVisibility(View.VISIBLE);
-
-        Log.e(TAG, "onResume");
-        startBackgroundThread();
-        if (textureView.isAvailable()) {
-            openCamera();
-        } else {
-            textureView.setSurfaceTextureListener(textureListener);
-        }
-
-
 
     }
+
+
+
+
 
 
     //camera by pk method
@@ -544,7 +474,21 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             }};
         timer.scheduleAtFixedRate(timerTask,60000, 60000); // 1000 = 1 second.
 
+        System.out.println(timer.purge());
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
 
     public void photodelete(){
 
@@ -556,6 +500,8 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         }
 
     }
+
+
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
@@ -603,7 +549,6 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 cameraDevice.close();
             }
         }
-
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onError(CameraDevice camera, int error) {
@@ -615,6 +560,8 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     };
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
     final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
@@ -796,8 +743,6 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             e.printStackTrace();
         }
     }
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -857,7 +802,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             imageReader = null;
         }
     }
-    /*@Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
@@ -866,7 +811,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 finish();
             }
         }
-    }*/
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -874,41 +819,49 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     protected void onResume() {
         super.onResume();
 
-    }
+        textureView.setVisibility(View.VISIBLE);
 
+        Log.e(TAG, "onResume");
+        startBackgroundThread();
+        if (textureView.isAvailable()) {
+            openCamera();
+        } else {
+            textureView.setSurfaceTextureListener(textureListener);
+        }
+    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onPause() {
-        super.onPause();
         Log.e(TAG, "onPause");
-        if (!hasPermissionsGranted(VIDEO_PERMISSIONS)) {
-            requestVideoPermissions();
-        }else {
-
-            textureView.setVisibility(View.GONE);
+        textureView.setVisibility(View.GONE);
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                closeCamera();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            closeCamera();
 
-
-            }
-            stopBackgroundThread();
-
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
         }
+        stopBackgroundThread();
+        super.onPause();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
 
+
+
+
+
+
     private void SaveDetail() {
 
-        String serverURL =CommonUtils.serverURL2_saveproctoring;
+        String serverURL =CommonUtils.url2+"save_proctoring.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -965,11 +918,10 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
 
                 if (screenshot1!=null){
-                    map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                     map.put("student_image",screenshot1);
                     map.put("student_id",studentid);
                     map.put("image_time",strDate);
-
+                    map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
                 }
                 Log.d("image_file",screenshot1);
                 System.out.println("sccccc" +map);
@@ -983,10 +935,30 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
     }
+
+
+
 
     public boolean isOnline() {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -999,6 +971,93 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         return true;
     }
 
+
+
+
+    private void getIDs() {
+        fragmentParent = (FragmentParent) this.getSupportFragmentManager().findFragmentById(R.id.fragmentParent);
+        View vv=findViewById(R.id.count_down_strip);
+        textView=vv.findViewById(R.id.timer);
+        finalSubmitbutton=vv.findViewById(R.id.finish);
+        drawer_Right=findViewById(R.id.drawer_right);
+        imgRight=findViewById(R.id.imgRight);
+        parentLayout=findViewById(R.id.r1);
+        len=findViewById(R.id.len1);
+        mdrawerLayout=findViewById(R.id.activity_main1);
+        mdrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        value=sp1.getString("languagev","");
+        System.out.println("value issss"+value);
+//Toast.makeText(getApplicationContext(),"on start running",Toast.LENGTH_LONG).show();
+
+        SharedPreferences prefs = getSharedPreferences("prefstimer", MODE_PRIVATE);
+        TimeLeftInMillis = prefs.getLong("millisLeft", START_TIME_IN_MILLIS);
+        TimerRunning = prefs.getBoolean("timerRunning", false);
+
+        updateCountDownText();
+        updateButtons();
+        resetTimer();
+
+        if (TimerRunning) {
+            EndTime = prefs.getLong("endTime", 0);
+            TimeLeftInMillis = EndTime - System.currentTimeMillis();
+
+            if (TimeLeftInMillis < 0) {
+                TimeLeftInMillis = 0;
+                TimerRunning = false;
+                updateCountDownText();
+                updateButtons();
+            } else {
+                startTimer();
+            }
+        }
+        startTimer();
+
+
+
+
+
+
+        finalSubmitbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("exam status is"+exam_statuss);
+                if (exam_statuss.equals("both")) {
+
+                    getAnswerscount();
+                    timer.cancel();
+
+
+                    TimerRunning = false;
+                    TimeLeftInMillis = START_TIME_IN_MILLISR;
+
+
+
+
+                }else if (exam_statuss.equals("theory")){
+                    getTotalanswercount();
+
+                }
+
+            }
+        });
+
+
+
+
+        if(!alreadyExecuted) {
+            Questionlist();
+        }
+
+
+
+
+
+    }
 
 
     public void getTotalanswercount() {
@@ -1030,7 +1089,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                             }else {
                                 Toast.makeText(getApplicationContext(),"Trying to save",Toast.LENGTH_LONG).show();
                             }
-                            sessionManager.setPreferences(getApplicationContext(), "vipin", "0");
+
                         }
                     }).create();
 
@@ -1043,7 +1102,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
     private void Questionlist1() {
         progressDialog.show();
-        String serverURL = CommonUtils.serverURL_saveanswer;
+        String serverURL = CommonUtils.url2+"save_answers.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1105,6 +1164,10 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
 
     }
+
+
+
+
 
     private void startTimer() {
         EndTime = System.currentTimeMillis() + TimeLeftInMillis;
@@ -1193,13 +1256,19 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
         SendInNotification("Timer is Runing", (TimeLeftInMillis / 1000) / 60, (TimeLeftInMillis / 1000) % 60);
 
+
+
     }
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
     }
+
+
 
     public void SendInNotification(String title, long timerNotify, long timerinSec) {
 
@@ -1208,6 +1277,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
 
     }
+
 
     String FormatSeconds(float elapsed)
     {
@@ -1221,7 +1291,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     private void Questionlist() {
 
         progressDialog.show();
-        String serverURL = CommonUtils.serverURL_batchquestions;
+        String serverURL = CommonUtils.url2+"batch_questions.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
             @Override
@@ -1306,8 +1376,8 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
                 Map<String, String> map = new HashMap<>();
                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5");
-                map.put("batch_id", "97");
-                map.put("language", "en");
+                map.put("batch_id", batchvalue);
+                map.put("language", value);
                 System.out.println("ddd"+map);
                 return map;
             }
@@ -1315,6 +1385,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
 
     public void getAnswerscount(){
 
@@ -1332,6 +1403,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
             showDialog();
         }
     }
+
 
     public void getalldata() {
         cursor = dbAutoSave.getData(studentid);
@@ -1367,6 +1439,10 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+
+
+
+
     public void getStatusdata(){
         cursor11=dbAutoSave.getData1(studentid);
         if (cursor11.getCount()>0){
@@ -1395,6 +1471,8 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         cl2 = new CustomAdapter(aa, con, statuss,questatus,qnooo);
         drawer_Right.setAdapter(cl1);
     }
+
+
 
     public void showDialog11() {
 
@@ -1460,6 +1538,10 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
 
     }
 
+
+
+
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             exitByBackKey();
@@ -1496,7 +1578,7 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void saveLog(final String fnamee, final String ip, final String activity, final String lat, final String longi,final String cmpid) {
-        String serverURL = CommonUtils.serverURL_savelog;
+        String serverURL = CommonUtils.url2+"save_logs.php";
 
 
         StringRequest request = new StringRequest(Request.Method.POST, serverURL, new Response.Listener<String>() {
@@ -1549,124 +1631,4 @@ public class TestQuestion extends AppCompatActivity implements ActivityCompat.On
         request.setRetryPolicy(new DefaultRetryPolicy(20000, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyNetwork.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
-
-
-
-    //------CAMERA PERMISSION-----------
-    private boolean shouldShowRequestPermissionRationale(String[] permissions) {
-        for (String permission : permissions) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void requestVideoPermissions() {
-        if (shouldShowRequestPermissionRationale(VIDEO_PERMISSIONS)) {
-//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
-
-            Toast.makeText(con, "Permission Granted", Toast.LENGTH_SHORT).show();
-            new ConfirmationDialog().show(getFragmentManager(), FRAGMENT_DIALOG);
-
-
-        } else {
-            ActivityCompat.requestPermissions(this, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult");
-        if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
-            if (grantResults.length == VIDEO_PERMISSIONS.length) {
-                boolean status = true;
-                for (int result : grantResults) {
-                    if (result != PackageManager.PERMISSION_GRANTED) {
-                        status = false;
-                        ErrorDialog.newInstance(getString(R.string.permission_request))
-                                .show(getFragmentManager(), FRAGMENT_DIALOG);
-                        break;
-                    }
-                }
-                if (status == true){
-                    manageView();
-                }
-            } else {
-                ErrorDialog.newInstance(getString(R.string.permission_request))
-                        .show(getFragmentManager(), FRAGMENT_DIALOG);
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    private boolean hasPermissionsGranted(String[] permissions) {
-        for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public static class ErrorDialog extends DialogFragment {
-
-        private static final String ARG_MESSAGE = "message";
-
-        public static ErrorDialog newInstance(String message) {
-            ErrorDialog dialog = new ErrorDialog();
-            Bundle args = new Bundle();
-            args.putString(ARG_MESSAGE, message);
-            dialog.setArguments(args);
-            return dialog;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Activity activity = getActivity();
-            return new android.app.AlertDialog.Builder(activity)
-                    .setMessage(getArguments().getString(ARG_MESSAGE))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
-                    .create();
-        }
-
-    }
-
-    public static class ConfirmationDialog extends DialogFragment {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Fragment parent = getParentFragment();
-            return new android.app.AlertDialog.Builder(getActivity())
-                    .setMessage(R.string.permission_request)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(getActivity(), VIDEO_PERMISSIONS,
-                                    REQUEST_VIDEO_PERMISSIONS);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    Toast.makeText(getContext(), "SUBMIT called", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                    .create();
-        }
-
-    }
-
 }

@@ -4,16 +4,18 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.vipin.assessortesta.Ass_Registration.AssRegActivity;
+import com.vipin.assessortesta.Initials.SignIn;
+import com.vipin.assessortesta.Initials.SplashScreen;
 import com.vipin.assessortesta.R;
+
 
 public class Thankspage extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class Thankspage extends AppCompatActivity {
         tvvv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ii=new Intent(Thankspage.this, AssRegActivity.class);
+                Intent ii=new Intent(Thankspage.this, SplashScreen.class);
                 startActivity(ii);
             }
         });

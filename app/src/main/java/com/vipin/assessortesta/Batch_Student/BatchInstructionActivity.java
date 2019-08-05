@@ -465,7 +465,7 @@ public class BatchInstructionActivity extends AppCompatActivity {
     private void callApiForPercent(){
 
         show_progressbar();
-        AndroidNetworking.post("https://www.skillassessment.org/sdms/android_connect1/assessor/final_activity_percentage.php")
+        AndroidNetworking.post(CommonUtils.url+"final_activity_percentage.php")
                 .addBodyParameter("key_salt", "UmFkaWFudEluZm9uZXRTYWx0S2V5")
                 .addBodyParameter("batch_id", batchid)
                 .addBodyParameter("assessor_id", assessor_id)
