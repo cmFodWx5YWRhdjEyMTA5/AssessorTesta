@@ -1634,16 +1634,16 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 funcScanQRCode();
                 break;
             case R.id.btn_Add:
-                if (countAcademic <= 4) { addItemSSSCList(); }else {Snackbar.make(v, "Maximum 5 allowed", Snackbar.LENGTH_SHORT).show(); }
+                if (countAcademic <= 2) { addItemSSSCList(); }else {Snackbar.make(v, "Maximum 3 allowed", Snackbar.LENGTH_SHORT).show(); }
                 break;
             case R.id.btn_Remove:
-                if (countAcademic > 1) { removeItemSSSCList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
+                if (countAcademic >= 1) { removeItemSSSCList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
                 break;
             case R.id.btnAddQualfcn:
                 if (countQualification <= 4) { addItemQualificationList(); }else {Snackbar.make(v, "Maximum 5 allowed", Snackbar.LENGTH_SHORT).show(); }
                 break;
             case R.id.btnRemoveQualfcn:
-                if (countQualification > 1) { removeItemQualificationList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
+                if (countQualification >= 1) { removeItemQualificationList(); }else { Snackbar.make(v, "Minimum 1 required", Snackbar.LENGTH_SHORT).show(); }
                 break;
             case R.id.actionUploadDoc:
                 Toast.makeText(this, "Upload!", Toast.LENGTH_SHORT).show();
@@ -1845,6 +1845,7 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
 
     private void callApiForSscCertName(String id){
 
+        show_progressbar();
         Rx2AndroidNetworking.post(MAIN_URL+"get_jobrole_sscwise.php")
                 .addUrlEncodeFormBodyParameter("ssc_id", id)
                 .build()
@@ -1854,29 +1855,27 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 .subscribe(new Observer<CertificateResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
                     public void onNext(CertificateResponse certificateResponse) {
-
+                        hide_progressbar();
                         if (certificateResponse.getStatus() == 1){
-
                             certResponse = certificateResponse;
-
                             countAcademic = 1;
                             academicListView(1);
-
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        hide_progressbar();
                         System.out.println(e);
                     }
 
                     @Override
                     public void onComplete() {
+                        hide_progressbar();
                         System.out.println("Complete");
                     }
                 });
