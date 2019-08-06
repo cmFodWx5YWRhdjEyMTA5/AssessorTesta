@@ -2091,6 +2091,8 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return jsonArray;
@@ -2390,7 +2392,8 @@ public class AssRegActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onError(ANError anError) {
                         hide_progressbar();
-                        Toast.makeText(AssRegActivity.this, "Failed-2", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AssRegActivity.this, "Failed-2"+anError, Toast.LENGTH_SHORT).show();
+                        System.out.println("failed"+anError);
                         submitData3();
                     }
                 })
